@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ClapRecorder.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (strong) ClapRecorder* recorder;
 
 @end

@@ -13,6 +13,10 @@
 		AA049A6B15043AA100E74262 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AA049A6915043AA100E74262 /* InfoPlist.strings */; };
 		AA049A6D15043AA100E74262 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AA049A6C15043AA100E74262 /* main.m */; };
 		AA049A7115043AA100E74262 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA049A7015043AA100E74262 /* AppDelegate.m */; };
+		AA049A7915043B8A00E74262 /* ClapRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = AA049A7815043B8A00E74262 /* ClapRecorder.m */; };
+		AA049A7D15043D1700E74262 /* ClapMeasurement.m in Sources */ = {isa = PBXBuildFile; fileRef = AA049A7C15043D1700E74262 /* ClapMeasurement.m */; };
+		AA049A8315045BC200E74262 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA049A8215045BC200E74262 /* AVFoundation.framework */; };
+		AA049A8C150464D700E74262 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA049A8B150464D700E74262 /* CoreMedia.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,12 +24,19 @@
 		AA049A6015043AA100E74262 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		AA049A6215043AA100E74262 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AA049A6415043AA100E74262 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		AA049A6815043AA100E74262 /* ClapIR-Info.plist */ = {isa = PBXFileReference; path = "ClapIR-Info.plist"; sourceTree = "<group>"; };
+		AA049A6815043AA100E74262 /* ClapIR-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ClapIR-Info.plist"; sourceTree = "<group>"; };
 		AA049A6A15043AA100E74262 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		AA049A6C15043AA100E74262 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		AA049A6E15043AA100E74262 /* ClapIR-Prefix.pch */ = {isa = PBXFileReference; path = "ClapIR-Prefix.pch"; sourceTree = "<group>"; };
-		AA049A6F15043AA100E74262 /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
+		AA049A6E15043AA100E74262 /* ClapIR-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ClapIR-Prefix.pch"; sourceTree = "<group>"; };
+		AA049A6F15043AA100E74262 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		AA049A7015043AA100E74262 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		AA049A7715043B8A00E74262 /* ClapRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClapRecorder.h; sourceTree = "<group>"; };
+		AA049A7815043B8A00E74262 /* ClapRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClapRecorder.m; sourceTree = "<group>"; };
+		AA049A7A15043C2F00E74262 /* ClapRecorderDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClapRecorderDelegate.h; sourceTree = "<group>"; };
+		AA049A7B15043D1700E74262 /* ClapMeasurement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClapMeasurement.h; sourceTree = "<group>"; };
+		AA049A7C15043D1700E74262 /* ClapMeasurement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClapMeasurement.m; sourceTree = "<group>"; };
+		AA049A8215045BC200E74262 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		AA049A8B150464D700E74262 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +44,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA049A8C150464D700E74262 /* CoreMedia.framework in Frameworks */,
+				AA049A8315045BC200E74262 /* AVFoundation.framework in Frameworks */,
 				AA049A6115043AA100E74262 /* UIKit.framework in Frameworks */,
 				AA049A6315043AA100E74262 /* Foundation.framework in Frameworks */,
 				AA049A6515043AA100E74262 /* CoreGraphics.framework in Frameworks */,
@@ -45,6 +58,8 @@
 		AA049A5115043AA100E74262 = {
 			isa = PBXGroup;
 			children = (
+				AA049A8B150464D700E74262 /* CoreMedia.framework */,
+				AA049A8215045BC200E74262 /* AVFoundation.framework */,
 				AA049A6615043AA100E74262 /* ClapIR */,
 				AA049A5F15043AA100E74262 /* Frameworks */,
 				AA049A5D15043AA100E74262 /* Products */,
@@ -74,7 +89,12 @@
 			children = (
 				AA049A6F15043AA100E74262 /* AppDelegate.h */,
 				AA049A7015043AA100E74262 /* AppDelegate.m */,
+				AA049A7B15043D1700E74262 /* ClapMeasurement.h */,
+				AA049A7C15043D1700E74262 /* ClapMeasurement.m */,
 				AA049A6715043AA100E74262 /* Supporting Files */,
+				AA049A7715043B8A00E74262 /* ClapRecorder.h */,
+				AA049A7815043B8A00E74262 /* ClapRecorder.m */,
+				AA049A7A15043C2F00E74262 /* ClapRecorderDelegate.h */,
 			);
 			path = ClapIR;
 			sourceTree = "<group>";
@@ -154,6 +174,8 @@
 			files = (
 				AA049A6D15043AA100E74262 /* main.m in Sources */,
 				AA049A7115043AA100E74262 /* AppDelegate.m in Sources */,
+				AA049A7915043B8A00E74262 /* ClapRecorder.m in Sources */,
+				AA049A7D15043D1700E74262 /* ClapMeasurement.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
