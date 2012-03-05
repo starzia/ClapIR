@@ -11,6 +11,7 @@
 
 @implementation ClapRecorder
 @synthesize delegate;
+@synthesize captureSession;
 
 -(id)init{
     self = [super init];
@@ -22,25 +23,41 @@
 
 -(void)start{
     // create an AV Capture session
-    AVCaptureSession *captureSession = [[AVCaptureSession alloc] init];
+    self.captureSession = [[AVCaptureSession alloc] init];
+    
+    
     // setup the audio input
-    AVCaptureDevice *audioCaptureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeAudio];
-    NSError *error = nil;
-    AVCaptureDeviceInput *audioInput = [AVCaptureDeviceInput deviceInputWithDevice:audioCaptureDevice error:&error];
-    if (audioInput) {
-        [captureSession addInput:audioInput];
+	AVCaptureDevice *audioDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeAudio];
+	if(audioDevice) {
+		
+		NSError *error;
+		AVCaptureDeviceInput *audioIn = [AVCaptureDeviceInput deviceInputWithDevice:audioDevice error:&error];
+		if ( !error ) {
+			if ([self.captureSession canAddInput:audioIn]){
+				[self.captureSession addInput:audioIn];
+			}else{
+				NSLog(@"Couldn't add audio input");
+            }
+		}else{
+			NSLog(@"Couldn't create audio input");
+        }
+	}else{
+		NSLog(@"Couldn't create audio capture device");
     }
-    else {
-        // Handle the failure.
-        NSLog( @"ERROR: could not setup audio input" );
-        return;
-    }
+
     // setup the audio output
-    AVCaptureAudioDataOutput* audioOutput = [[AVCaptureAudioDataOutput alloc] init];
-    [captureSession addOutput:audioOutput];
+    AVCaptureAudioDataOutput* audioOut = [[AVCaptureAudioDataOutput alloc] init];
+    [captureSession addOutput:audioOut];
     
     dispatch_queue_t queue = dispatch_queue_create("myQueue", NULL);
-    [audioOutput setSampleBufferDelegate:self queue:queue];
+    
+    if ([self.captureSession canAddOutput:audioOut]) {
+		[self.captureSession addOutput:audioOut];
+		_audioConnection = [audioOut connectionWithMediaType:AVMediaTypeAudio];
+	}else{
+		NSLog(@"Couldn't add audio output");
+    }
+    [audioOut setSampleBufferDelegate:self queue:queue];
     dispatch_release(queue);
         
     // start audio
@@ -54,6 +71,11 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     
     size_t samples = CMSampleBufferGetTotalSampleSize( sampleBuffer );
     NSLog( @"got %lu samples of audio", samples );
+    
+    // check format of audio
+    CMFormatDescriptionRef formatDescription = CMSampleBufferGetFormatDescription(sampleBuffer);
+    const AudioStreamBasicDescription *streamDescription = CMAudioFormatDescriptionGetStreamBasicDescription(formatDescription);
+
 }
 
 @end

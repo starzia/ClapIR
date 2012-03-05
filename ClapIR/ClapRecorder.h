@@ -12,9 +12,12 @@
 #import "ClapRecorderDelegate.h"
 
 /** uses the AVCapture API for sound recording */
-@interface ClapRecorder : NSObject <AVCaptureAudioDataOutputSampleBufferDelegate>
+@interface ClapRecorder : NSObject <AVCaptureAudioDataOutputSampleBufferDelegate>{
+    AVCaptureConnection* _audioConnection;
+}
 
 @property (strong) id<ClapRecorderDelegate> delegate;
+@property (strong) AVCaptureSession* captureSession;
 
 /** start recording */
 -(void)start;
