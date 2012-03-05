@@ -1,0 +1,266 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		AA049A6115043AA100E74262 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA049A6015043AA100E74262 /* UIKit.framework */; };
+		AA049A6315043AA100E74262 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA049A6215043AA100E74262 /* Foundation.framework */; };
+		AA049A6515043AA100E74262 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA049A6415043AA100E74262 /* CoreGraphics.framework */; };
+		AA049A6B15043AA100E74262 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AA049A6915043AA100E74262 /* InfoPlist.strings */; };
+		AA049A6D15043AA100E74262 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AA049A6C15043AA100E74262 /* main.m */; };
+		AA049A7115043AA100E74262 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA049A7015043AA100E74262 /* AppDelegate.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		AA049A5C15043AA100E74262 /* ClapIR.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClapIR.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA049A6015043AA100E74262 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		AA049A6215043AA100E74262 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		AA049A6415043AA100E74262 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		AA049A6815043AA100E74262 /* ClapIR-Info.plist */ = {isa = PBXFileReference; path = "ClapIR-Info.plist"; sourceTree = "<group>"; };
+		AA049A6A15043AA100E74262 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		AA049A6C15043AA100E74262 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		AA049A6E15043AA100E74262 /* ClapIR-Prefix.pch */ = {isa = PBXFileReference; path = "ClapIR-Prefix.pch"; sourceTree = "<group>"; };
+		AA049A6F15043AA100E74262 /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
+		AA049A7015043AA100E74262 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AA049A5915043AA100E74262 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA049A6115043AA100E74262 /* UIKit.framework in Frameworks */,
+				AA049A6315043AA100E74262 /* Foundation.framework in Frameworks */,
+				AA049A6515043AA100E74262 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		AA049A5115043AA100E74262 = {
+			isa = PBXGroup;
+			children = (
+				AA049A6615043AA100E74262 /* ClapIR */,
+				AA049A5F15043AA100E74262 /* Frameworks */,
+				AA049A5D15043AA100E74262 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		AA049A5D15043AA100E74262 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AA049A5C15043AA100E74262 /* ClapIR.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AA049A5F15043AA100E74262 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AA049A6015043AA100E74262 /* UIKit.framework */,
+				AA049A6215043AA100E74262 /* Foundation.framework */,
+				AA049A6415043AA100E74262 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AA049A6615043AA100E74262 /* ClapIR */ = {
+			isa = PBXGroup;
+			children = (
+				AA049A6F15043AA100E74262 /* AppDelegate.h */,
+				AA049A7015043AA100E74262 /* AppDelegate.m */,
+				AA049A6715043AA100E74262 /* Supporting Files */,
+			);
+			path = ClapIR;
+			sourceTree = "<group>";
+		};
+		AA049A6715043AA100E74262 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				AA049A6815043AA100E74262 /* ClapIR-Info.plist */,
+				AA049A6915043AA100E74262 /* InfoPlist.strings */,
+				AA049A6C15043AA100E74262 /* main.m */,
+				AA049A6E15043AA100E74262 /* ClapIR-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AA049A5B15043AA100E74262 /* ClapIR */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA049A7415043AA100E74262 /* Build configuration list for PBXNativeTarget "ClapIR" */;
+			buildPhases = (
+				AA049A5815043AA100E74262 /* Sources */,
+				AA049A5915043AA100E74262 /* Frameworks */,
+				AA049A5A15043AA100E74262 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ClapIR;
+			productName = ClapIR;
+			productReference = AA049A5C15043AA100E74262 /* ClapIR.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AA049A5315043AA100E74262 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+				ORGANIZATIONNAME = "VaporStream, Inc.";
+			};
+			buildConfigurationList = AA049A5615043AA100E74262 /* Build configuration list for PBXProject "ClapIR" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = AA049A5115043AA100E74262;
+			productRefGroup = AA049A5D15043AA100E74262 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AA049A5B15043AA100E74262 /* ClapIR */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AA049A5A15043AA100E74262 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA049A6B15043AA100E74262 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AA049A5815043AA100E74262 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA049A6D15043AA100E74262 /* main.m in Sources */,
+				AA049A7115043AA100E74262 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		AA049A6915043AA100E74262 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AA049A6A15043AA100E74262 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		AA049A7215043AA100E74262 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AA049A7315043AA100E74262 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		AA049A7515043AA100E74262 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ClapIR/ClapIR-Prefix.pch";
+				INFOPLIST_FILE = "ClapIR/ClapIR-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		AA049A7615043AA100E74262 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ClapIR/ClapIR-Prefix.pch";
+				INFOPLIST_FILE = "ClapIR/ClapIR-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AA049A5615043AA100E74262 /* Build configuration list for PBXProject "ClapIR" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA049A7215043AA100E74262 /* Debug */,
+				AA049A7315043AA100E74262 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA049A7415043AA100E74262 /* Build configuration list for PBXNativeTarget "ClapIR" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA049A7515043AA100E74262 /* Debug */,
+				AA049A7615043AA100E74262 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = AA049A5315043AA100E74262 /* Project object */;
+}
