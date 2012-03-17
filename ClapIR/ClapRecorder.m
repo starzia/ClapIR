@@ -12,10 +12,10 @@
 @synthesize delegate;
 @synthesize captureSession;
 
-const int FRAME_SIZE = 2048;
 const int SPEC_RES = 1024;
 const int SAMPLE_RATE = 44100;
 const int ACC_NUM = 10; // number of frames in welch's method
+const float WINDOW_OFFSET = 0.01; // in seconds
 
 -(id)init{
     self = [super init];
@@ -145,36 +145,51 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     
     // compute FFT for this frame
     {
-        // setup FFT
-        UInt32 log2FFTLength = log2f( SPEC_RES );
-        
-        // apply Hamming window
-        vDSP_vmul(_A, 1, _hamm, 1, _A, 1, SPEC_RES); //apply
-        
-        // take fft 	
-        // ctoz and ztoc are needed to convert from "split" and "interleaved" complex formats
-        // see vDSP documentation for details.
-        vDSP_ctoz((COMPLEX*) _A, 2, &(_compl_buf), 1, SPEC_RES);
-        vDSP_fft_zip( _fftsetup, &(_compl_buf), 1, log2FFTLength, kFFTDirection_Forward );
-        ///vDSP_ztoc(&compl_buf, 1, (COMPLEX*) A, 2, inNumberFrames/2); // convert back
-        
-        // use vDSP_zaspec to get power spectrum
-        vDSP_zaspec( &(_compl_buf), _A, SPEC_RES );
-        
-        // accumulate this FFT vector for welch's algorithm
-        vDSP_vadd(_A, 1, _acc, 1, _acc, 1, SPEC_RES);
-    
-        if ( ++_accCount >= ACC_NUM ){
-            if( pthread_mutex_lock( &_lock ) ) printf( "lock failed!\n" );
+        // loop over as many overlapping windows as are present in the buffer.
+        int stepSize = floor(WINDOW_OFFSET * SAMPLE_RATE);
+        for( ; _startIndex <= _fbIndex-windowSamples; _startIndex+=stepSize ){
+            // copy the window into buffer A, where signal processing will occur
+            memcpy( _A, _frameBuffer+_startIndex, sizeof(float)*SPEC_RES );
+
+            // setup FFT
+            UInt32 log2FFTLength = log2f( SPEC_RES );
             
-            // convert to dB
-            float reference=1.0f * ACC_NUM; //divide by number of summed spectra
-            vDSP_vdbcon( _acc, 1, &reference, _acc, 1, SPEC_RES, 1 ); // 1 for power, not amplitude	
+            // apply Hamming window
+            vDSP_vmul(_A, 1, _hamm, 1, _A, 1, SPEC_RES); //apply
             
-            // clear accumulator
-			float zerof=0.0f;
-			vDSP_vfill( &zerof, _acc, 1, SPEC_RES );
-            _accCount = 0;
+            // take fft 	
+            // ctoz and ztoc are needed to convert from "split" and "interleaved" complex formats
+            // see vDSP documentation for details.
+            vDSP_ctoz((COMPLEX*) _A, 2, &(_compl_buf), 1, SPEC_RES);
+            vDSP_fft_zip( _fftsetup, &(_compl_buf), 1, log2FFTLength, kFFTDirection_Forward );
+            ///vDSP_ztoc(&compl_buf, 1, (COMPLEX*) A, 2, inNumberFrames/2); // convert back
+            
+            // use vDSP_zaspec to get power spectrum
+            vDSP_zaspec( &(_compl_buf), _A, SPEC_RES );
+            
+            // accumulate this FFT vector for welch's algorithm
+            vDSP_vadd(_A, 1, _acc, 1, _acc, 1, SPEC_RES);
+        
+            if ( ++_accCount >= ACC_NUM ){
+                if( pthread_mutex_lock( &_lock ) ) printf( "lock failed!\n" );
+                
+                // convert to dB
+                float reference=1.0f * ACC_NUM; //divide by number of summed spectra
+                vDSP_vdbcon( _acc, 1, &reference, _acc, 1, SPEC_RES, 1 ); // 1 for power, not amplitude	
+                
+                // save in spectrogram
+                printf( "got spectrum:\n" );
+                for( int i=0; i<SPEC_RES; i++ ){
+                    printf( "%.0f ", _acc[i] );
+                }
+                
+                // clear accumulator
+                float zerof=0.0f;
+                vDSP_vfill( &zerof, _acc, 1, SPEC_RES );
+                _accCount = 0;
+                
+                pthread_mutex_unlock( &_lock );
+            }
         }
     }
 }
