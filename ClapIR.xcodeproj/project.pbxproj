@@ -17,6 +17,7 @@
 		AA049A7D15043D1700E74262 /* ClapMeasurement.m in Sources */ = {isa = PBXBuildFile; fileRef = AA049A7C15043D1700E74262 /* ClapMeasurement.m */; };
 		AA049A8315045BC200E74262 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA049A8215045BC200E74262 /* AVFoundation.framework */; };
 		AA049A8C150464D700E74262 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA049A8B150464D700E74262 /* CoreMedia.framework */; };
+		AACC27911514F06F00A09B15 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACC27901514F06F00A09B15 /* Accelerate.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 		AA049A7C15043D1700E74262 /* ClapMeasurement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClapMeasurement.m; sourceTree = "<group>"; };
 		AA049A8215045BC200E74262 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		AA049A8B150464D700E74262 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		AACC27901514F06F00A09B15 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AACC27911514F06F00A09B15 /* Accelerate.framework in Frameworks */,
 				AA049A8C150464D700E74262 /* CoreMedia.framework in Frameworks */,
 				AA049A8315045BC200E74262 /* AVFoundation.framework in Frameworks */,
 				AA049A6115043AA100E74262 /* UIKit.framework in Frameworks */,
@@ -58,6 +61,7 @@
 		AA049A5115043AA100E74262 = {
 			isa = PBXGroup;
 			children = (
+				AACC27901514F06F00A09B15 /* Accelerate.framework */,
 				AA049A8B150464D700E74262 /* CoreMedia.framework */,
 				AA049A8215045BC200E74262 /* AVFoundation.framework */,
 				AA049A6615043AA100E74262 /* ClapIR */,
@@ -136,7 +140,7 @@
 		AA049A5315043AA100E74262 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 				ORGANIZATIONNAME = "VaporStream, Inc.";
 			};
 			buildConfigurationList = AA049A5615043AA100E74262 /* Build configuration list for PBXProject "ClapIR" */;
@@ -281,6 +285,7 @@
 				AA049A7615043AA100E74262 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
