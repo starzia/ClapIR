@@ -19,7 +19,7 @@
     // Override point for customization after application launch.
     
     // set up audio
-    recorder = [[ClapRecorder alloc] init];
+    recorder = [[SpectrogramRecorder alloc] init];
     [recorder start];
     
     // set up GUI

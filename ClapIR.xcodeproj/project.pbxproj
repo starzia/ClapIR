@@ -13,11 +13,12 @@
 		AA049A6B15043AA100E74262 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AA049A6915043AA100E74262 /* InfoPlist.strings */; };
 		AA049A6D15043AA100E74262 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AA049A6C15043AA100E74262 /* main.m */; };
 		AA049A7115043AA100E74262 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA049A7015043AA100E74262 /* AppDelegate.m */; };
-		AA049A7915043B8A00E74262 /* ClapRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = AA049A7815043B8A00E74262 /* ClapRecorder.m */; };
+		AA049A7915043B8A00E74262 /* SpectrogramRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = AA049A7815043B8A00E74262 /* SpectrogramRecorder.m */; };
 		AA049A7D15043D1700E74262 /* ClapMeasurement.m in Sources */ = {isa = PBXBuildFile; fileRef = AA049A7C15043D1700E74262 /* ClapMeasurement.m */; };
 		AA049A8315045BC200E74262 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA049A8215045BC200E74262 /* AVFoundation.framework */; };
 		AA049A8C150464D700E74262 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA049A8B150464D700E74262 /* CoreMedia.framework */; };
 		AACC27911514F06F00A09B15 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACC27901514F06F00A09B15 /* Accelerate.framework */; };
+		AACC27951516980500A09B15 /* ClapRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = AACC27941516980500A09B15 /* ClapRecorder.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,14 +32,17 @@
 		AA049A6E15043AA100E74262 /* ClapIR-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ClapIR-Prefix.pch"; sourceTree = "<group>"; };
 		AA049A6F15043AA100E74262 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		AA049A7015043AA100E74262 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		AA049A7715043B8A00E74262 /* ClapRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClapRecorder.h; sourceTree = "<group>"; };
-		AA049A7815043B8A00E74262 /* ClapRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClapRecorder.m; sourceTree = "<group>"; };
+		AA049A7715043B8A00E74262 /* SpectrogramRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpectrogramRecorder.h; sourceTree = "<group>"; };
+		AA049A7815043B8A00E74262 /* SpectrogramRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpectrogramRecorder.m; sourceTree = "<group>"; };
 		AA049A7A15043C2F00E74262 /* ClapRecorderDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClapRecorderDelegate.h; sourceTree = "<group>"; };
 		AA049A7B15043D1700E74262 /* ClapMeasurement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClapMeasurement.h; sourceTree = "<group>"; };
 		AA049A7C15043D1700E74262 /* ClapMeasurement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClapMeasurement.m; sourceTree = "<group>"; };
 		AA049A8215045BC200E74262 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		AA049A8B150464D700E74262 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		AACC27901514F06F00A09B15 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		AACC27921516354400A09B15 /* SpectrogramRecorderDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpectrogramRecorderDelegate.h; sourceTree = "<group>"; };
+		AACC27931516980500A09B15 /* ClapRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClapRecorder.h; sourceTree = "<group>"; };
+		AACC27941516980500A09B15 /* ClapRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClapRecorder.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,8 +100,11 @@
 				AA049A7B15043D1700E74262 /* ClapMeasurement.h */,
 				AA049A7C15043D1700E74262 /* ClapMeasurement.m */,
 				AA049A6715043AA100E74262 /* Supporting Files */,
-				AA049A7715043B8A00E74262 /* ClapRecorder.h */,
-				AA049A7815043B8A00E74262 /* ClapRecorder.m */,
+				AA049A7715043B8A00E74262 /* SpectrogramRecorder.h */,
+				AA049A7815043B8A00E74262 /* SpectrogramRecorder.m */,
+				AACC27921516354400A09B15 /* SpectrogramRecorderDelegate.h */,
+				AACC27931516980500A09B15 /* ClapRecorder.h */,
+				AACC27941516980500A09B15 /* ClapRecorder.m */,
 				AA049A7A15043C2F00E74262 /* ClapRecorderDelegate.h */,
 			);
 			path = ClapIR;
@@ -178,8 +185,9 @@
 			files = (
 				AA049A6D15043AA100E74262 /* main.m in Sources */,
 				AA049A7115043AA100E74262 /* AppDelegate.m in Sources */,
-				AA049A7915043B8A00E74262 /* ClapRecorder.m in Sources */,
+				AA049A7915043B8A00E74262 /* SpectrogramRecorder.m in Sources */,
 				AA049A7D15043D1700E74262 /* ClapMeasurement.m in Sources */,
+				AACC27951516980500A09B15 /* ClapRecorder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
