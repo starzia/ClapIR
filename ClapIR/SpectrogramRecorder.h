@@ -21,4 +21,10 @@
 /** start recording */
 -(void)start;
 
+/** recorder properties */
+-(int)sampleRate;
+-(int)spectrumResolution;
+/** time between spectrogram calculataions, in seconds */
+-(float)spectrumTime;
+
 @end

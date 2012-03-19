@@ -10,6 +10,10 @@
 
 @protocol SpectrogramRecorderDelegate <NSObject>
 
--(void)gotSpectrum:(float*)spec ofLength:(int)length;
+/** 
+ * spectrum and energy are reported in decibels.  
+ * Use [SpectrogramRecorder spectrumResolution] to determine the length of the spectrum array
+ */
+-(void)gotSpectrum:(float *)spec energy:(float)energy;
 
 @end

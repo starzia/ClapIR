@@ -29,12 +29,8 @@
 }
 
 #pragma mark - SpectrogramRecorderDelegate
--(void)gotSpectrum:(float *)spec ofLength:(int)length{
-    printf("got spectrogram: ");
-    for( int i=0; i<length; i++ ){
-        printf( "%.0f ", spec[i] );
-    }
-    printf( "\n" );
+-(void)gotSpectrum:(float *)spec energy:(float)energy{
+    printf("got spectrum with energy: %.0f dB\n", energy );
 }
 
 @end
