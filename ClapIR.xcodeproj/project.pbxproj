@@ -43,6 +43,7 @@
 		AACC27921516354400A09B15 /* SpectrogramRecorderDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpectrogramRecorderDelegate.h; sourceTree = "<group>"; };
 		AACC27931516980500A09B15 /* ClapRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClapRecorder.h; sourceTree = "<group>"; };
 		AACC27941516980500A09B15 /* ClapRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClapRecorder.m; sourceTree = "<group>"; };
+		AACC27961516CD7500A09B15 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +107,7 @@
 				AACC27931516980500A09B15 /* ClapRecorder.h */,
 				AACC27941516980500A09B15 /* ClapRecorder.m */,
 				AA049A7A15043C2F00E74262 /* ClapRecorderDelegate.h */,
+				AACC27961516CD7500A09B15 /* README.txt */,
 			);
 			path = ClapIR;
 			sourceTree = "<group>";

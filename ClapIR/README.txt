@@ -1,0 +1,2 @@
+Differences with paper signal processing:
+In ClapRecorder.m we are using a higher clap detection threshold than 10x (20dB) over the energy of the background level (where background is defined as the minimum).
