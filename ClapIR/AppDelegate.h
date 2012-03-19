@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SpectrogramRecorder.h"
+#import "ClapRecorder.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-@property (strong) SpectrogramRecorder* recorder;
+@property (strong) ClapRecorder* recorder;
 
 @end

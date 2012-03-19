@@ -19,6 +19,7 @@
     self = [super init];
     if( self ){
         _spectrogramRecorder = [[SpectrogramRecorder alloc] init];
+        _spectrogramRecorder.delegate = self;
     }
     return self;
 }
