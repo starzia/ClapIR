@@ -6,23 +6,19 @@
 //
 
 #import "AppDelegate.h"
+#import "MeasurementViewController.h"
 
 @implementation AppDelegate
 
 @synthesize window = _window;
-@synthesize recorder;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     
-    // set up audio
-    recorder = [[ClapRecorder alloc] init];
-    [recorder start];
-    
     // set up GUI
-    UIViewController* mainView = [[UIViewController alloc] init];
+    UIViewController* mainView = [[MeasurementViewController alloc] init];
     self.window.rootViewController = mainView;
     
     self.window.backgroundColor = [UIColor whiteColor];

@@ -10,6 +10,41 @@
 #import "SpectrogramRecorder.h"
 #import <Accelerate/Accelerate.h>
 
+/** calculate slope of line fitting data using simple linear regression.
+ Data points are assumed to sampled at a uniform rate.
+ ie, the (x,y) data points are (0,curve[0]), (1,curve[1]), ... (size-1,curve[size-1])
+ http://en.wikipedia.org/wiki/Simple_linear_regression */
+float calcSlope( float* curve, int size );
+float calcSlope( float* curve, int size ){
+    // calculate means
+    float mean_x = (size-1)/2.0;
+    float mean_y;
+    vDSP_sve( curve, 1, &mean_y, size);
+    mean_y /= size;
+    
+    // TODO: use closed form for \Sum_{0->size} x^2
+    float* x_sqrd = malloc( sizeof(float) * size );
+    float zero = 0;
+    vDSP_vfill( &zero, x_sqrd, 1, size );
+    float one = 1;
+    vDSP_vramp( x_sqrd, &one, x_sqrd, 1, size ); // generate sequence 0,1,2,3...
+    vDSP_vmul( curve, 1, x_sqrd, 1, curve, 1, size ); // x*y sequence
+    float mean_xy;
+    vDSP_sve( curve, 1, &mean_xy, size );
+    mean_xy /= size;
+    
+    vDSP_vsq( x_sqrd, 1, x_sqrd, 1, size ); // square sequence to get 0,1,4,9...
+    float mean_x_sqrd;
+    vDSP_sve( x_sqrd, 1, &mean_x_sqrd, size );
+    mean_x_sqrd /= size;
+
+    free( x_sqrd );
+    
+    float covariance_xy = mean_xy - mean_x * mean_y;
+    float variance_x = mean_x_sqrd - mean_x * mean_x;
+    return covariance_xy / variance_x;
+}
+
 @implementation ClapRecorder{
     SpectrogramRecorder* _spectrogramRecorder;
     
@@ -84,14 +119,25 @@
              && energy < 3 + _backgroundEnergy ){
         NSLog( @"Clap end" );
         _isClap = NO;
-        // trigger calculation
-        //...
         
-        // print decay curve
+        // copy decay curve in preparation for calculation
+        float* curve = malloc( sizeof(float) * _stepsInClap );
         for( int i=0; i<_stepsInClap; i++ ){
-            printf( "%.0f ", _buffer[(_bufferPtr-_stepsInClap+1+i)%_bufferSize] );
+            curve[i] = _buffer[(_bufferPtr-_stepsInClap+1+i)%_bufferSize];
+            printf( "%.0f ", curve[i] );
         }
         printf( "\n" );
+        
+        // calculate slope of region past direct sound
+        float slope = calcSlope( curve, _stepsInClap );
+        slope /= _spectrogramRecorder.spectrumTime;
+        float rt60 = -60 / slope;
+        printf( "Calculated rt60 = %.2f seconds\n", rt60 );
+        ClapMeasurement* measurement = [[ClapMeasurement alloc] init];
+        measurement.reverbTime = rt60;
+        [delegate gotMeasurement:measurement];
+        
+        free( curve );
     }
     
     // set background level, if this was the first time that the buffer was filled
