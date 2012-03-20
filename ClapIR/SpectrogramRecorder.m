@@ -166,7 +166,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     // compute FFT for this frame
     {
         // loop over as many overlapping windows as are present in the buffer.
-        int stepSize = floor(self.spectrumTime * self.sampleRate);
+        int stepSize = floor(self.spectrumTime * self.sampleRate / ACC_NUM);
         for( ; _startIndex <= _fbIndex-windowSamples; _startIndex+=stepSize ){
             // copy the window into buffer A, where signal processing will occur
             memcpy( _A, _frameBuffer+_startIndex, sizeof(float)*self.spectrumResolution );
