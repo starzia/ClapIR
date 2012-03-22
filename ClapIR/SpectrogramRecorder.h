@@ -19,6 +19,7 @@
 
 /** start recording */
 -(void)start;
+-(void)stop;
 
 /** recorder properties */
 -(int)sampleRate;

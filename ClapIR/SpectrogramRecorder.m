@@ -64,6 +64,44 @@ const int ACC_NUM = 10; // number of frames in welch's method
             _fbIndex = 0;
             _startIndex = 0;
         }
+        
+        // init audio
+        {
+            // create an AV Capture session
+            _captureSession = [[AVCaptureSession alloc] init];    
+            
+            // setup the audio input
+            AVCaptureDevice *audioDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeAudio];
+            if(audioDevice) {
+                
+                NSError *error;
+                AVCaptureDeviceInput *audioIn = [AVCaptureDeviceInput deviceInputWithDevice:audioDevice error:&error];
+                if ( !error ) {
+                    if ([_captureSession canAddInput:audioIn]){
+                        [_captureSession addInput:audioIn];
+                    }else{
+                        NSLog(@"Couldn't add audio input");
+                    }
+                }else{
+                    NSLog(@"Couldn't create audio input");
+                }
+            }else{
+                NSLog(@"Couldn't create audio capture device");
+            }
+            
+            // setup the audio output
+            AVCaptureAudioDataOutput* audioOut = [[AVCaptureAudioDataOutput alloc] init];
+            [_captureSession addOutput:audioOut];
+            
+            if ([_captureSession canAddOutput:audioOut]) {
+                [_captureSession addOutput:audioOut];
+                _audioConnection = [audioOut connectionWithMediaType:AVMediaTypeAudio];
+            }else{
+                NSLog(@"Couldn't add audio output");
+            }
+            [audioOut setSampleBufferDelegate:self queue:dispatch_get_main_queue()];
+        }
+
     }
     return self;
 }
@@ -74,44 +112,15 @@ const int ACC_NUM = 10; // number of frames in welch's method
 }
 
 -(void)start{
-    // create an AV Capture session
-    _captureSession = [[AVCaptureSession alloc] init];
-    
-    
-    // setup the audio input
-	AVCaptureDevice *audioDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeAudio];
-	if(audioDevice) {
-		
-		NSError *error;
-		AVCaptureDeviceInput *audioIn = [AVCaptureDeviceInput deviceInputWithDevice:audioDevice error:&error];
-		if ( !error ) {
-			if ([_captureSession canAddInput:audioIn]){
-				[_captureSession addInput:audioIn];
-			}else{
-				NSLog(@"Couldn't add audio input");
-            }
-		}else{
-			NSLog(@"Couldn't create audio input");
-        }
-	}else{
-		NSLog(@"Couldn't create audio capture device");
-    }
-
-    // setup the audio output
-    AVCaptureAudioDataOutput* audioOut = [[AVCaptureAudioDataOutput alloc] init];
-    [_captureSession addOutput:audioOut];
-    
-    if ([_captureSession canAddOutput:audioOut]) {
-		[_captureSession addOutput:audioOut];
-		_audioConnection = [audioOut connectionWithMediaType:AVMediaTypeAudio];
-	}else{
-		NSLog(@"Couldn't add audio output");
-    }
-    [audioOut setSampleBufferDelegate:self queue:dispatch_get_main_queue()];
-        
     // start audio
     [_captureSession startRunning];
 }
+
+-(void)stop{
+    [_captureSession stopRunning];
+}
+
+
 
 #pragma mark - AVCaptureAudioDataOutputSampleBufferDelegate
 - (void)captureOutput:(AVCaptureOutput *)captureOutput 

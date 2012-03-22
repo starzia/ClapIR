@@ -95,6 +95,12 @@ float calcSlope( float* curve, int size ){
 -(void)start{
     [_spectrogramRecorder start];
 }
+-(void)stop{
+    [_spectrogramRecorder stop];
+    _isClap = NO;
+    _backgroundEnergy = NAN;
+    _bufferPtr = 0;
+}
 
 #pragma mark - SpectrogramRecorderDelegate
 -(void)gotSpectrum:(float *)spec energy:(float)energy{
@@ -147,6 +153,7 @@ float calcSlope( float* curve, int size ){
         vDSP_sve( _buffer, 1, &_backgroundEnergy, _bufferSize );
         _backgroundEnergy /= _bufferSize;
         NSLog( @"Background energy level set to %.0f", _backgroundEnergy );
+        [delegate gotBackgroundLevel:_backgroundEnergy];
     }
     
     _timeStep++;

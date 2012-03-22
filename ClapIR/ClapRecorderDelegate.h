@@ -11,5 +11,6 @@
 @protocol ClapRecorderDelegate <NSObject>
 
 -(void)gotMeasurement:(ClapMeasurement*)measurement;
+-(void)gotBackgroundLevel:(float)decibels;
 
 @end

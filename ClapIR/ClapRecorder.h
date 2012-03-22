@@ -13,6 +13,7 @@
 
 @property (assign) id<ClapRecorderDelegate> delegate;
 
+-(void)stop;
 -(void)start;
 
 @end
