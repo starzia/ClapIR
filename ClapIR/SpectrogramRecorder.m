@@ -101,16 +101,13 @@ const int ACC_NUM = 10; // number of frames in welch's method
     AVCaptureAudioDataOutput* audioOut = [[AVCaptureAudioDataOutput alloc] init];
     [_captureSession addOutput:audioOut];
     
-    dispatch_queue_t queue = dispatch_queue_create("myQueue", NULL);
-    
     if ([_captureSession canAddOutput:audioOut]) {
 		[_captureSession addOutput:audioOut];
 		_audioConnection = [audioOut connectionWithMediaType:AVMediaTypeAudio];
 	}else{
 		NSLog(@"Couldn't add audio output");
     }
-    [audioOut setSampleBufferDelegate:self queue:queue];
-    dispatch_release(queue);
+    [audioOut setSampleBufferDelegate:self queue:dispatch_get_main_queue()];
         
     // start audio
     [_captureSession startRunning];

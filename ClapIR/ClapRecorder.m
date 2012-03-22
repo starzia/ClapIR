@@ -23,6 +23,7 @@ float calcSlope( float* curve, int size ){
     mean_y /= size;
     
     // TODO: use closed form for \Sum_{0->size} x^2
+    // http://en.wikipedia.org/wiki/Faulhaber%27s_formula
     float* x_sqrd = malloc( sizeof(float) * size );
     float zero = 0;
     vDSP_vfill( &zero, x_sqrd, 1, size );
