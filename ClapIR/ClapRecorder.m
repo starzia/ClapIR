@@ -100,7 +100,7 @@ PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength )
     
     for( int i=minPrefixLength-1; i<size; i++ ){
         Fit fit_i = regression( curve, i );
-        float normalizedRmsError_i = rootMeanSqrdError( curve, size, fit_i ) / i;
+        float normalizedRmsError_i = rootMeanSqrdError( curve, i, fit_i ) / i;
         if( normalizedRmsError_i < bestResult.normalizedRmsError ){
             bestResult.normalizedRmsError = normalizedRmsError_i;
             bestResult.prefixLength = i;
