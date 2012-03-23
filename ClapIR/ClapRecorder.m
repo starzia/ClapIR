@@ -10,12 +10,17 @@
 #import "SpectrogramRecorder.h"
 #import <Accelerate/Accelerate.h>
 
+typedef struct{
+    float slope;
+    float yIntercept;
+}Fit;
+
 /** calculate slope of line fitting data using simple linear regression.
  Data points are assumed to sampled at a uniform rate.
  ie, the (x,y) data points are (0,curve[0]), (1,curve[1]), ... (size-1,curve[size-1])
  http://en.wikipedia.org/wiki/Simple_linear_regression */
-float calcSlope( float* curve, int size );
-float calcSlope( float* curve, int size ){
+Fit regression( float* curve, int size );
+Fit regression( float* curve, int size ){
     // calculate means
     float mean_x = (size-1)/2.0;
     float mean_y;
@@ -43,7 +48,66 @@ float calcSlope( float* curve, int size ){
     
     float covariance_xy = mean_xy - mean_x * mean_y;
     float variance_x = mean_x_sqrd - mean_x * mean_x;
-    return covariance_xy / variance_x;
+    
+    Fit fit;
+    fit.slope = covariance_xy / variance_x;
+    
+    // calculate y intercept
+    fit.yIntercept = mean_y - fit.slope * mean_y;
+    
+    return fit;
+}
+
+/** calculate the RMS error of a fit (such as the MMSE fit returned by regression() */
+float rootMeanSqrdError( float* curve, int size, Fit fit );
+float rootMeanSqrdError( float* curve, int size, Fit fit ){
+    // evalute fit line at x points
+    float* fitLine = malloc( sizeof(float) * size );
+    vDSP_vfill( &(fit.yIntercept), fitLine, 1, size );
+    vDSP_vramp( fitLine, &(fit.slope), fitLine, 1, size );
+    
+    // calculate difference vector
+    vDSP_vsub( fitLine, 1, curve, 1, fitLine, 1, size );
+    // square to get squared error vector
+    vDSP_vsq( fitLine, 1, fitLine, 1, size );
+    // sum, normalize and take sqrt to get RMS error
+    float rmsError;
+    vDSP_sve( fitLine, 1, &rmsError, size );
+    rmsError /= size;
+    rmsError = sqrtf( rmsError );
+    return rmsError;
+}
+
+typedef struct{
+    Fit fit;
+    float normalizedRmsError; // rms error divided by the sample length
+    int prefixLength;
+}PrefixFitResult;
+
+/**
+ Finds the best fit slope line among all prefix sequences of length at least
+ $minPrefixLength, using the MMSE/length criterion.
+ */
+PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength );
+PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength ){
+    PrefixFitResult bestResult;
+    bestResult.normalizedRmsError = INFINITY;
+    
+    if( minPrefixLength > size ){
+        NSLog( @"regression parameter error" );
+        return bestResult;
+    }
+    
+    for( int i=minPrefixLength-1; i<size; i++ ){
+        Fit fit_i = regression( curve, i );
+        float normalizedRmsError_i = rootMeanSqrdError( curve, size, fit_i ) / i;
+        if( normalizedRmsError_i < bestResult.normalizedRmsError ){
+            bestResult.normalizedRmsError = normalizedRmsError_i;
+            bestResult.prefixLength = i;
+            bestResult.fit = fit_i;
+        }
+    }
+    return bestResult;
 }
 
 @implementation ClapRecorder{
@@ -118,7 +182,7 @@ float calcSlope( float* curve, int size ){
         _isClap = YES;
         _stepsInClap = 1;
     
-    // detect end of clap.
+    // detect end of clap
     // We must be in a clap, sufficient time must have elapsed since the start, 
     // and the energy level must be low
     }else if( _isClap 
@@ -135,11 +199,20 @@ float calcSlope( float* curve, int size ){
         }
         printf( "\n" );
         
-        // calculate slope of region past direct sound
-        float slope = calcSlope( curve, _stepsInClap );
+        // calculate slope of region past direct sound (one sample offset)
+        float directSoundLength = 0.01; // seconds
+        float minPrefixLength = 0.05; // seconds
+        int directSoundSamples = ceil( directSoundLength / _spectrogramRecorder.spectrumTime );
+        int minPrefixSamples = ceil( minPrefixLength / _spectrogramRecorder.spectrumTime );
+        
+        PrefixFitResult regressionResult = regressionAndKnee( curve+directSoundSamples, 
+                                                              _stepsInClap-directSoundSamples, 
+                                                              minPrefixSamples );
+        float slope = regressionResult.fit.slope;
         slope /= _spectrogramRecorder.spectrumTime;
         float rt60 = -60 / slope;
-        printf( "Calculated rt60 = %.2f seconds\n", rt60 );
+        printf( "Calculated rt60 = %.2f seconds, with knee at sample %d of %d\n", rt60, 
+                regressionResult.prefixLength, _stepsInClap );
         ClapMeasurement* measurement = [[ClapMeasurement alloc] init];
         measurement.reverbTime = rt60;
         [delegate gotMeasurement:measurement];
