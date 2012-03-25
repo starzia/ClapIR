@@ -30,13 +30,15 @@ Fit regression( float* curve, int size ){
     // TODO: use closed form for \Sum_{0->size} x^2
     // http://en.wikipedia.org/wiki/Faulhaber%27s_formula
     float* x_sqrd = malloc( sizeof(float) * size );
+    float* xy = malloc( sizeof(float) * size );
     float zero = 0;
     vDSP_vfill( &zero, x_sqrd, 1, size );
     float one = 1;
     vDSP_vramp( x_sqrd, &one, x_sqrd, 1, size ); // generate sequence 0,1,2,3...
-    vDSP_vmul( curve, 1, x_sqrd, 1, curve, 1, size ); // x*y sequence
+    vDSP_vmul( curve, 1, x_sqrd, 1, xy, 1, size ); // x*y sequence
     float mean_xy;
-    vDSP_sve( curve, 1, &mean_xy, size );
+    vDSP_sve( xy, 1, &mean_xy, size );
+    free( xy );
     mean_xy /= size;
     
     vDSP_vsq( x_sqrd, 1, x_sqrd, 1, size ); // square sequence to get 0,1,4,9...
@@ -53,9 +55,18 @@ Fit regression( float* curve, int size ){
     fit.slope = covariance_xy / variance_x;
     
     // calculate y intercept
-    fit.yIntercept = mean_y - fit.slope * mean_y;
+    fit.yIntercept = mean_y - fit.slope * mean_x;
     
     return fit;
+}
+
+void printVec( const char* description, float* vec, int size );
+void printVec( const char* description, float* vec, int size ){
+    printf( "%s ", description );
+    for( int i=0; i<size; i++ ){
+        printf("%.0f ", vec[i]);
+    }
+    printf("\n");
 }
 
 /** calculate the RMS error of a fit (such as the MMSE fit returned by regression() */
@@ -68,13 +79,16 @@ float rootMeanSqrdError( float* curve, int size, Fit fit ){
     
     // calculate difference vector
     vDSP_vsub( fitLine, 1, curve, 1, fitLine, 1, size );
+    
     // square to get squared error vector
     vDSP_vsq( fitLine, 1, fitLine, 1, size );
+    
     // sum, normalize and take sqrt to get RMS error
     float rmsError;
     vDSP_sve( fitLine, 1, &rmsError, size );
     rmsError /= size;
     rmsError = sqrtf( rmsError );
+    
     return rmsError;
 }
 
@@ -90,6 +104,7 @@ typedef struct{
  */
 PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength );
 PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength ){
+    
     PrefixFitResult bestResult;
     bestResult.normalizedRmsError = INFINITY;
     
@@ -101,6 +116,7 @@ PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength )
     for( int i=minPrefixLength-1; i<size; i++ ){
         Fit fit_i = regression( curve, i );
         float normalizedRmsError_i = rootMeanSqrdError( curve, i, fit_i ) / i;
+        printf( "%d %f\n", i, normalizedRmsError_i );
         if( normalizedRmsError_i < bestResult.normalizedRmsError ){
             bestResult.normalizedRmsError = normalizedRmsError_i;
             bestResult.prefixLength = i;
@@ -205,7 +221,7 @@ PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength )
         int directSoundSamples = ceil( directSoundLength / _spectrogramRecorder.spectrumTime );
         int minPrefixSamples = ceil( minPrefixLength / _spectrogramRecorder.spectrumTime );
         
-        PrefixFitResult regressionResult = regressionAndKnee( curve+directSoundSamples, 
+        PrefixFitResult regressionResult = regressionAndKnee( curve+directSoundSamples-1, 
                                                               _stepsInClap-directSoundSamples, 
                                                               minPrefixSamples );
         float slope = regressionResult.fit.slope;
