@@ -116,7 +116,6 @@ PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength )
     for( int i=minPrefixLength-1; i<size; i++ ){
         Fit fit_i = regression( curve, i );
         float normalizedRmsError_i = rootMeanSqrdError( curve, i, fit_i ) / i;
-        printf( "%d %f\n", i, normalizedRmsError_i );
         if( normalizedRmsError_i < bestResult.normalizedRmsError ){
             bestResult.normalizedRmsError = normalizedRmsError_i;
             bestResult.prefixLength = i;
@@ -227,8 +226,8 @@ PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength )
         float slope = regressionResult.fit.slope;
         slope /= _spectrogramRecorder.spectrumTime;
         float rt60 = -60 / slope;
-        printf( "Calculated rt60 = %.2f seconds, with knee at sample %d of %d\n", rt60, 
-                regressionResult.prefixLength, _stepsInClap );
+        printf( "Calculated rt60 = %.3f seconds, with knee at sample %d of %d\n", rt60, 
+                regressionResult.prefixLength+directSoundSamples, _stepsInClap );
         ClapMeasurement* measurement = [[ClapMeasurement alloc] init];
         measurement.reverbTime = rt60;
         [delegate gotMeasurement:measurement];
