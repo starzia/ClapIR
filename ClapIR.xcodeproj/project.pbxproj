@@ -17,6 +17,7 @@
 		AA049A7D15043D1700E74262 /* ClapMeasurement.m in Sources */ = {isa = PBXBuildFile; fileRef = AA049A7C15043D1700E74262 /* ClapMeasurement.m */; };
 		AA049A8315045BC200E74262 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA049A8215045BC200E74262 /* AVFoundation.framework */; };
 		AA049A8C150464D700E74262 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA049A8B150464D700E74262 /* CoreMedia.framework */; };
+		AA10882F1533973900B18C83 /* PlotView.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA10882E1533973900B18C83 /* PlotView.mm */; };
 		AAA92DE715182EA500EDCF09 /* MeasurementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA92DE615182EA500EDCF09 /* MeasurementViewController.m */; };
 		AACC27911514F06F00A09B15 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACC27901514F06F00A09B15 /* Accelerate.framework */; };
 		AACC27951516980500A09B15 /* ClapRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = AACC27941516980500A09B15 /* ClapRecorder.m */; };
@@ -40,6 +41,8 @@
 		AA049A7C15043D1700E74262 /* ClapMeasurement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClapMeasurement.m; sourceTree = "<group>"; };
 		AA049A8215045BC200E74262 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		AA049A8B150464D700E74262 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		AA10882D1533973900B18C83 /* PlotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlotView.h; sourceTree = "<group>"; };
+		AA10882E1533973900B18C83 /* PlotView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PlotView.mm; sourceTree = "<group>"; };
 		AAA92DE515182EA500EDCF09 /* MeasurementViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeasurementViewController.h; sourceTree = "<group>"; };
 		AAA92DE615182EA500EDCF09 /* MeasurementViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeasurementViewController.m; sourceTree = "<group>"; };
 		AACC27901514F06F00A09B15 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
@@ -99,6 +102,8 @@
 		AA049A6615043AA100E74262 /* ClapIR */ = {
 			isa = PBXGroup;
 			children = (
+				AA10882D1533973900B18C83 /* PlotView.h */,
+				AA10882E1533973900B18C83 /* PlotView.mm */,
 				AA049A6F15043AA100E74262 /* AppDelegate.h */,
 				AA049A7015043AA100E74262 /* AppDelegate.m */,
 				AA049A7B15043D1700E74262 /* ClapMeasurement.h */,
@@ -196,6 +201,7 @@
 				AA049A7D15043D1700E74262 /* ClapMeasurement.m in Sources */,
 				AACC27951516980500A09B15 /* ClapRecorder.m in Sources */,
 				AAA92DE715182EA500EDCF09 /* MeasurementViewController.m in Sources */,
+				AA10882F1533973900B18C83 /* PlotView.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

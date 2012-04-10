@@ -140,6 +140,9 @@ PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength )
     int _bufferSize; // length of _buffer array
     int _bufferPtr; // index where next measurement will be stored
     
+    // history of spectra
+    float** _specBuffer;
+    
     // counter for the number of spectrograms observed
     long _timeStep;
 }
@@ -159,10 +162,17 @@ PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength )
         
         _timeStep = 0;
         
-        // allocate a 5 second circular buffer
+        // allocate a 5 second circular buffer for energy measurements
         _bufferSize = ceil( 5.0 / _spectrogramRecorder.spectrumTime );
         _buffer = malloc( sizeof(float) * _bufferSize );
         _bufferPtr = 0;
+        
+        // allocate a 2D circular buffer for spectra:
+        // _specBuffer[freq][time]
+        _specBuffer = malloc( sizeof(float*) * ClapMeasurement.numFreqs );
+        for( int i=0; i<ClapMeasurement.numFreqs; i++ ){
+            _specBuffer[i] = malloc( sizeof(float) * _bufferSize );
+        }
     }
     return self;
 }
@@ -181,12 +191,47 @@ PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength )
     _bufferPtr = 0;
 }
 
+/** calculate rt60 from a decay curve */
+-(float)calcReverb:(float*)curve{
+            
+    // calculate slope of region past direct sound (one sample offset)
+    float directSoundLength = 0.01; // seconds
+    float minPrefixLength = 0.05; // seconds
+    int directSoundSamples = ceil( directSoundLength / _spectrogramRecorder.spectrumTime );
+    int minPrefixSamples = ceil( minPrefixLength / _spectrogramRecorder.spectrumTime );
+    
+    PrefixFitResult regressionResult = regressionAndKnee( curve+directSoundSamples-1, 
+                                                          _stepsInClap-directSoundSamples, 
+                                                          minPrefixSamples );
+    float slope = regressionResult.fit.slope;
+    slope /= _spectrogramRecorder.spectrumTime;
+    float rt60 = -60 / slope;
+    for( int i=0; i<_stepsInClap; i++ ){
+        printf("%.0f ", curve[i] );
+    }
+    printf( "\n" );
+    printf( "Calculated rt60 = %.3f seconds, with knee at sample %d of %d\n", rt60, 
+            regressionResult.prefixLength+directSoundSamples, _stepsInClap );
+    
+    return rt60;
+}
+
 #pragma mark - SpectrogramRecorderDelegate
 -(void)gotSpectrum:(float *)spec energy:(float)energy{
     // store sample in buffer
-    ///NSLog( @"got spectrum with energy: %.0f dB\n", energy );
-    // TODO: deal with entire spectrum, not just energy
-    _buffer[_bufferPtr] = energy;
+    {
+        // store energy
+        _buffer[_bufferPtr] = energy;
+        // store spectrum
+        {
+            // pick out each of the frequencies of interest from the spectrum
+            for( int i=0; i<ClapMeasurement.numFreqs; i++ ){
+                int specIdx = floor( ( ClapMeasurement.specFrequencies[i] / ( _spectrogramRecorder.sampleRate * 0.5 ) ) 
+                                    * _spectrogramRecorder.spectrumResolution );
+                _specBuffer[i][_bufferPtr] = spec[specIdx];
+            }
+        }
+    }
     
     // increment clap length counter if we are in the middle of a clap
     if( _isClap ) _stepsInClap++;
@@ -206,33 +251,32 @@ PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength )
         NSLog( @"Clap end" );
         _isClap = NO;
         
-        // copy decay curve in preparation for calculation
+        // copy decay curves in preparation for calculation
+        // buffer will store all frequencies decay curves plus the energy decay curve
         float* curve = malloc( sizeof(float) * _stepsInClap );
+        float* curves = malloc( sizeof(float) * _stepsInClap * ClapMeasurement.numFreqs );
         for( int i=0; i<_stepsInClap; i++ ){
-            curve[i] = _buffer[(_bufferPtr-_stepsInClap+1+i)%_bufferSize];
-            printf( "%.0f ", curve[i] );
+            int bufIdx = (_bufferPtr-_stepsInClap+1+i)%_bufferSize;
+            curve[i] = _buffer[ bufIdx ];
+            for( int j=0; j<ClapMeasurement.numFreqs; j++ ){
+                curves[ j*_stepsInClap + i ] = _specBuffer[ j ][ bufIdx ];
+            }
         }
-        printf( "\n" );
         
-        // calculate slope of region past direct sound (one sample offset)
-        float directSoundLength = 0.01; // seconds
-        float minPrefixLength = 0.05; // seconds
-        int directSoundSamples = ceil( directSoundLength / _spectrogramRecorder.spectrumTime );
-        int minPrefixSamples = ceil( minPrefixLength / _spectrogramRecorder.spectrumTime );
-        
-        PrefixFitResult regressionResult = regressionAndKnee( curve+directSoundSamples-1, 
-                                                              _stepsInClap-directSoundSamples, 
-                                                              minPrefixSamples );
-        float slope = regressionResult.fit.slope;
-        slope /= _spectrogramRecorder.spectrumTime;
-        float rt60 = -60 / slope;
-        printf( "Calculated rt60 = %.3f seconds, with knee at sample %d of %d\n", rt60, 
-                regressionResult.prefixLength+directSoundSamples, _stepsInClap );
+        // calculate reverb times
         ClapMeasurement* measurement = [[ClapMeasurement alloc] init];
-        measurement.reverbTime = rt60;
-        [delegate gotMeasurement:measurement];
-        
+        measurement.reverbTime = [self calcReverb:curve];
+        for( int i=0; i<ClapMeasurement.numFreqs; i++ ){
+            measurement.reverbTimeSpectrum[i] = [self calcReverb:(curves+i*_stepsInClap)];
+        }
         free( curve );
+        free( curves );
+        
+        for( int i=0; i<ClapMeasurement.numFreqs; i++ ){
+            measurement.reverbTimeSpectrum[i] = [self calcReverb:_specBuffer[i]];
+        }
+        
+        [delegate gotMeasurement:measurement];
     }
     
     // set background level, if this was the first time that the buffer was filled

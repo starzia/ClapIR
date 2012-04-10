@@ -6,11 +6,14 @@
 //
 
 #import "MeasurementViewController.h"
+#import "PlotView.h"
 
 @interface MeasurementViewController (){
     UILabel* _rt60Label;
     UILabel* _backgroundLabel;
     UIButton* _resetButton;
+    PlotView* _plot;
+    float* _plotCurve;
 }
 -(void)reset;
 @end
@@ -39,12 +42,15 @@
     [self.view addSubview:_backgroundLabel];
     
     _resetButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    _resetButton.frame = CGRectMake( 100, 300, 320-200, 80 );
+    _resetButton.frame = CGRectMake( 100, 250, 320-200, 40 );
     [_resetButton setTitle:@"reset" forState:UIControlStateNormal];
     [_resetButton addTarget:self 
                      action:@selector(reset) 
            forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_resetButton];
+    
+    _plot = [[PlotView alloc] initWithFrame:CGRectMake(10, 300, 320-20, 150)];
+    [self.view addSubview:_plot];
     
     // start audio
     recorder = [[ClapRecorder alloc] init];
@@ -74,6 +80,18 @@
 #pragma mark - ClapRecorderDelegate methods
 -(void)gotMeasurement:(ClapMeasurement *)measurement{
     _rt60Label.text = [NSString stringWithFormat:@"rt60 = %.3f seconds", measurement.reverbTime];
+    for( int i=0; i<ClapMeasurement.numFreqs; i++ ){
+        NSLog( @"%.0f Hz\t%.3f seconds", ClapMeasurement.specFrequencies[i], 
+               measurement.reverbTimeSpectrum[i] );
+    }
+    // copy vector to plot
+    if( _plotCurve ) free( _plotCurve );
+    _plotCurve = malloc( sizeof(float) * ClapMeasurement.numFreqs );
+    memcpy( _plotCurve, measurement.reverbTimeSpectrum, sizeof(float) * ClapMeasurement.numFreqs );
+    
+    // update plot
+    [_plot setVector:_plotCurve length:ClapMeasurement.numFreqs];
+    [_plot setYRange_min:0 max:5];
 }
 
 -(void)gotBackgroundLevel:(float)decibels{
