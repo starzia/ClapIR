@@ -29,7 +29,11 @@
 
 #pragma mark - constants
 
--(int)spectrumResolution{ return 1024; }
+-(int)spectrumResolution{ 
+    return 256;
+    // iPhone 3G and earlier can't really support greater than 256.
+    /*1024;*/ 
+}
 
 -(int)sampleRate{ return 44100; }
 

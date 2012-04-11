@@ -23,6 +23,7 @@
 @property (nonatomic) float minY;
 @property (nonatomic) float maxY;
 @property (nonatomic) float* lineColor;
+@property (nonatomic) BOOL autoZoomOut;
 
 // set the y axis range of the plot
 -(void)setYRange_min: (float)Ymin  max:(float)Ymax;

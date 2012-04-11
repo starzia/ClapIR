@@ -92,6 +92,9 @@
     // update plot
     [_plot setVector:_plotCurve length:ClapMeasurement.numFreqs];
     [_plot setYRange_min:0 max:5];
+    
+    // redraw
+    [self.view setNeedsDisplay];
 }
 
 -(void)gotBackgroundLevel:(float)decibels{
