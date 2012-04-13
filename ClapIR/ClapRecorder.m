@@ -276,6 +276,17 @@ PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength )
             }
         }
         
+        // print spectrogram for debugging
+        printf( "\nSPECTROGRAM\n" );
+        for( int f=0; f<ClapMeasurement.numFreqs; f++ ){
+            printf( "%.2e Hz\t", ClapMeasurement.specFrequencies[f] );
+            for( int t=0; t<_stepsInClap; t++ ){
+                printf( "%.0f\t", curves[ t*_stepsInClap + f ] );
+            }
+            printf( "\n" );
+        }
+        printf( "\n" );
+        
         // calculate reverb times
         ClapMeasurement* measurement = [[ClapMeasurement alloc] init];
         measurement.reverbTime = [self calcReverb:curve];
