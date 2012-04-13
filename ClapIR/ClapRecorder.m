@@ -200,6 +200,19 @@ PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength )
     int directSoundSamples = ceil( directSoundLength / _spectrogramRecorder.spectrumTime );
     int minPrefixSamples = ceil( minPrefixLength / _spectrogramRecorder.spectrumTime );
     
+    // test that there is enough energy in curve (ie, that it really decays)
+    float directSoundSum;
+    vDSP_sve( curve, 1, &directSoundSum, directSoundSamples );
+    float tailSoundSum;
+    vDSP_sve( curve+(_stepsInClap-directSoundSamples), 1, &tailSoundSum, directSoundSamples );
+    // if the decay is less than 10dB, abort by returning NaN
+    float decayEstimate = (directSoundSum - tailSoundSum)/directSoundSamples;
+    printf( "Decay estimate: %.1f dB\n", decayEstimate );
+    if( decayEstimate < 10 ){
+        return NAN;
+    }
+    
+    // calculate best-fit regression line
     PrefixFitResult regressionResult = regressionAndKnee( curve+directSoundSamples-1, 
                                                           _stepsInClap-directSoundSamples, 
                                                           minPrefixSamples );

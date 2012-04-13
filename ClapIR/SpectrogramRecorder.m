@@ -39,7 +39,9 @@
 
 -(float)spectrumTime{ return 0.01; }
 
-const int ACC_NUM = 10; // number of frames in welch's method
+// number of frames in welch's method
+// A larger number should give better accuracy at the expense of more computation
+const int ACC_NUM = 10; 
 
 #pragma mark -
 -(id)init{
