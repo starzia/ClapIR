@@ -29,7 +29,7 @@ float* specFreqArray = nil;
 }
 
 +(int)numFreqs{
-    return 18;
+    return 40;
 }
 
 +(float*)specFrequencies{
@@ -38,10 +38,11 @@ float* specFreqArray = nil;
         specFreqArray = malloc( sizeof(float) * ClapMeasurement.numFreqs );
                          
         double sqrt2 = sqrt(2);
-        double x = 44;
+        double sqrtsqrt2 = sqrt(sqrt2);
+        double x = 22.09708691207964; // 1000/(sqrt(2)^11)
         for( int i=0; i<ClapMeasurement.numFreqs; i++ ){
             specFreqArray[i] = x;
-            x *= sqrt2;
+            x *= sqrtsqrt2;
         }
     }
     return specFreqArray;

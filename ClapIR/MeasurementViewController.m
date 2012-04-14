@@ -12,8 +12,8 @@
     UILabel* _rt60Label;
     UILabel* _backgroundLabel;
     UIButton* _resetButton;
-    PlotView* _plot;
-    float* _plotCurve;
+    NSMutableArray* _plots;
+    NSMutableArray* _plotCurves;
 }
 -(void)reset;
 @end
@@ -49,8 +49,8 @@
            forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_resetButton];
     
-    _plot = [[PlotView alloc] initWithFrame:CGRectMake(10, 300, 320-20, 150)];
-    [self.view addSubview:_plot];
+    _plotCurves = [NSMutableArray array];
+    _plots = [NSMutableArray array];
     
     // start audio
     recorder = [[ClapRecorder alloc] init];
@@ -71,6 +71,17 @@
 
 #pragma mark - 
 -(void) reset{
+    // clear plots
+    for( PlotView* plot in _plots ){
+        [plot removeFromSuperview];
+    }
+    [_plots removeAllObjects];
+    for( NSNumber* floatPointer in _plotCurves ){
+        free( (float*)floatPointer.longValue );
+    }
+    [_plotCurves removeAllObjects];
+    
+    // restart audio
     _backgroundLabel.text = @"￼Calculating background level...";
     
     [recorder stop];
@@ -85,13 +96,18 @@
                measurement.reverbTimeSpectrum[i] );
     }
     // copy vector to plot
-    if( _plotCurve ) free( _plotCurve );
-    _plotCurve = malloc( sizeof(float) * ClapMeasurement.numFreqs );
-    memcpy( _plotCurve, measurement.reverbTimeSpectrum, sizeof(float) * ClapMeasurement.numFreqs );
+    PlotView* plot = [[PlotView alloc] initWithFrame:CGRectMake(10, 300, 320-20, 150)];
+    [self.view addSubview:plot];
+    [_plots addObject:plot];
+    
+    float* plotCurve = malloc( sizeof(float) * ClapMeasurement.numFreqs );
+    memcpy( plotCurve, measurement.reverbTimeSpectrum, sizeof(float) * ClapMeasurement.numFreqs );
+    // below store float* in NSarray by casting it as an unsigned long (ugly!)
+    [_plotCurves addObject:[NSNumber numberWithUnsignedLong:(unsigned long)plotCurve]];
     
     // update plot
-    [_plot setVector:_plotCurve length:ClapMeasurement.numFreqs];
-    [_plot setYRange_min:0 max:5];
+    [plot setVector:plotCurve length:ClapMeasurement.numFreqs];
+    [plot setYRange_min:0 max:5];
     
     // redraw
     [self.view setNeedsDisplay];

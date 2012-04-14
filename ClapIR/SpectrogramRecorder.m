@@ -30,9 +30,7 @@
 #pragma mark - constants
 
 -(int)spectrumResolution{ 
-    return 256;
-    // iPhone 3G and earlier can't really support greater than 256.
-    /*1024;*/ 
+    return 1024;
 }
 
 -(int)sampleRate{ return 44100; }
@@ -41,7 +39,7 @@
 
 // number of frames in welch's method
 // A larger number should give better accuracy at the expense of more computation
-const int ACC_NUM = 10; 
+const int ACC_NUM = 4; 
 
 #pragma mark -
 -(id)init{
