@@ -203,14 +203,14 @@
 							<object class="IBUIView" id="212909828">
 								<reference key="NSNextResponder" ref="684771438"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{36, 8}, {276, 381}}</string>
+								<string key="NSFrame">{{45, 9}, {266, 369}}</string>
 								<reference key="NSSuperview" ref="684771438"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="36186462"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<object class="NSColor" key="IBUIBackgroundColor">
 									<int key="NSColorSpace">3</int>
-									<bytes key="NSWhite">MQA</bytes>
+									<bytes key="NSWhite">MCAwAA</bytes>
 								</object>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 							</object>
@@ -570,7 +570,7 @@
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="NS.key.0">grid.png</string>
-			<string key="NS.object.0">{640, 640}</string>
+			<string key="NS.object.0">{640, 832}</string>
 		</object>
 		<string key="IBCocoaTouchPluginVersion">1179</string>
 	</data>
