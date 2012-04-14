@@ -15,14 +15,14 @@
 	// y axis range for plot:
 	float minY;
 	float maxY;
-	float* lineColor; // RGB array
 }
 
 @property (nonatomic) float* data;
 @property (nonatomic) unsigned int length;
 @property (nonatomic) float minY;
 @property (nonatomic) float maxY;
-@property (nonatomic) float* lineColor;
+// TODO: [UIColor blackColor] does not work here because it is in a mono color space
+@property (strong,nonatomic) UIColor* lineColor;
 @property (nonatomic) BOOL autoZoomOut;
 
 // set the y axis range of the plot

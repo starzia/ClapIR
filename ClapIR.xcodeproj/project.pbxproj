@@ -18,7 +18,8 @@
 		AA049A8315045BC200E74262 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA049A8215045BC200E74262 /* AVFoundation.framework */; };
 		AA049A8C150464D700E74262 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA049A8B150464D700E74262 /* CoreMedia.framework */; };
 		AA10882F1533973900B18C83 /* PlotView.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA10882E1533973900B18C83 /* PlotView.mm */; };
-		AAA92DE715182EA500EDCF09 /* MeasurementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA92DE615182EA500EDCF09 /* MeasurementViewController.m */; };
+		AA44B1341539D5C8007DB9E9 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA44B1321539D5C8007DB9E9 /* MainViewController.m */; };
+		AA44B1351539D5C8007DB9E9 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA44B1331539D5C8007DB9E9 /* MainViewController.xib */; };
 		AACA1EE3153945B400240557 /* grid.png in Resources */ = {isa = PBXBuildFile; fileRef = AACA1EE2153945B400240557 /* grid.png */; };
 		AACC27911514F06F00A09B15 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACC27901514F06F00A09B15 /* Accelerate.framework */; };
 		AACC27951516980500A09B15 /* ClapRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = AACC27941516980500A09B15 /* ClapRecorder.m */; };
@@ -44,8 +45,9 @@
 		AA049A8B150464D700E74262 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		AA10882D1533973900B18C83 /* PlotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlotView.h; sourceTree = "<group>"; };
 		AA10882E1533973900B18C83 /* PlotView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PlotView.mm; sourceTree = "<group>"; };
-		AAA92DE515182EA500EDCF09 /* MeasurementViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeasurementViewController.h; sourceTree = "<group>"; };
-		AAA92DE615182EA500EDCF09 /* MeasurementViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeasurementViewController.m; sourceTree = "<group>"; };
+		AA44B1311539D5C8007DB9E9 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		AA44B1321539D5C8007DB9E9 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		AA44B1331539D5C8007DB9E9 /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
 		AACA1EE2153945B400240557 /* grid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = grid.png; path = gnuplot/grid.png; sourceTree = SOURCE_ROOT; };
 		AACC27901514F06F00A09B15 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		AACC27921516354400A09B15 /* SpectrogramRecorderDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpectrogramRecorderDelegate.h; sourceTree = "<group>"; };
@@ -119,8 +121,9 @@
 				AACC27941516980500A09B15 /* ClapRecorder.m */,
 				AA049A7A15043C2F00E74262 /* ClapRecorderDelegate.h */,
 				AACC27961516CD7500A09B15 /* README.txt */,
-				AAA92DE515182EA500EDCF09 /* MeasurementViewController.h */,
-				AAA92DE615182EA500EDCF09 /* MeasurementViewController.m */,
+				AA44B1311539D5C8007DB9E9 /* MainViewController.h */,
+				AA44B1321539D5C8007DB9E9 /* MainViewController.m */,
+				AA44B1331539D5C8007DB9E9 /* MainViewController.xib */,
 			);
 			path = ClapIR;
 			sourceTree = "<group>";
@@ -197,6 +200,7 @@
 			files = (
 				AA049A6B15043AA100E74262 /* InfoPlist.strings in Resources */,
 				AACA1EE3153945B400240557 /* grid.png in Resources */,
+				AA44B1351539D5C8007DB9E9 /* MainViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -212,8 +216,8 @@
 				AA049A7915043B8A00E74262 /* SpectrogramRecorder.m in Sources */,
 				AA049A7D15043D1700E74262 /* ClapMeasurement.m in Sources */,
 				AACC27951516980500A09B15 /* ClapRecorder.m in Sources */,
-				AAA92DE715182EA500EDCF09 /* MeasurementViewController.m in Sources */,
 				AA10882F1533973900B18C83 /* PlotView.mm in Sources */,
+				AA44B1341539D5C8007DB9E9 /* MainViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

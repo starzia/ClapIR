@@ -30,11 +30,7 @@
 		
 		[self setNeedsDisplay]; // make it redraw
 	}
-	self.lineColor = new float[4];
-	self.lineColor[0] = 0.0; //R
-	self.lineColor[1] = 0.0; //G
-	self.lineColor[2] = 0.0; //B
-	self.lineColor[3] = 1.0; //alpha
+	self.lineColor = [UIColor redColor];
 	
 	// enable clicks
 	self.userInteractionEnabled = YES;
@@ -82,7 +78,7 @@
 	float Y = self.bounds.size.height;
 
 	// Drawing lines with the appropriate color
-	CGContextSetStrokeColor(context, self.lineColor);
+	CGContextSetStrokeColor(context, CGColorGetComponents( self.lineColor.CGColor ) );
 
 	float plot_range = self.maxY - self.minY;
 	float xStep = X/(self.length-1);

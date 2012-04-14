@@ -6,7 +6,7 @@
 //
 
 #import "AppDelegate.h"
-#import "MeasurementViewController.h"
+#import "MainViewController.h"
 
 @implementation AppDelegate
 
@@ -18,7 +18,7 @@
     // Override point for customization after application launch.
     
     // set up GUI
-    UIViewController* mainView = [[MeasurementViewController alloc] init];
+    UIViewController* mainView = [[MainViewController alloc] init];
     self.window.rootViewController = mainView;
     
     self.window.backgroundColor = [UIColor whiteColor];
