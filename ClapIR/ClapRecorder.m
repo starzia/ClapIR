@@ -231,6 +231,7 @@ PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength )
 
 #pragma mark - SpectrogramRecorderDelegate
 -(void)gotSpectrum:(float *)spec energy:(float)energy{
+  @synchronized(self){
     // store sample in buffer
     {
         // store energy
@@ -268,20 +269,23 @@ PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength )
         // buffer will store all frequencies decay curves plus the energy decay curve
         float* curve = malloc( sizeof(float) * _stepsInClap );
         float* curves = malloc( sizeof(float) * _stepsInClap * ClapMeasurement.numFreqs );
-        for( int i=0; i<_stepsInClap; i++ ){
-            int bufIdx = (_bufferPtr-_stepsInClap+1+i)%_bufferSize;
-            curve[i] = _buffer[ bufIdx ];
-            for( int j=0; j<ClapMeasurement.numFreqs; j++ ){
-                curves[ j*_stepsInClap + i ] = _specBuffer[ j ][ bufIdx ];
+        for( int t=0; t<_stepsInClap; t++ ){
+            int bufIdx = (_bufferPtr+1-_stepsInClap+t+_bufferSize)%_bufferSize;
+            printf( "t=%d bufIdx=%d, ", t, bufIdx );
+            
+            curve[t] = _buffer[ bufIdx ];
+            for( int f=0; f<ClapMeasurement.numFreqs; f++ ){
+                curves[ f*_stepsInClap + t ] = _specBuffer[ f ][ bufIdx ];
             }
         }
+        printf( "\n" );
         
         // print spectrogram for debugging
         printf( "\nSPECTROGRAM\n" );
         for( int f=0; f<ClapMeasurement.numFreqs; f++ ){
             printf( "%.2e Hz\t", ClapMeasurement.specFrequencies[f] );
             for( int t=0; t<_stepsInClap; t++ ){
-                printf( "%.0f\t", curves[ t*_stepsInClap + f ] );
+                printf( "%.0f\t", curves[ f*_stepsInClap + t ] );
             }
             printf( "\n" );
         }
@@ -295,10 +299,6 @@ PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength )
         }
         free( curve );
         free( curves );
-        
-        for( int i=0; i<ClapMeasurement.numFreqs; i++ ){
-            measurement.reverbTimeSpectrum[i] = [self calcReverb:_specBuffer[i]];
-        }
         
         [delegate gotMeasurement:measurement];
     }
@@ -314,6 +314,7 @@ PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength )
     
     _timeStep++;
     _bufferPtr = (_bufferPtr+1) % _bufferSize; // circular buffer
+  }
 }
 
 @end
