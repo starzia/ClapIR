@@ -14,6 +14,7 @@
     UIButton* _resetButton;
     NSMutableArray* _plots;
     NSMutableArray* _plotCurves;
+    UIImageView* _gridView;
 }
 -(void)reset;
 @end
@@ -34,15 +35,15 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    _rt60Label = [[UILabel alloc] initWithFrame:CGRectMake(10, 40, 320-20, 60)];
+    _rt60Label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 320-20, 30)];
     _rt60Label.text = @"";
     [self.view addSubview:_rt60Label];
 
-    _backgroundLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 200, 320-20, 60)];
+    _backgroundLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 50, 320-20, 30)];
     [self.view addSubview:_backgroundLabel];
     
     _resetButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    _resetButton.frame = CGRectMake( 100, 250, 320-200, 40 );
+    _resetButton.frame = CGRectMake( 100, 90, 320-200, 40 );
     [_resetButton setTitle:@"reset" forState:UIControlStateNormal];
     [_resetButton addTarget:self 
                      action:@selector(reset) 
@@ -51,6 +52,11 @@
     
     _plotCurves = [NSMutableArray array];
     _plots = [NSMutableArray array];
+    
+
+    _gridView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"grid"]];
+    _gridView.frame = CGRectMake(0, 480-320-20, 320, 320);
+    [self.view addSubview:_gridView];
     
     // start audio
     recorder = [[ClapRecorder alloc] init];
@@ -96,7 +102,7 @@
                measurement.reverbTimeSpectrum[i] );
     }
     // copy vector to plot
-    PlotView* plot = [[PlotView alloc] initWithFrame:CGRectMake(10, 300, 320-20, 150)];
+    PlotView* plot = [[PlotView alloc] initWithFrame:CGRectMake(29, (480-320-20)+6, 282, 286)];
     [self.view addSubview:plot];
     [_plots addObject:plot];
     
