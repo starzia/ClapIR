@@ -102,7 +102,7 @@
                measurement.reverbTimeSpectrum[i] );
     }
     // copy vector to plot
-    PlotView* plot = [[PlotView alloc] initWithFrame:CGRectMake(29, (480-320-20)+6, 282, 286)];
+    PlotView* plot = [[PlotView alloc] initWithFrame:CGRectMake(36, (480-320-20)+6.5, 275, 293.5)];
     [self.view addSubview:plot];
     [_plots addObject:plot];
     
@@ -113,7 +113,7 @@
     
     // update plot
     [plot setVector:plotCurve length:ClapMeasurement.numFreqs];
-    [plot setYRange_min:0 max:5];
+    [plot setYRange_min:0 max:3];
     
     // redraw
     [self.view setNeedsDisplay];
