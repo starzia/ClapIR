@@ -3,7 +3,7 @@ set output "grid2.png"
 set multiplot layout 2,1
 set grid
 set xrange [22:19027];
-set yrange [0:20];
+set yrange [0:80];
 set ylabel "Direct sound power (dB)"
 set xtics (31,62,125,250,500,1000,2000,4000,8000,16000) rotate by 90
 set log x

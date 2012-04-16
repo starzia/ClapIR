@@ -10,8 +10,9 @@
 #import "PlotView.h"
 
 @interface MainViewController (){
-    NSMutableArray* _plots;
-    NSMutableArray* _plotCurves;
+    // by storing ClapMeasurement objects in an NSObject, we manage their C-array memory
+    NSMutableArray* _measurements;
+    NSArray* _plotViews; // contains reverbPlotView, directSoundPlotView, freqResponsePlotView;
 }
 -(IBAction)reset;
 @end
@@ -20,8 +21,8 @@
 
 @synthesize pauseButton, undoButton, pageCurlButton;
 @synthesize toggleControl;
-@synthesize reverbView, reverbPlotView;
-@synthesize spectraView, directSoundPlotView, freqResponsePlotView;
+@synthesize reverbView, spectraView;
+@synthesize reverbPlotView, directSoundPlotView, freqResponsePlotView;
 
 @synthesize recorder;
 
@@ -31,8 +32,8 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        _plotCurves = [NSMutableArray array];
-        _plots = [NSMutableArray array];
+        _measurements = [NSMutableArray array];
+        _plotViews = [NSArray arrayWithObjects:reverbPlotView, directSoundPlotView, freqResponsePlotView, nil];
     }
     return self;
 }
@@ -68,7 +69,7 @@
 #pragma mark - UIControls
 -(IBAction)reset{
     // clear plots
-    for( int i=0; i<_plots.count; i++ ){
+    for( int i=0; i<_measurements.count; i++ ){
         [self undo];
     }
     
@@ -80,14 +81,13 @@
 }
 
 -(IBAction)undo{
-    // erase latest plot line
-    if( _plots.count > 0 ){
-        PlotView* lastPlot = _plots.lastObject;
-        [_plots removeLastObject];
-        [lastPlot removeFromSuperview];
-        NSNumber* lastFloatPointer = _plotCurves.lastObject;
-        [_plotCurves removeLastObject];
-        free( (float*)lastFloatPointer.longValue );
+    // erase latest plot line from all three plots
+    if( _measurements.count > 0 ){
+        for( UIView* curveSuperView in _plotViews ){
+            PlotView* lastPlot = curveSuperView.subviews.lastObject;
+            [lastPlot removeFromSuperview];
+         }
+        [_measurements removeLastObject];
     }
 }
 
@@ -101,35 +101,60 @@
 
 #pragma mark - ClapRecorderDelegate methods
 -(void)gotMeasurement:(ClapMeasurement *)measurement{
+    // store measurement
+    [_measurements addObject:measurement];
+    
     NSLog( @"rt60 = %.3f seconds", measurement.reverbTime );
     for( int i=0; i<ClapMeasurement.numFreqs; i++ ){
         NSLog( @"%.0f Hz\t%.3f seconds", ClapMeasurement.specFrequencies[i], 
               measurement.reverbTimeSpectrum[i] );
     }
-    // copy vector to plot
-    PlotView* plot = [[PlotView alloc] initWithFrame:reverbPlotView.bounds];
-    [reverbPlotView addSubview:plot];
-    [_plots addObject:plot];
-    
-    float* plotCurve = malloc( sizeof(float) * ClapMeasurement.numFreqs );
-    memcpy( plotCurve, measurement.reverbTimeSpectrum, sizeof(float) * ClapMeasurement.numFreqs );
-    // below store float* in NSarray by casting it as an unsigned long (hack!)
-    [_plotCurves addObject:[NSNumber numberWithUnsignedLong:(unsigned long)plotCurve]];
-    
+
     // update plot
-    [plot setVector:plotCurve length:ClapMeasurement.numFreqs];
-    [plot setYRange_min:0 max:3];
-    // make most recent line red
-    [plot setLineColor:[UIColor redColor]];
-    // make previously-most-recent line yellow
-    if( _plots.count > 1 ){
-        PlotView* prevPlot = [_plots objectAtIndex:_plots.count-2];
-        prevPlot.lineColor = [UIColor yellowColor];
-        [prevPlot setNeedsDisplay];
+    {
+        // copy vector to plot
+        PlotView* plot = [[PlotView alloc] initWithFrame:reverbPlotView.bounds];
+        [reverbPlotView addSubview:plot];
+        // set curve values
+        [plot setVector:measurement.reverbTimeSpectrum length:ClapMeasurement.numFreqs];
+        [plot setYRange_min:0 max:3];
+        // make most recent line red
+        [plot setLineColor:[UIColor redColor]];
+    }
+    {
+        // copy vector to plot
+        PlotView* plot = [[PlotView alloc] initWithFrame:directSoundPlotView.bounds];
+        [directSoundPlotView addSubview:plot];
+        // set curve values
+        [plot setVector:measurement.directSoundSpectrum length:ClapMeasurement.numFreqs];
+        [plot setYRange_min:0 max:80];
+        // make most recent line red
+        [plot setLineColor:[UIColor redColor]];
+    }
+    {
+        // copy vector to plot
+        PlotView* plot = [[PlotView alloc] initWithFrame:freqResponsePlotView.bounds];
+        [freqResponsePlotView addSubview:plot];
+        // set curve values
+        [plot setVector:measurement.freqResponseSpectrum length:ClapMeasurement.numFreqs];
+        [plot setYRange_min:0 max:80];
+        // make most recent line red
+        [plot setLineColor:[UIColor redColor]];
+    }
+        
+    // make previously-most-recent lines yellow in all three plots
+    if( _measurements.count > 1 ){
+        for( UIView* curveSuperView in _plotViews ){            
+            PlotView* prevPlot = [curveSuperView.subviews objectAtIndex:_measurements.count-2];
+            prevPlot.lineColor = [UIColor yellowColor];
+            [prevPlot setNeedsDisplay];
+        }
     }
     
     // redraw
-    [reverbPlotView setNeedsDisplay];
+    for( UIView* view in _plotViews ){
+        [view setNeedsDisplay];
+    }
 }
 
 -(void)gotBackgroundLevel:(float)energy{

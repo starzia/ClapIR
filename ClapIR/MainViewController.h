@@ -15,9 +15,11 @@
 @property (strong,nonatomic) IBOutlet UIBarButtonItem* undoButton;
 @property (strong,nonatomic) IBOutlet UIBarButtonItem* pageCurlButton;
 @property (strong,nonatomic) IBOutlet UISegmentedControl* toggleControl;
+
 @property (strong,nonatomic) IBOutlet UIView* reverbView;
-@property (strong,nonatomic) IBOutlet UIView* reverbPlotView;
 @property (strong,nonatomic) IBOutlet UIView* spectraView;
+
+@property (strong,nonatomic) IBOutlet UIView* reverbPlotView;
 @property (strong,nonatomic) IBOutlet UIView* directSoundPlotView;
 @property (strong,nonatomic) IBOutlet UIView* freqResponsePlotView;
 

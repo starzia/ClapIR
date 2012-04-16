@@ -212,9 +212,9 @@ PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength )
     vDSP_sve( dbCurve, 1, &directSoundSum, self.directSoundSamples );
     float tailSoundSum;
     vDSP_sve( dbCurve+(_stepsInClap-self.directSoundSamples), 1, &tailSoundSum, self.directSoundSamples );
-    // if the decay is less than 10x, abort by returning NaN
-    float decayEstimate = (directSoundSum / tailSoundSum);
-    printf( "Decay estimate: %.1f X\n", decayEstimate );
+    // if the decay is less than 10dB, abort by returning NaN
+    float decayEstimate = (directSoundSum - tailSoundSum) / self.directSoundSamples;
+    printf( "Decay estimate: %.1f dB\n", decayEstimate );
     if( decayEstimate < 10 ){
         return NAN;
     }
@@ -245,8 +245,9 @@ PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength )
         vDSP_sve( curves+(f*_stepsInClap), 1, &sum, self.directSoundSamples );
         outputVector[f] = sum / self.directSoundSamples;
     }
-    // convert to dB
-    float reference=1.0f;
+    // convert to dB, with minimum at zero dB
+    float reference;
+    vDSP_minv( outputVector, 1, &reference, ClapMeasurement.numFreqs );
     vDSP_vdbcon( outputVector, 1, &reference, outputVector, 1, ClapMeasurement.numFreqs, 1 ); // 1 for power, not amplitude	
 }
 
@@ -263,8 +264,9 @@ PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength )
         // freq response is ration between reverb and direct sound spectra
         outputVector[f] = reverbAvgEnergy / directSoundSpectrum[f];
     }
-    // convert to dB
-    float reference=1.0f;
+    // convert to dB, with minimum at zero dB
+    float reference;
+    vDSP_minv( outputVector, 1, &reference, ClapMeasurement.numFreqs );
     vDSP_vdbcon( outputVector, 1, &reference, outputVector, 1, ClapMeasurement.numFreqs, 1 ); // 1 for power, not amplitude	
 }
 
