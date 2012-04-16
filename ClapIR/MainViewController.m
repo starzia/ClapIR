@@ -33,7 +33,6 @@
     if (self) {
         // Custom initialization
         _measurements = [NSMutableArray array];
-        _plotViews = [NSArray arrayWithObjects:reverbPlotView, directSoundPlotView, freqResponsePlotView, nil];
     }
     return self;
 }
@@ -42,6 +41,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    _plotViews = [NSArray arrayWithObjects:reverbPlotView, directSoundPlotView, freqResponsePlotView, nil];
     
     // initialize view toggle selection
     toggleControl.selectedSegmentIndex = 0;
