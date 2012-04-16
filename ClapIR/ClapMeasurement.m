@@ -10,22 +10,25 @@
 @implementation ClapMeasurement
 @synthesize reverbTime;
 @synthesize reverbTimeSpectrum;
-@synthesize powerSpectrum;
+@synthesize freqResponseSpectrum;
+@synthesize directSoundSpectrum;
 
 float* specFreqArray = nil;
 
 -(id)init{
     self = [super init];
     if(self){
-        reverbTimeSpectrum = malloc( sizeof(float) * ClapMeasurement.numFreqs );
-        powerSpectrum      = malloc( sizeof(float) * ClapMeasurement.numFreqs );
+        reverbTimeSpectrum   = malloc( sizeof(float) * ClapMeasurement.numFreqs );
+        freqResponseSpectrum = malloc( sizeof(float) * ClapMeasurement.numFreqs );
+        directSoundSpectrum  = malloc( sizeof(float) * ClapMeasurement.numFreqs );
     }
     return self;
 }
 
 -(void)dealloc{
     free( reverbTimeSpectrum );
-    free( powerSpectrum );
+    free( freqResponseSpectrum );
+    free( directSoundSpectrum );
 }
 
 +(int)numFreqs{

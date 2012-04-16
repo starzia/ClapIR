@@ -61,7 +61,8 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return (interfaceOrientation == UIInterfaceOrientationPortrait)
+        || (interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown);
 }
 
 #pragma mark - UIControls
@@ -131,7 +132,8 @@
     [reverbPlotView setNeedsDisplay];
 }
 
--(void)gotBackgroundLevel:(float)decibels{
+-(void)gotBackgroundLevel:(float)energy{
+    float decibels = 20 * log10f( energy );
     NSLog( @"background level is %.0f dB",decibels );
 }
 

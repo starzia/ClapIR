@@ -148,6 +148,10 @@ PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength )
 }
 @synthesize delegate;
 
+// constants
+-(float)directSoundLength{ return 0.01; /* seconds */ }
+-(int)directSoundSamples{ return ceil( self.directSoundLength / _spectrogramRecorder.spectrumTime ); }
+
 -(id)init{
     self = [super init];
     if( self ){
@@ -193,40 +197,75 @@ PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength )
 
 /** calculate rt60 from a decay curve */
 -(float)calcReverb:(float*)curve{
+    
+    // convert decay curve to decibels for linear fitting
+    float* dbCurve = malloc( sizeof(float) * _stepsInClap );
+    float reference=1.0f;
+    vDSP_vdbcon( curve, 1, &reference, dbCurve, 1, _stepsInClap, 1 ); // 1 for power, not amplitude	
             
-    // calculate slope of region past direct sound (one sample offset)
-    float directSoundLength = 0.01; // seconds
+    // calculate slope of region past direct sound
     float minPrefixLength = 0.05; // seconds
-    int directSoundSamples = ceil( directSoundLength / _spectrogramRecorder.spectrumTime );
     int minPrefixSamples = ceil( minPrefixLength / _spectrogramRecorder.spectrumTime );
     
     // test that there is enough energy in curve (ie, that it really decays)
     float directSoundSum;
-    vDSP_sve( curve, 1, &directSoundSum, directSoundSamples );
+    vDSP_sve( dbCurve, 1, &directSoundSum, self.directSoundSamples );
     float tailSoundSum;
-    vDSP_sve( curve+(_stepsInClap-directSoundSamples), 1, &tailSoundSum, directSoundSamples );
-    // if the decay is less than 10dB, abort by returning NaN
-    float decayEstimate = (directSoundSum - tailSoundSum)/directSoundSamples;
-    printf( "Decay estimate: %.1f dB\n", decayEstimate );
+    vDSP_sve( dbCurve+(_stepsInClap-self.directSoundSamples), 1, &tailSoundSum, self.directSoundSamples );
+    // if the decay is less than 10x, abort by returning NaN
+    float decayEstimate = (directSoundSum / tailSoundSum);
+    printf( "Decay estimate: %.1f X\n", decayEstimate );
     if( decayEstimate < 10 ){
         return NAN;
     }
     
     // calculate best-fit regression line
-    PrefixFitResult regressionResult = regressionAndKnee( curve+directSoundSamples-1, 
-                                                          _stepsInClap-directSoundSamples, 
+    PrefixFitResult regressionResult = regressionAndKnee( dbCurve + self.directSoundSamples - 1, 
+                                                          _stepsInClap - self.directSoundSamples, 
                                                           minPrefixSamples );
     float slope = regressionResult.fit.slope;
     slope /= _spectrogramRecorder.spectrumTime;
     float rt60 = -60 / slope;
     for( int i=0; i<_stepsInClap; i++ ){
-        printf("%.0f ", curve[i] );
+        printf("%.0f ", dbCurve[i] );
     }
     printf( "\n" );
     printf( "Calculated rt60 = %.3f seconds, with knee at sample %d of %d\n", rt60, 
-            regressionResult.prefixLength+directSoundSamples, _stepsInClap );
+            regressionResult.prefixLength + self.directSoundSamples, _stepsInClap );
     
+    free( dbCurve );
     return rt60;
+}
+
+-(void)calcDirectSoundSpectrumFromSpectrogram:(float*)curves 
+                                       saveTo:(float*)outputVector{
+    // for each frequency, calculate average energy in direct sound region
+    for( int f=0; f<ClapMeasurement.numFreqs; f++ ){
+        float sum;
+        vDSP_sve( curves+(f*_stepsInClap), 1, &sum, self.directSoundSamples );
+        outputVector[f] = sum / self.directSoundSamples;
+    }
+    // convert to dB
+    float reference=1.0f;
+    vDSP_vdbcon( outputVector, 1, &reference, outputVector, 1, ClapMeasurement.numFreqs, 1 ); // 1 for power, not amplitude	
+}
+
+-(void)calcFreqResponseSpectrumFromSpectrogram:(float*)curves
+                                   directSound:(float*)directSoundSpectrum
+                                        saveTo:(float*)outputVector{
+    // for each frequency, calculate average energy in reverberant region
+    int reverbSamples = _stepsInClap - self.directSoundSamples;
+    for( int f=0; f<ClapMeasurement.numFreqs; f++ ){
+        float sum;
+        vDSP_sve( curves+(f*_stepsInClap + self.directSoundSamples), 1, 
+                  &sum, reverbSamples );
+        float reverbAvgEnergy = sum / reverbSamples;
+        // freq response is ration between reverb and direct sound spectra
+        outputVector[f] = reverbAvgEnergy / directSoundSpectrum[f];
+    }
+    // convert to dB
+    float reference=1.0f;
+    vDSP_vdbcon( outputVector, 1, &reference, outputVector, 1, ClapMeasurement.numFreqs, 1 ); // 1 for power, not amplitude	
 }
 
 #pragma mark - SpectrogramRecorderDelegate
@@ -251,7 +290,7 @@ PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength )
     if( _isClap ) _stepsInClap++;
     
     // detect clap
-    if( !_isClap && energy > 40+_backgroundEnergy ){
+    if( !_isClap && energy > 100 * _backgroundEnergy ){ // 100x or 40dB above bg level
         NSLog( @"Clap begin" );
         _isClap = YES;
         _stepsInClap = 1;
@@ -261,7 +300,7 @@ PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength )
     // and the energy level must be low
     }else if( _isClap 
              && _stepsInClap * _spectrogramRecorder.spectrumTime > 0.1
-             && energy < 3 + _backgroundEnergy ){
+             && energy < 2 * _backgroundEnergy ){ // 2x or 3dB above bg level
         NSLog( @"Clap end" );
         _isClap = NO;
         
@@ -297,6 +336,13 @@ PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength )
         for( int i=0; i<ClapMeasurement.numFreqs; i++ ){
             measurement.reverbTimeSpectrum[i] = [self calcReverb:(curves+i*_stepsInClap)];
         }
+        // calculate direct sound spectrum
+        [self calcDirectSoundSpectrumFromSpectrogram:curves 
+                                              saveTo:measurement.directSoundSpectrum];
+        // calculate frequency response
+        [self calcFreqResponseSpectrumFromSpectrogram:curves
+                                          directSound:measurement.directSoundSpectrum
+                                               saveTo:measurement.freqResponseSpectrum];
         free( curve );
         free( curves );
         
@@ -305,7 +351,7 @@ PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength )
     
     // set background level, if this was the first time that the buffer was filled
     if( _bufferPtr == _bufferSize - 1 && isnan( _backgroundEnergy ) ){
-        // we take the simple mean of energy levels (though for dB geometric mean makes more sense).
+        // we take the simple mean of energy levels.
         vDSP_sve( _buffer, 1, &_backgroundEnergy, _bufferSize );
         _backgroundEnergy /= _bufferSize;
         NSLog( @"Background energy level set to %.0f", _backgroundEnergy );

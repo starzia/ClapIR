@@ -39,7 +39,7 @@
 
 // number of frames in welch's method
 // A larger number should give better accuracy at the expense of more computation
-const int ACC_NUM = 4; 
+const int ACC_NUM = 10; 
 
 #pragma mark -
 -(id)init{
@@ -206,11 +206,6 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
                 // sum spectrum to get total energy
                 float energy;
                 vDSP_sve( _acc, 1, &energy, self.spectrumResolution );
-                
-                // convert spectrum and energy to dB
-                float reference=1.0f * ACC_NUM; //divide by number of summed spectra
-                vDSP_vdbcon( _acc, 1, &reference, _acc, 1, self.spectrumResolution, 1 ); // 1 for power, not amplitude	
-                vDSP_vdbcon( &energy, 1, &reference, &energy, 1, 1, 1 ); // 1 for power, not amplitude	
                 
                 // call delegate method with results
                 [self.delegate gotSpectrum:_acc energy:energy];
