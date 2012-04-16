@@ -42,6 +42,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
+    // initialize view toggle selection
+    toggleControl.selectedSegmentIndex = 0;
+    [self indexDidChangeForSegmentedControl:toggleControl];
+    
     // start audio
     recorder = [[ClapRecorder alloc] init];
     recorder.delegate = self;

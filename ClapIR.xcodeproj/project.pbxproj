@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA002A5F153BBBC300689FFB /* grid2.png in Resources */ = {isa = PBXBuildFile; fileRef = AA002A5E153BBBC300689FFB /* grid2.png */; };
 		AA049A6115043AA100E74262 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA049A6015043AA100E74262 /* UIKit.framework */; };
 		AA049A6315043AA100E74262 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA049A6215043AA100E74262 /* Foundation.framework */; };
 		AA049A6515043AA100E74262 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA049A6415043AA100E74262 /* CoreGraphics.framework */; };
@@ -26,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AA002A5E153BBBC300689FFB /* grid2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = grid2.png; path = ../gnuplot/grid2.png; sourceTree = "<group>"; };
 		AA049A5C15043AA100E74262 /* ClapIR.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClapIR.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA049A6015043AA100E74262 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		AA049A6215043AA100E74262 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -142,6 +144,7 @@
 		AACA18851539452300240557 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				AA002A5E153BBBC300689FFB /* grid2.png */,
 				AACA1EE2153945B400240557 /* grid.png */,
 			);
 			name = images;
@@ -198,6 +201,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA002A5F153BBBC300689FFB /* grid2.png in Resources */,
 				AA049A6B15043AA100E74262 /* InfoPlist.strings in Resources */,
 				AACA1EE3153945B400240557 /* grid.png in Resources */,
 				AA44B1351539D5C8007DB9E9 /* MainViewController.xib in Resources */,
