@@ -13,6 +13,7 @@
     // by storing ClapMeasurement objects in an NSObject, we manage their C-array memory
     NSMutableArray* _measurements;
     NSArray* _plotViews; // contains reverbPlotView, directSoundPlotView, freqResponsePlotView;
+    UIAlertView* _waitAlert;
 }
 -(void)reset;
 @end
@@ -78,6 +79,20 @@
     
     [recorder stop];
     [recorder start];
+    
+    // alert user that fingerprint is not yet ready
+	_waitAlert = [[UIAlertView alloc] initWithTitle:@"Please wait" 
+                                            message:@"Five seconds of audio are needed to compute the background level.  Be quiet!" 
+                                           delegate:nil 
+                                  cancelButtonTitle:nil 
+                                  otherButtonTitles:nil];
+	[_waitAlert show];
+	// add spinning activity indicator
+	UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc]  
+										  initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];  
+	indicator.center = CGPointMake(140, 130);  
+	[indicator startAnimating];  
+	[_waitAlert addSubview:indicator];  
 }
 
 typedef enum{
@@ -204,6 +219,10 @@ typedef enum{
 -(void)gotBackgroundLevel:(float)energy{
     float decibels = 20 * log10f( energy );
     NSLog( @"background level is %.0f dB",decibels );
+    
+    // dismiss waiting indicator
+    [_waitAlert dismissWithClickedButtonIndex:0 animated:YES];
+    _waitAlert = nil;
 }
 
 #pragma mark - UIActionSheetDelegate
