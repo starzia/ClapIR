@@ -14,12 +14,14 @@
     NSMutableArray* _measurements;
     NSArray* _plotViews; // contains reverbPlotView, directSoundPlotView, freqResponsePlotView;
     UIAlertView* _waitAlert;
+    BOOL _paused;
 }
 -(void)reset;
 @end
 
 @implementation MainViewController
 
+@synthesize toolbar;
 @synthesize pauseButton, undoButton, optionsButton;
 @synthesize toggleControl;
 @synthesize reverbView, spectraView;
@@ -34,6 +36,7 @@
     if (self) {
         // Custom initialization
         _measurements = [NSMutableArray array];
+        _paused = NO;
     }
     return self;
 }
@@ -94,6 +97,22 @@
 	[indicator startAnimating];  
 	[_waitAlert addSubview:indicator];  
 }
+
+-(IBAction)pause{
+    // toggle
+    _paused = !_paused;
+    UIBarButtonSystemItem style = _paused? UIBarButtonSystemItemPlay : UIBarButtonSystemItemPause;
+    UIBarButtonItem* newPauseButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:style
+                                                                                    target:self
+                                                                                    action:@selector(pause)];
+    newPauseButton.style = UIBarButtonItemStyleBordered;
+    pauseButton = newPauseButton;
+    NSMutableArray* toolbarItems = [NSMutableArray arrayWithArray:toolbar.items];
+    [toolbarItems replaceObjectAtIndex:0 withObject:newPauseButton];
+    [toolbar setItems:toolbarItems];
+    [toolbar setNeedsLayout];
+}
+
 
 typedef enum{
     EMAIL_FEEDBACK,
@@ -160,6 +179,9 @@ typedef enum{
 
 #pragma mark - ClapRecorderDelegate methods
 -(void)gotMeasurement:(ClapMeasurement *)measurement{
+    // ignore measurement if we're paused
+    if( _paused ) return;
+    
     // store measurement
     [_measurements addObject:measurement];
     

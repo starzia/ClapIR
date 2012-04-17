@@ -16,6 +16,8 @@
 @interface MainViewController : UIViewController <ClapRecorderDelegate, 
     UIActionSheetDelegate, MFMailComposeViewControllerDelegate>
 
+@property (strong,nonatomic) IBOutlet UIToolbar* toolbar;
+
 @property (strong,nonatomic) IBOutlet UIBarButtonItem* pauseButton;
 @property (strong,nonatomic) IBOutlet UIBarButtonItem* undoButton;
 @property (strong,nonatomic) IBOutlet UIBarButtonItem* optionsButton;
@@ -31,5 +33,6 @@
 @property (strong) ClapRecorder* recorder;
 
 -(IBAction)options;
+-(IBAction)pause;
 
 @end
