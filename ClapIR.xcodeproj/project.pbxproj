@@ -19,6 +19,7 @@
 		AA049A8315045BC200E74262 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA049A8215045BC200E74262 /* AVFoundation.framework */; };
 		AA049A8C150464D700E74262 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA049A8B150464D700E74262 /* CoreMedia.framework */; };
 		AA10882F1533973900B18C83 /* PlotView.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA10882E1533973900B18C83 /* PlotView.mm */; };
+		AA1C65F7153D13D3000D6500 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1C65F6153D13D3000D6500 /* MessageUI.framework */; };
 		AA44B1341539D5C8007DB9E9 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA44B1321539D5C8007DB9E9 /* MainViewController.m */; };
 		AA44B1351539D5C8007DB9E9 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA44B1331539D5C8007DB9E9 /* MainViewController.xib */; };
 		AACA1EE3153945B400240557 /* grid.png in Resources */ = {isa = PBXBuildFile; fileRef = AACA1EE2153945B400240557 /* grid.png */; };
@@ -47,6 +48,7 @@
 		AA049A8B150464D700E74262 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		AA10882D1533973900B18C83 /* PlotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlotView.h; sourceTree = "<group>"; };
 		AA10882E1533973900B18C83 /* PlotView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PlotView.mm; sourceTree = "<group>"; };
+		AA1C65F6153D13D3000D6500 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		AA44B1311539D5C8007DB9E9 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		AA44B1321539D5C8007DB9E9 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		AA44B1331539D5C8007DB9E9 /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA1C65F7153D13D3000D6500 /* MessageUI.framework in Frameworks */,
 				AACC27911514F06F00A09B15 /* Accelerate.framework in Frameworks */,
 				AA049A8C150464D700E74262 /* CoreMedia.framework in Frameworks */,
 				AA049A8315045BC200E74262 /* AVFoundation.framework in Frameworks */,
@@ -78,6 +81,7 @@
 		AA049A5115043AA100E74262 = {
 			isa = PBXGroup;
 			children = (
+				AA1C65F6153D13D3000D6500 /* MessageUI.framework */,
 				AACC27901514F06F00A09B15 /* Accelerate.framework */,
 				AA049A8B150464D700E74262 /* CoreMedia.framework */,
 				AA049A8215045BC200E74262 /* AVFoundation.framework */,

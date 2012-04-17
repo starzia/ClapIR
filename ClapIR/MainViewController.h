@@ -9,11 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "ClapRecorder.h"
 
-@interface MainViewController : UIViewController <ClapRecorderDelegate>
+// for email
+#import <MessageUI/MessageUI.h>
+#import <MessageUI/MFMailComposeViewController.h>
+
+@interface MainViewController : UIViewController <ClapRecorderDelegate, 
+    UIActionSheetDelegate, MFMailComposeViewControllerDelegate>
 
 @property (strong,nonatomic) IBOutlet UIBarButtonItem* pauseButton;
 @property (strong,nonatomic) IBOutlet UIBarButtonItem* undoButton;
-@property (strong,nonatomic) IBOutlet UIBarButtonItem* pageCurlButton;
+@property (strong,nonatomic) IBOutlet UIBarButtonItem* optionsButton;
 @property (strong,nonatomic) IBOutlet UISegmentedControl* toggleControl;
 
 @property (strong,nonatomic) IBOutlet UIView* reverbView;
@@ -24,5 +29,7 @@
 @property (strong,nonatomic) IBOutlet UIView* freqResponsePlotView;
 
 @property (strong) ClapRecorder* recorder;
+
+-(IBAction)options;
 
 @end

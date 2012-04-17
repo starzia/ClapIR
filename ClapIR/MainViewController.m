@@ -14,12 +14,12 @@
     NSMutableArray* _measurements;
     NSArray* _plotViews; // contains reverbPlotView, directSoundPlotView, freqResponsePlotView;
 }
--(IBAction)reset;
+-(void)reset;
 @end
 
 @implementation MainViewController
 
-@synthesize pauseButton, undoButton, pageCurlButton;
+@synthesize pauseButton, undoButton, optionsButton;
 @synthesize toggleControl;
 @synthesize reverbView, spectraView;
 @synthesize reverbPlotView, directSoundPlotView, freqResponsePlotView;
@@ -67,7 +67,7 @@
 }
 
 #pragma mark - UIControls
--(IBAction)reset{
+-(void)reset{
     // clear plots
     for( int i=0; i<_measurements.count; i++ ){
         [self undo];
@@ -78,6 +78,41 @@
     
     [recorder stop];
     [recorder start];
+}
+
+typedef enum{
+    EMAIL_FEEDBACK,
+    EMAIL_RESULTS
+} EmailType;
+
+-(void)emailWithType:(EmailType)type{
+    if( [MFMailComposeViewController canSendMail] ){
+        MFMailComposeViewController *mailer = [[MFMailComposeViewController alloc] init];
+        mailer.mailComposeDelegate = self;
+        
+        // email measurements
+        NSString* subj = (type==EMAIL_RESULTS) ? @"Results" : @"Feedback";
+        [mailer setSubject:[NSString stringWithFormat:@"[ClapIR v%@] %@", 
+                            [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"],
+                            subj]];
+        NSString* body;
+        if( type == EMAIL_RESULTS ){
+            body = ((ClapMeasurement*)(_measurements.lastObject)).description;
+        }else if( type == EMAIL_FEEDBACK ){
+            [mailer setToRecipients:[NSArray arrayWithObjects:@"steve@stevetarzia.com", @"prem@u.northwestern.edu", nil]];
+        }
+        [mailer setMessageBody:body isHTML:NO];
+        
+        [self presentModalViewController:mailer animated:YES];
+    }else{
+        UIAlertView *myAlert = [[UIAlertView alloc] initWithTitle:@"Email unavailable" 
+                                                          message:@"Please configure your email settings before trying to use this option." 
+                                                         delegate:self 
+                                                cancelButtonTitle:@"OK" 
+                                                otherButtonTitles:nil];
+        [myAlert show];	
+    }
+
 }
 
 -(IBAction)undo{
@@ -97,6 +132,15 @@
         self.reverbView.hidden  = ( self.toggleControl.selectedSegmentIndex != 0 );
         self.spectraView.hidden = ( self.toggleControl.selectedSegmentIndex != 1 );
     }
+}
+
+-(void)options{
+    UIActionSheet* optionsSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                              delegate:self 
+                                                     cancelButtonTitle:@"Cancel" 
+                                                destructiveButtonTitle:nil 
+                                                     otherButtonTitles:@"Visit the website",@"Email us feedback",@"Email your results",@"Reset",nil];
+    [optionsSheet showFromBarButtonItem:self.optionsButton animated:YES];
 }
 
 #pragma mark - ClapRecorderDelegate methods
@@ -162,5 +206,35 @@
     NSLog( @"background level is %.0f dB",decibels );
 }
 
+#pragma mark - UIActionSheetDelegate
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if( buttonIndex == 0 ){ // zero is the bottom red buttom for cancel confirmation
+        // website
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/starzia/ClapIR"]];
+    }else if( buttonIndex == 1 ) {
+        // feedback
+        [self emailWithType:EMAIL_FEEDBACK];
+    }else if( buttonIndex == 2 ){
+        // email results
+        [self emailWithType:EMAIL_RESULTS];
+    }else if( buttonIndex == 3 ){
+        // reset
+        [self reset];
+    }else if( buttonIndex == 4 ){
+        // dismiss view
+        [self dismissModalViewControllerAnimated:YES];
+        
+    }
+}
+
+#pragma mark - MKMailComposeViewControllerDelegate
+
+// finished trying to email
+- (void)mailComposeController:(MFMailComposeViewController*)controller 
+		  didFinishWithResult:(MFMailComposeResult)result 
+						error:(NSError*)error{
+	// make email window disappear
+	[controller dismissModalViewControllerAnimated:YES];
+}
 
 @end

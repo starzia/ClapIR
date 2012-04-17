@@ -50,4 +50,16 @@ float* specFreqArray = nil;
     }
     return specFreqArray;
 }
+
+-(NSString*)description{
+    NSMutableString* desc = [NSMutableString string];
+    [desc appendFormat:@"overall RT60: %.3f seconds\n\n", reverbTime];
+    [desc appendString:@"Frequency,\tReverb,\tResponse,\tDirect sound\n"];
+    for( int f=0; f<ClapMeasurement.numFreqs; f++ ){
+        [desc appendFormat:@"%.1f Hz\t%.3f s\t%.1f dB\t%.1f dB\t\n", 
+         ClapMeasurement.specFrequencies[f], reverbTimeSpectrum[f],
+         freqResponseSpectrum[f], directSoundSpectrum[f]];
+    }
+    return desc;
+}
 @end
