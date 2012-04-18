@@ -208,7 +208,10 @@ typedef enum{
     [_directSoundAvgPlot  setNeedsDisplay];
     [_freqResponseAvgPlot setNeedsDisplay];
     for( UIView* view in _plotViews ){
-        [view setNeedsDisplay];
+        // draw a consistent view of the data
+        @synchronized( _measurements ){
+            [view drawRect:view.bounds];
+        }
     }
 }
 
@@ -255,61 +258,61 @@ typedef enum{
     // ignore measurement if we're paused
     if( _paused ) return;
     
-    // store measurement
     @synchronized( _measurements ){
+    // store measurement
         [_measurements addObject:measurement];
+        
+        // recalculate average
+        if( !avgMeasurement ){
+            // init avg measurement object
+            avgMeasurement = measurement;
+        }else{
+            [avgMeasurement addSample:measurement];
+        }
+        // add data pointer to plots for average
+        // below, average plot is last sibling to view containing measurement curves
+        [_reverbAvgPlot       setVector:avgMeasurement.reverbTimeSpectrum   length:ClapMeasurement.numFreqs];
+        [_directSoundAvgPlot  setVector:avgMeasurement.directSoundSpectrum  length:ClapMeasurement.numFreqs];
+        [_freqResponseAvgPlot setVector:avgMeasurement.freqResponseSpectrum length:ClapMeasurement.numFreqs];   
+        
+        NSLog( @"rt60 = %.3f seconds", measurement.reverbTime );
+        for( int i=0; i<ClapMeasurement.numFreqs; i++ ){
+            NSLog( @"%.0f Hz\t%.3f seconds", ClapMeasurement.specFrequencies[i], 
+                  measurement.reverbTimeSpectrum[i] );
+        }
+        
+        // update plot
+        {
+            // copy vector to plot
+            PlotView* plot = [[PlotView alloc] initWithFrame:reverbPlotView.bounds];
+            [reverbPlotView addSubview:plot];
+            // set curve values
+            [plot setVector:measurement.reverbTimeSpectrum length:ClapMeasurement.numFreqs];
+            [plot setYRange_min:0 max:3];
+            // make most recent line red
+            [plot setLineColor:[UIColor redColor]];
+        }
+        {
+            // copy vector to plot
+            PlotView* plot = [[PlotView alloc] initWithFrame:directSoundPlotView.bounds];
+            [directSoundPlotView addSubview:plot];
+            // set curve values
+            [plot setVector:measurement.directSoundSpectrum length:ClapMeasurement.numFreqs];
+            [plot setYRange_min:0 max:80];
+            // make most recent line red
+            [plot setLineColor:[UIColor redColor]];
+        }
+        {
+            // copy vector to plot
+            PlotView* plot = [[PlotView alloc] initWithFrame:freqResponsePlotView.bounds];
+            [freqResponsePlotView addSubview:plot];
+            // set curve values
+            [plot setVector:measurement.freqResponseSpectrum length:ClapMeasurement.numFreqs];
+            [plot setYRange_min:0 max:80];
+            // make most recent line red
+            [plot setLineColor:[UIColor redColor]];
+        }
     }
-    // recalculate average
-    if( !avgMeasurement ){
-        // init avg measurement object
-        avgMeasurement = measurement;
-    }else{
-        [avgMeasurement addSample:measurement];
-    }
-    // add data pointer to plots for average
-    // below, average plot is last sibling to view containing measurement curves
-    [_reverbAvgPlot       setVector:avgMeasurement.reverbTimeSpectrum   length:ClapMeasurement.numFreqs];
-    [_directSoundAvgPlot  setVector:avgMeasurement.directSoundSpectrum  length:ClapMeasurement.numFreqs];
-    [_freqResponseAvgPlot setVector:avgMeasurement.freqResponseSpectrum length:ClapMeasurement.numFreqs];   
-    
-    NSLog( @"rt60 = %.3f seconds", measurement.reverbTime );
-    for( int i=0; i<ClapMeasurement.numFreqs; i++ ){
-        NSLog( @"%.0f Hz\t%.3f seconds", ClapMeasurement.specFrequencies[i], 
-              measurement.reverbTimeSpectrum[i] );
-    }
-
-    // update plot
-    {
-        // copy vector to plot
-        PlotView* plot = [[PlotView alloc] initWithFrame:reverbPlotView.bounds];
-        [reverbPlotView addSubview:plot];
-        // set curve values
-        [plot setVector:measurement.reverbTimeSpectrum length:ClapMeasurement.numFreqs];
-        [plot setYRange_min:0 max:3];
-        // make most recent line red
-        [plot setLineColor:[UIColor redColor]];
-    }
-    {
-        // copy vector to plot
-        PlotView* plot = [[PlotView alloc] initWithFrame:directSoundPlotView.bounds];
-        [directSoundPlotView addSubview:plot];
-        // set curve values
-        [plot setVector:measurement.directSoundSpectrum length:ClapMeasurement.numFreqs];
-        [plot setYRange_min:0 max:80];
-        // make most recent line red
-        [plot setLineColor:[UIColor redColor]];
-    }
-    {
-        // copy vector to plot
-        PlotView* plot = [[PlotView alloc] initWithFrame:freqResponsePlotView.bounds];
-        [freqResponsePlotView addSubview:plot];
-        // set curve values
-        [plot setVector:measurement.freqResponseSpectrum length:ClapMeasurement.numFreqs];
-        [plot setYRange_min:0 max:80];
-        // make most recent line red
-        [plot setLineColor:[UIColor redColor]];
-    }
-
     [self redraw];
     
     // flash screen
