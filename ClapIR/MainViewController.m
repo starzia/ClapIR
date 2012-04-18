@@ -15,6 +15,7 @@
     NSArray* _plotViews; // contains reverbPlotView, directSoundPlotView, freqResponsePlotView;
     UIAlertView* _waitAlert;
     BOOL _paused;
+    PlotView *_reverbAvgPlot, *_directSoundAvgPlot, *_freqResponseAvgPlot;
 }
 -(void)reset;
 @end
@@ -26,6 +27,7 @@
 @synthesize toggleControl;
 @synthesize reverbView, spectraView;
 @synthesize reverbPlotView, directSoundPlotView, freqResponsePlotView;
+@synthesize avgMeasurement;
 
 @synthesize recorder;
 
@@ -35,7 +37,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        _measurements = [NSMutableArray array];
         _paused = NO;
     }
     return self;
@@ -46,6 +47,23 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     _plotViews = [NSArray arrayWithObjects:reverbPlotView, directSoundPlotView, freqResponsePlotView, nil];
+    
+    // set up average plots
+    // add them on top of the views containing the other curves
+    _reverbAvgPlot = [[PlotView alloc] initWithFrame:reverbPlotView.frame];
+    [reverbView addSubview:_reverbAvgPlot];
+    _directSoundAvgPlot = [[PlotView alloc] initWithFrame:directSoundPlotView.frame];
+    [spectraView addSubview:_directSoundAvgPlot];
+    _freqResponseAvgPlot = [[PlotView alloc] initWithFrame:freqResponsePlotView.frame];
+    [spectraView addSubview:_freqResponseAvgPlot];
+    // set curve appearance
+    [_reverbAvgPlot       setLineColor:[UIColor blueColor]];
+    [_directSoundAvgPlot  setLineColor:[UIColor blueColor]];
+    [_freqResponseAvgPlot setLineColor:[UIColor blueColor]];
+    // set curve range
+    [_reverbAvgPlot       setYRange_min:0 max:3];
+    [_directSoundAvgPlot  setYRange_min:0 max:80];
+    [_freqResponseAvgPlot setYRange_min:0 max:80];
     
     // initialize view toggle selection
     toggleControl.selectedSegmentIndex = 0;
@@ -72,10 +90,20 @@
 
 #pragma mark - UIControls
 -(void)reset{
-    // clear plots
-    for( int i=0; i<_measurements.count; i++ ){
-        [self undo];
+    // remove measurements
+    _measurements = [NSMutableArray array];
+    // delete plots
+    for( UIView* plotSuperView in _plotViews ){
+        for( PlotView* plot in plotSuperView.subviews ){
+            [plot removeFromSuperview];
+        }
     }
+    // reset average curves
+    [avgMeasurement clear];
+    // redraw average line for each plot
+    [_reverbAvgPlot       setNeedsDisplay];
+    [_directSoundAvgPlot  setNeedsDisplay];
+    [_freqResponseAvgPlot setNeedsDisplay];
     
     // restart audio
     NSLog( @"￼Calculating background level..." );
@@ -131,7 +159,7 @@ typedef enum{
                             subj]];
         NSString* body;
         if( type == EMAIL_RESULTS ){
-            body = ((ClapMeasurement*)(_measurements.lastObject)).description;
+            body = avgMeasurement.description;
         }else if( type == EMAIL_FEEDBACK ){
             [mailer setToRecipients:[NSArray arrayWithObjects:@"steve@stevetarzia.com", @"prem@u.northwestern.edu", nil]];
         }
@@ -150,13 +178,18 @@ typedef enum{
 }
 
 -(IBAction)undo{
-    // erase latest plot line from all three plots
-    if( _measurements.count > 0 ){
-        for( UIView* curveSuperView in _plotViews ){
-            PlotView* lastPlot = curveSuperView.subviews.lastObject;
-            [lastPlot removeFromSuperview];
-         }
-        [_measurements removeLastObject];
+    @synchronized( _measurements ){
+        // erase latest plot line from all three plots
+        if( _measurements.count > 0 ){
+            for( UIView* curveSuperView in _plotViews ){
+                PlotView* lastPlot = curveSuperView.subviews.lastObject;
+                [lastPlot removeFromSuperview];
+            }
+            ClapMeasurement* lastMeasurement = _measurements.lastObject;
+            [_measurements removeLastObject];
+            // recalculate average
+            [avgMeasurement removeSample:lastMeasurement];
+        }
     }
 }
 
@@ -183,7 +216,25 @@ typedef enum{
     if( _paused ) return;
     
     // store measurement
-    [_measurements addObject:measurement];
+    @synchronized( _measurements ){
+        [_measurements addObject:measurement];
+    }
+    // recalculate average
+    if( !avgMeasurement ){
+        // init avg measurement object
+        avgMeasurement = measurement;
+    }else{
+        [avgMeasurement addSample:measurement];
+    }
+    // add data pointer to plots for average
+    // below, average plot is last sibling to view containing measurement curves
+    [_reverbAvgPlot       setVector:avgMeasurement.reverbTimeSpectrum   length:ClapMeasurement.numFreqs];
+    [_directSoundAvgPlot  setVector:avgMeasurement.directSoundSpectrum  length:ClapMeasurement.numFreqs];
+    [_freqResponseAvgPlot setVector:avgMeasurement.freqResponseSpectrum length:ClapMeasurement.numFreqs];   
+    // redraw average line for each plot
+    [_reverbAvgPlot       setNeedsDisplay];
+    [_directSoundAvgPlot  setNeedsDisplay];
+    [_freqResponseAvgPlot setNeedsDisplay];
     
     NSLog( @"rt60 = %.3f seconds", measurement.reverbTime );
     for( int i=0; i<ClapMeasurement.numFreqs; i++ ){
@@ -222,11 +273,11 @@ typedef enum{
         // make most recent line red
         [plot setLineColor:[UIColor redColor]];
     }
-        
+
     // make previously-most-recent lines yellow in all three plots
     if( _measurements.count > 1 ){
         for( UIView* curveSuperView in _plotViews ){            
-            PlotView* prevPlot = [curveSuperView.subviews objectAtIndex:_measurements.count-2];
+            PlotView* prevPlot = [curveSuperView.subviews objectAtIndex:curveSuperView.subviews.count-2];
             prevPlot.lineColor = [UIColor yellowColor];
             [prevPlot setNeedsDisplay];
         }

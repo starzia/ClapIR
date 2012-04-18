@@ -9,12 +9,20 @@
 #import "PlotView.h"
 #include <algorithm> //for min_element, max_element
 
+@interface PlotView(){
+    float* _data;
+    unsigned int _length;
+}
+@end
+
 @implementation PlotView
 
-@synthesize data, length;
+@synthesize data = _data;
+@synthesize length = _length;
 @synthesize minY, maxY;
 @synthesize lineColor;
 @synthesize autoZoomOut;
+@synthesize clickToAutoRange;
 
 - (id)initWithFrame:(CGRect)frame{
     if ((self = [super initWithFrame:frame])) {
@@ -26,7 +34,7 @@
 
 		// TODO: automatically set range
 		[self setYRange_min:-1 max:1];
-		self.data = NULL;
+		_data = NULL;
 		
 		[self setNeedsDisplay]; // make it redraw
 	}
@@ -44,12 +52,14 @@
 // to handle clicks
 -(BOOL) canBecomeFirstResponder{ return YES; }
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
-	[self autoRange];
+    if( clickToAutoRange ){
+        [self autoRange];
+    }
 }
 
 -(void) setVector: (float*)dataPtr length:(unsigned int)len{
-	self.length = len;
-	self.data = dataPtr;
+	_length = len;
+	_data = dataPtr;
 }
 
 // Only override drawRect: if you perform custom drawing.

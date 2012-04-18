@@ -32,6 +32,8 @@
 
 @property (strong) ClapRecorder* recorder;
 
+@property (strong) ClapMeasurement* avgMeasurement;
+
 -(IBAction)options;
 -(IBAction)pause;
 

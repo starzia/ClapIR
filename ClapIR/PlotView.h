@@ -17,13 +17,14 @@
 	float maxY;
 }
 
-@property (nonatomic) float* data;
-@property (nonatomic) unsigned int length;
+@property (nonatomic,readonly) float* data;
+@property (nonatomic,readonly) unsigned int length;
 @property (nonatomic) float minY;
 @property (nonatomic) float maxY;
 // TODO: [UIColor blackColor] does not work here because it is in a mono color space
 @property (strong,nonatomic) UIColor* lineColor;
 @property (nonatomic) BOOL autoZoomOut;
+@property BOOL clickToAutoRange;
 
 // set the y axis range of the plot
 -(void)setYRange_min: (float)Ymin  max:(float)Ymax;
