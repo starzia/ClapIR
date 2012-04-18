@@ -23,6 +23,7 @@
 @synthesize lineColor;
 @synthesize autoZoomOut;
 @synthesize clickToAutoRange;
+@synthesize lineWidth;
 
 - (id)initWithFrame:(CGRect)frame{
     if ((self = [super initWithFrame:frame])) {
@@ -31,6 +32,8 @@
 		//self.opaque = YES;
 		self.opaque = NO;
 		self.clearsContextBeforeDrawing = YES;
+
+        self.lineWidth = 0.5;
 
 		// TODO: automatically set range
 		[self setYRange_min:-1 max:1];
@@ -102,7 +105,7 @@
 			CGContextMoveToPoint(context, i * xStep, Y - (self.data[i]-self.minY) * yStep);	
 			//printf("line %f %f %f\n", data[i], i * xStep, Y - (self.data[i]-self.minY) * yStep);
 		}
-		CGContextSetLineWidth(context, 0.5);
+		CGContextSetLineWidth(context, lineWidth);
 		CGContextStrokePath(context);
 	}
 	[self setNeedsDisplay]; // make it redraw

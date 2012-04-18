@@ -23,8 +23,9 @@
 @property (nonatomic) float maxY;
 // TODO: [UIColor blackColor] does not work here because it is in a mono color space
 @property (strong,nonatomic) UIColor* lineColor;
+@property (nonatomic) float lineWidth;
 @property (nonatomic) BOOL autoZoomOut;
-@property BOOL clickToAutoRange;
+@property (nonatomic) BOOL clickToAutoRange;
 
 // set the y axis range of the plot
 -(void)setYRange_min: (float)Ymin  max:(float)Ymax;

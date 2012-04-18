@@ -18,6 +18,7 @@
     PlotView *_reverbAvgPlot, *_directSoundAvgPlot, *_freqResponseAvgPlot;
 }
 -(void)reset;
+-(void)redraw;
 @end
 
 @implementation MainViewController
@@ -57,9 +58,9 @@
     _freqResponseAvgPlot = [[PlotView alloc] initWithFrame:freqResponsePlotView.frame];
     [spectraView addSubview:_freqResponseAvgPlot];
     // set curve appearance
-    [_reverbAvgPlot       setLineColor:[UIColor blueColor]];
-    [_directSoundAvgPlot  setLineColor:[UIColor blueColor]];
-    [_freqResponseAvgPlot setLineColor:[UIColor blueColor]];
+    UIColor* black = [UIColor colorWithRed:0 green:0 blue:0 alpha:1];
+    _reverbAvgPlot.lineColor = _directSoundAvgPlot.lineColor = _freqResponseAvgPlot.lineColor = black;
+    _reverbAvgPlot.lineWidth = _directSoundAvgPlot.lineWidth = _freqResponseAvgPlot.lineWidth = 1.5;
     // set curve range
     [_reverbAvgPlot       setYRange_min:0 max:3];
     [_directSoundAvgPlot  setYRange_min:0 max:80];
@@ -100,10 +101,7 @@
     }
     // reset average curves
     [avgMeasurement clear];
-    // redraw average line for each plot
-    [_reverbAvgPlot       setNeedsDisplay];
-    [_directSoundAvgPlot  setNeedsDisplay];
-    [_freqResponseAvgPlot setNeedsDisplay];
+    [self redraw];
     
     // restart audio
     NSLog( @"￼Calculating background level..." );
@@ -177,6 +175,25 @@ typedef enum{
 
 }
 
+-(void)redraw{
+    // make previously-most-recent lines yellow in all three plots
+    if( _measurements.count > 1 ){
+        for( UIView* curveSuperView in _plotViews ){            
+            PlotView* prevPlot = [curveSuperView.subviews objectAtIndex:curveSuperView.subviews.count-2];
+            prevPlot.lineColor = [UIColor yellowColor];
+            [prevPlot setNeedsDisplay];
+        }
+    }
+    
+    // redraw
+    [_reverbAvgPlot       setNeedsDisplay];
+    [_directSoundAvgPlot  setNeedsDisplay];
+    [_freqResponseAvgPlot setNeedsDisplay];
+    for( UIView* view in _plotViews ){
+        [view setNeedsDisplay];
+    }
+}
+
 -(IBAction)undo{
     @synchronized( _measurements ){
         // erase latest plot line from all three plots
@@ -191,6 +208,7 @@ typedef enum{
             [avgMeasurement removeSample:lastMeasurement];
         }
     }
+    [self redraw];
 }
 
 -(IBAction)indexDidChangeForSegmentedControl:(UISegmentedControl*)aSegmentedControl {
@@ -208,7 +226,11 @@ typedef enum{
                                                 destructiveButtonTitle:nil 
                                                      otherButtonTitles:@"Visit the website",@"Email us feedback",@"Email your results",@"Reset",nil];
     [optionsSheet showFromBarButtonItem:self.optionsButton animated:YES];
+
+    // pause recorder while on the actionsheet or composing email
+    if( !_paused ) [self pause];
 }
+
 
 #pragma mark - ClapRecorderDelegate methods
 -(void)gotMeasurement:(ClapMeasurement *)measurement{
@@ -231,10 +253,6 @@ typedef enum{
     [_reverbAvgPlot       setVector:avgMeasurement.reverbTimeSpectrum   length:ClapMeasurement.numFreqs];
     [_directSoundAvgPlot  setVector:avgMeasurement.directSoundSpectrum  length:ClapMeasurement.numFreqs];
     [_freqResponseAvgPlot setVector:avgMeasurement.freqResponseSpectrum length:ClapMeasurement.numFreqs];   
-    // redraw average line for each plot
-    [_reverbAvgPlot       setNeedsDisplay];
-    [_directSoundAvgPlot  setNeedsDisplay];
-    [_freqResponseAvgPlot setNeedsDisplay];
     
     NSLog( @"rt60 = %.3f seconds", measurement.reverbTime );
     for( int i=0; i<ClapMeasurement.numFreqs; i++ ){
@@ -274,19 +292,7 @@ typedef enum{
         [plot setLineColor:[UIColor redColor]];
     }
 
-    // make previously-most-recent lines yellow in all three plots
-    if( _measurements.count > 1 ){
-        for( UIView* curveSuperView in _plotViews ){            
-            PlotView* prevPlot = [curveSuperView.subviews objectAtIndex:curveSuperView.subviews.count-2];
-            prevPlot.lineColor = [UIColor yellowColor];
-            [prevPlot setNeedsDisplay];
-        }
-    }
-    
-    // redraw
-    for( UIView* view in _plotViews ){
-        [view setNeedsDisplay];
-    }
+    [self redraw];
 }
 
 -(void)gotBackgroundLevel:(float)energy{
@@ -315,7 +321,6 @@ typedef enum{
     }else if( buttonIndex == 4 ){
         // dismiss view
         [self dismissModalViewControllerAnimated:YES];
-        
     }
 }
 
