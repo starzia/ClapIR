@@ -16,9 +16,11 @@
     UIAlertView* _waitAlert;
     BOOL _paused;
     PlotView *_reverbAvgPlot, *_directSoundAvgPlot, *_freqResponseAvgPlot;
+    UIView* _flash;
 }
 -(void)reset;
 -(void)redraw;
+-(void)flash;
 @end
 
 @implementation MainViewController
@@ -47,6 +49,11 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    _flash = [[UIView alloc] initWithFrame:self.reverbView.frame];
+    _flash.alpha = 0;
+    _flash.backgroundColor = [UIColor blackColor];
+    [self.view addSubview:_flash];
+    
     _plotViews = [NSArray arrayWithObjects:reverbPlotView, directSoundPlotView, freqResponsePlotView, nil];
     
     // set up average plots
@@ -139,6 +146,17 @@
     [toolbar setNeedsLayout];
 }
 
+-(void)flash{
+    [UIView animateWithDuration:0.1
+                     animations:^(void){
+                         _flash.alpha = 1.0;
+                     } completion:^(BOOL finished){
+                        [UIView animateWithDuration:0.1
+                                         animations:^(void){
+                         _flash.alpha = 0;
+                                         }];
+                     }];
+}
 
 typedef enum{
     EMAIL_FEEDBACK,
@@ -293,6 +311,9 @@ typedef enum{
     }
 
     [self redraw];
+    
+    // flash screen
+    [self flash];
 }
 
 -(void)gotBackgroundLevel:(float)energy{
