@@ -105,21 +105,21 @@ float* specFreqArray = nil;
 }
 -(void)addSample:(ClapMeasurement*)another{
     sampleCount++;
-    float oldWeight = (sampleCount-1.0)/sampleCount;
-    float newWeight = 1.0/sampleCount;
+    float oldWeight = ((float)(sampleCount-1))/sampleCount;
+    float newWeight = ((float)1)/sampleCount;
     // perform weighted averaging
     reverbTime = oldWeight * reverbTime + newWeight * another.reverbTime;
     for( int f=0; f<ClapMeasurement.numFreqs; f++ ){
-        if( !isfinite( another.reverbTimeSpectrum[f] ) ){ 
+        if( isfinite( another.reverbTimeSpectrum[f] ) ){ 
             reverbTimeSpectrum[f] = oldWeight * reverbTimeSpectrum[f] 
                 + newWeight * another.reverbTimeSpectrum[f];
         }
         // !!!: we are using standard mean on log-scaled units (decibels)
-        if( !isfinite( another.freqResponseSpectrum[f] ) ){
+        if( isfinite( another.freqResponseSpectrum[f] ) ){
             freqResponseSpectrum[f] = oldWeight * freqResponseSpectrum[f] 
                 + newWeight * another.freqResponseSpectrum[f];
         }
-        if( !isfinite( another.directSoundSpectrum[f] ) ){
+        if( isfinite( another.directSoundSpectrum[f] ) ){
             directSoundSpectrum[f] = oldWeight * directSoundSpectrum[f] 
                 + newWeight * another.directSoundSpectrum[f];
         }
@@ -136,14 +136,14 @@ float* specFreqArray = nil;
     // reverse the weighted averaging
     reverbTime = ( reverbTime - newWeight * another.reverbTime ) / oldWeight;
     for( int f=0; f<ClapMeasurement.numFreqs; f++ ){
-        if( !isfinite( another.reverbTimeSpectrum[f] ) ){ 
+        if( isfinite( another.reverbTimeSpectrum[f] ) ){ 
             reverbTimeSpectrum[f] = ( reverbTimeSpectrum[f] - newWeight * another.reverbTimeSpectrum[f] ) / oldWeight;
         }
         // !!!: we are using standard mean on log-scaled units (decibels)
-        if( !isfinite( another.freqResponseSpectrum[f] ) ){
+        if( isfinite( another.freqResponseSpectrum[f] ) ){
             directSoundSpectrum[f] = ( directSoundSpectrum[f] - newWeight * another.directSoundSpectrum[f] ) / oldWeight;
         }
-        if( !isfinite( another.directSoundSpectrum[f] ) ){
+        if( isfinite( another.directSoundSpectrum[f] ) ){
             freqResponseSpectrum[f] = ( freqResponseSpectrum[f] - newWeight * another.freqResponseSpectrum[f] ) / oldWeight;
         }
     }

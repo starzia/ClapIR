@@ -3,7 +3,6 @@
 //  ClapIR
 //
 //  Created by Stephen Tarzia on 4/14/12.
-//  Copyright (c) 2012 VaporStream, Inc. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

@@ -182,6 +182,7 @@ PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength )
 }
 
 -(void)dealloc{
+    _spectrogramRecorder.delegate = nil;
     free( _buffer );
 }
 

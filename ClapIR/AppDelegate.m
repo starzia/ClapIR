@@ -8,9 +8,24 @@
 #import "AppDelegate.h"
 #import "MainViewController.h"
 
+@interface AppDelegate(){
+    MainViewController* _mainView;
+}
+
+@end
+
 @implementation AppDelegate
 
 @synthesize window = _window;
+
+-(void)reset{
+    if( _mainView ){
+        [_mainView.recorder stop];
+        [_mainView dismissModalViewControllerAnimated:NO];
+    }
+    _mainView = [[MainViewController alloc] init];
+    [self.window.rootViewController presentModalViewController:_mainView animated:NO];
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -18,11 +33,15 @@
     // Override point for customization after application launch.
     
     // set up GUI
-    UIViewController* mainView = [[MainViewController alloc] init];
-    self.window.rootViewController = mainView;
+    // make blank root view on top of which we will present the main view modally (so it can be popped/pushed on reset)
+    self.window.rootViewController = [[UIViewController alloc] init];
     
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    
+    // push MainViewController
+    [self reset];
+    
     return YES;
 }
 

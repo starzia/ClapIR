@@ -3,7 +3,6 @@
 //  simpleUI
 //
 //  Created by Stephen Tarzia on 9/30/10.
-//  Copyright 2010 Northwestern University. All rights reserved.
 //Vec
 
 #import "PlotView.h"

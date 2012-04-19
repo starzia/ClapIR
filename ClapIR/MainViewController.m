@@ -3,11 +3,11 @@
 //  ClapIR
 //
 //  Created by Stephen Tarzia on 4/14/12.
-//  Copyright (c) 2012 VaporStream, Inc. All rights reserved.
 //
 
 #import "MainViewController.h"
 #import "PlotView.h"
+#import "AppDelegate.h"
 
 @interface MainViewController (){
     // by storing ClapMeasurement objects in an NSObject, we manage their C-array memory
@@ -19,6 +19,7 @@
     UIView* _flash;
 }
 -(void)reset;
+-(void)start;
 -(void)redraw;
 -(void)flash;
 @end
@@ -43,6 +44,10 @@
         _paused = NO;
     }
     return self;
+}
+
+-(void)dealloc{
+    recorder.delegate = nil;
 }
 
 - (void)viewDidLoad
@@ -80,7 +85,7 @@
     // start audio
     recorder = [[ClapRecorder alloc] init];
     recorder.delegate = self;
-    [self reset];
+    [self start];
 }
 
 - (void)viewDidUnload
@@ -98,16 +103,23 @@
 
 #pragma mark - UIControls
 -(void)reset{
-    // remove measurements
-    _measurements = [NSMutableArray array];
-    // delete plots
-    for( UIView* plotSuperView in _plotViews ){
-        for( PlotView* plot in plotSuperView.subviews ){
-            [plot removeFromSuperview];
+    [((AppDelegate*)([UIApplication sharedApplication].delegate)) reset];
+}
+
+-(void)start{
+    @synchronized( self ){
+        // remove measurements
+        _measurements = [NSMutableArray array];
+        // delete plots
+        for( UIView* plotSuperView in _plotViews ){
+            for( PlotView* plot in plotSuperView.subviews ){
+                [plot removeFromSuperview];
+            }
         }
+        // reset average curves
+        avgMeasurement = [[ClapMeasurement alloc] init];
+        [avgMeasurement clear];
     }
-    // reset average curves
-    [avgMeasurement clear];
     [self redraw];
     
     // restart audio
@@ -169,18 +181,19 @@ typedef enum{
         mailer.mailComposeDelegate = self;
         
         // email measurements
-        NSString* subj = (type==EMAIL_RESULTS) ? @"Results" : @"Feedback";
-        [mailer setSubject:[NSString stringWithFormat:@"[ClapIR v%@] %@", 
-                            [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"],
-                            subj]];
-        NSString* body;
-        if( type == EMAIL_RESULTS ){
-            body = avgMeasurement.description;
-        }else if( type == EMAIL_FEEDBACK ){
-            [mailer setToRecipients:[NSArray arrayWithObjects:@"steve@stevetarzia.com", @"prem@u.northwestern.edu", nil]];
+        @synchronized( self ){
+            NSString* subj = (type==EMAIL_RESULTS) ? @"Results" : @"Feedback";
+            [mailer setSubject:[NSString stringWithFormat:@"[ClapIR v%@] %@", 
+                                [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"],
+                                subj]];
+            NSString* body;
+            if( type == EMAIL_RESULTS ){
+                body = avgMeasurement.description;
+            }else if( type == EMAIL_FEEDBACK ){
+                [mailer setToRecipients:[NSArray arrayWithObjects:@"steve@stevetarzia.com", @"prem@u.northwestern.edu", nil]];
+            }
+            [mailer setMessageBody:body isHTML:NO];
         }
-        [mailer setMessageBody:body isHTML:NO];
-        
         [self presentModalViewController:mailer animated:YES];
     }else{
         UIAlertView *myAlert = [[UIAlertView alloc] initWithTitle:@"Email unavailable" 
@@ -194,29 +207,28 @@ typedef enum{
 }
 
 -(void)redraw{
-    // make previously-most-recent lines yellow in all three plots
-    if( _measurements.count > 1 ){
-        for( UIView* curveSuperView in _plotViews ){            
-            PlotView* prevPlot = [curveSuperView.subviews objectAtIndex:curveSuperView.subviews.count-2];
-            prevPlot.lineColor = [UIColor yellowColor];
-            [prevPlot setNeedsDisplay];
+    @synchronized( self ){
+        // make previously-most-recent lines yellow in all three plots
+        if( _measurements.count > 1 ){
+            for( UIView* curveSuperView in _plotViews ){            
+                PlotView* prevPlot = [curveSuperView.subviews objectAtIndex:curveSuperView.subviews.count-2];
+                prevPlot.lineColor = [UIColor yellowColor];
+                [prevPlot setNeedsDisplay];
+            }
         }
-    }
-    
-    // redraw
-    [_reverbAvgPlot       setNeedsDisplay];
-    [_directSoundAvgPlot  setNeedsDisplay];
-    [_freqResponseAvgPlot setNeedsDisplay];
-    for( UIView* view in _plotViews ){
-        // draw a consistent view of the data
-        @synchronized( _measurements ){
+        
+        // redraw
+        [_reverbAvgPlot       setNeedsDisplay];
+        [_directSoundAvgPlot  setNeedsDisplay];
+        [_freqResponseAvgPlot setNeedsDisplay];
+        for( UIView* view in _plotViews ){
             [view drawRect:view.bounds];
         }
     }
 }
 
 -(IBAction)undo{
-    @synchronized( _measurements ){
+    @synchronized( self ){
         // erase latest plot line from all three plots
         if( _measurements.count > 0 ){
             for( UIView* curveSuperView in _plotViews ){
@@ -258,17 +270,13 @@ typedef enum{
     // ignore measurement if we're paused
     if( _paused ) return;
     
-    @synchronized( _measurements ){
-    // store measurement
+    @synchronized( self ){
+        // store measurement
         [_measurements addObject:measurement];
         
         // recalculate average
-        if( !avgMeasurement ){
-            // init avg measurement object
-            avgMeasurement = measurement;
-        }else{
-            [avgMeasurement addSample:measurement];
-        }
+        [avgMeasurement addSample:measurement];
+
         // add data pointer to plots for average
         // below, average plot is last sibling to view containing measurement curves
         [_reverbAvgPlot       setVector:avgMeasurement.reverbTimeSpectrum   length:ClapMeasurement.numFreqs];
