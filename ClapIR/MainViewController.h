@@ -24,6 +24,7 @@
 
 @property (strong,nonatomic) IBOutlet UIView* reverbView;
 @property (strong,nonatomic) IBOutlet UIView* spectraView;
+@property (strong,nonatomic) IBOutlet UILabel* instructions;
 
 @property (strong,nonatomic) IBOutlet UIView* reverbPlotView;
 @property (strong,nonatomic) IBOutlet UIView* directSoundPlotView;

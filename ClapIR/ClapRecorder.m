@@ -249,9 +249,9 @@ PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength )
         vDSP_sve( curves+(f*_stepsInClap), 1, &sum, self.directSoundSamples );
         outputVector[f] = sum / self.directSoundSamples;
     }
-    // convert to dB, with minimum at zero dB
-    float reference;
-    vDSP_minv( outputVector, 1, &reference, ClapMeasurement.numFreqs );
+    // convert to dB, with minimum at 60 dB below the background energy level
+    float reference = _backgroundEnergy / 1000;
+    // vDSP_minv( outputVector, 1, &reference, ClapMeasurement.numFreqs );
     vDSP_vdbcon( outputVector, 1, &reference, outputVector, 1, ClapMeasurement.numFreqs, 1 ); // 1 for power, not amplitude	
 }
 
@@ -265,12 +265,12 @@ PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength )
         vDSP_sve( curves+(f*_stepsInClap + self.directSoundSamples), 1, 
                   &sum, reverbSamples );
         float reverbAvgEnergy = sum / reverbSamples;
-        // freq response is ration between reverb and direct sound spectra
+        // freq response is ratio between reverb and direct sound spectra
         outputVector[f] = reverbAvgEnergy / directSoundSpectrum[f];
     }
-    // convert to dB, with minimum at zero dB
-    float reference;
-    vDSP_minv( outputVector, 1, &reference, ClapMeasurement.numFreqs );
+    // convert to dB, with minimum at 100 dB below the background energy level
+    float reference = _backgroundEnergy / 100000;
+    // vDSP_minv( outputVector, 1, &reference, ClapMeasurement.numFreqs );
     vDSP_vdbcon( outputVector, 1, &reference, outputVector, 1, ClapMeasurement.numFreqs, 1 ); // 1 for power, not amplitude	
 }
 

@@ -32,6 +32,7 @@
 @synthesize reverbView, spectraView;
 @synthesize reverbPlotView, directSoundPlotView, freqResponsePlotView;
 @synthesize avgMeasurement;
+@synthesize instructions;
 
 @synthesize recorder;
 
@@ -331,6 +332,9 @@ typedef enum{
     
     // flash screen
     [self flash];
+    
+    // hide instructions
+    instructions.hidden = YES;
 }
 
 -(void)gotBackgroundLevel:(float)energy{
@@ -340,6 +344,10 @@ typedef enum{
     // dismiss waiting indicator
     [_waitAlert dismissWithClickedButtonIndex:0 animated:YES];
     _waitAlert = nil;
+    
+    // show instructions
+    instructions.hidden = NO;
+    [self.view addSubview:instructions];
 }
 
 #pragma mark - UIActionSheetDelegate

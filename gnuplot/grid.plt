@@ -1,6 +1,7 @@
 set terminal png enhanced size 640,832 font "/usr/share/fonts/liberation/LiberationSans-Regular.ttf"
 set output "grid.png"
 set grid
+set border linewidth 2.0
 set xrange [22:19027];
 set yrange [0:3];
 set xlabel "Frequency (Hz)"

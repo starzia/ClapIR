@@ -26,6 +26,8 @@
 		AA47B5921541068B008251F3 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA47B5911541068B008251F3 /* Icon@2x.png */; };
 		AA47B594154106A2008251F3 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = AA47B593154106A2008251F3 /* Icon-72.png */; };
 		AA47B596154106A7008251F3 /* Icon-144.png in Resources */ = {isa = PBXBuildFile; fileRef = AA47B595154106A7008251F3 /* Icon-144.png */; };
+		AA47B59C1541AFBF008251F3 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = AA47B59B1541AFBF008251F3 /* Default.png */; };
+		AA47B59E1541B0F5008251F3 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA47B59D1541B0F5008251F3 /* Default@2x.png */; };
 		AACA1EE3153945B400240557 /* grid.png in Resources */ = {isa = PBXBuildFile; fileRef = AACA1EE2153945B400240557 /* grid.png */; };
 		AACC27911514F06F00A09B15 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACC27901514F06F00A09B15 /* Accelerate.framework */; };
 		AACC27951516980500A09B15 /* ClapRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = AACC27941516980500A09B15 /* ClapRecorder.m */; };
@@ -60,6 +62,8 @@
 		AA47B5911541068B008251F3 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		AA47B593154106A2008251F3 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		AA47B595154106A7008251F3 /* Icon-144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-144.png"; sourceTree = "<group>"; };
+		AA47B59B1541AFBF008251F3 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		AA47B59D1541B0F5008251F3 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		AACA1EE2153945B400240557 /* grid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = grid.png; path = gnuplot/grid.png; sourceTree = SOURCE_ROOT; };
 		AACC27901514F06F00A09B15 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		AACC27921516354400A09B15 /* SpectrogramRecorderDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpectrogramRecorderDelegate.h; sourceTree = "<group>"; };
@@ -89,6 +93,8 @@
 		AA049A5115043AA100E74262 = {
 			isa = PBXGroup;
 			children = (
+				AA47B59D1541B0F5008251F3 /* Default@2x.png */,
+				AA47B59B1541AFBF008251F3 /* Default.png */,
 				AA47B595154106A7008251F3 /* Icon-144.png */,
 				AA47B593154106A2008251F3 /* Icon-72.png */,
 				AA47B5911541068B008251F3 /* Icon@2x.png */,
@@ -225,6 +231,8 @@
 				AA47B5921541068B008251F3 /* Icon@2x.png in Resources */,
 				AA47B594154106A2008251F3 /* Icon-72.png in Resources */,
 				AA47B596154106A7008251F3 /* Icon-144.png in Resources */,
+				AA47B59C1541AFBF008251F3 /* Default.png in Resources */,
+				AA47B59E1541B0F5008251F3 /* Default@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
