@@ -34,6 +34,7 @@
 @property (strong) ClapMeasurement* avgMeasurement;
 
 -(IBAction)options;
--(IBAction)pause;
+-(IBAction)togglePause;
+-(void)setPaused:(BOOL)paused;
 
 @end

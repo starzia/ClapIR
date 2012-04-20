@@ -100,8 +100,12 @@
 		// start off the line at the left side
 		CGContextMoveToPoint(context, 0, Y - (self.data[0]-self.minY) * yStep);
 		for( int i=1; i<self.length; ++i ){ // starting w/2nd data point
-			CGContextAddLineToPoint(context, i * xStep, Y - (self.data[i]-self.minY) * yStep);	
-			CGContextMoveToPoint(context, i * xStep, Y - (self.data[i]-self.minY) * yStep);	
+            CGFloat dataPoint = self.data[i];
+            // don't let plot go up or down to infinity
+            if( isinf(dataPoint) ) dataPoint = NAN;
+            
+			CGContextAddLineToPoint(context, i * xStep, Y - (dataPoint-self.minY) * yStep);	
+			CGContextMoveToPoint(context, i * xStep, Y - (dataPoint-self.minY) * yStep);	
 			//printf("line %f %f %f\n", data[i], i * xStep, Y - (self.data[i]-self.minY) * yStep);
 		}
 		CGContextSetLineWidth(context, lineWidth);

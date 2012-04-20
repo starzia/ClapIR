@@ -10,6 +10,8 @@
 #import "SpectrogramRecorder.h"
 #import <Accelerate/Accelerate.h>
 
+#define VERBOSE 0
+
 typedef struct{
     float slope;
     float yIntercept;
@@ -215,7 +217,7 @@ PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength )
     vDSP_sve( dbCurve+(_stepsInClap-self.directSoundSamples), 1, &tailSoundSum, self.directSoundSamples );
     // if the decay is less than 10dB, abort by returning NaN
     float decayEstimate = (directSoundSum - tailSoundSum) / self.directSoundSamples;
-    printf( "Decay estimate: %.1f dB\n", decayEstimate );
+    if( VERBOSE ) printf( "Decay estimate: %.1f dB\n", decayEstimate );
     if( decayEstimate < 10 ){
         return NAN;
     }
@@ -227,13 +229,14 @@ PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength )
     float slope = regressionResult.fit.slope;
     slope /= _spectrogramRecorder.spectrumTime;
     float rt60 = -60 / slope;
-    for( int i=0; i<_stepsInClap; i++ ){
-        printf("%.0f ", dbCurve[i] );
-    }
-    printf( "\n" );
-    printf( "Calculated rt60 = %.3f seconds, with knee at sample %d of %d\n", rt60, 
-            regressionResult.prefixLength + self.directSoundSamples, _stepsInClap );
-    
+    if( VERBOSE ){
+        for( int i=0; i<_stepsInClap; i++ ){
+            printf("%.0f ", dbCurve[i] );
+        }
+        printf( "\n" );
+        printf( "Calculated rt60 = %.3f seconds, with knee at sample %d of %d\n", rt60, 
+               regressionResult.prefixLength + self.directSoundSamples, _stepsInClap );
+    }    
     free( dbCurve );
     return rt60;
 }
@@ -294,7 +297,7 @@ PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength )
     
     // detect clap
     if( !_isClap && energy > 100 * _backgroundEnergy ){ // 100x or 40dB above bg level
-        NSLog( @"Clap begin" );
+        if( VERBOSE ) NSLog( @"Clap begin" );
         _isClap = YES;
         _stepsInClap = 1;
     
@@ -304,7 +307,7 @@ PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength )
     }else if( _isClap 
              && _stepsInClap * _spectrogramRecorder.spectrumTime > 0.1
              && energy < 2 * _backgroundEnergy ){ // 2x or 3dB above bg level
-        NSLog( @"Clap end" );
+        if( VERBOSE ) NSLog( @"Clap end" );
         _isClap = NO;
         
         // copy decay curves in preparation for calculation
@@ -313,25 +316,27 @@ PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength )
         float* curves = malloc( sizeof(float) * _stepsInClap * ClapMeasurement.numFreqs );
         for( int t=0; t<_stepsInClap; t++ ){
             int bufIdx = (_bufferPtr+1-_stepsInClap+t+_bufferSize)%_bufferSize;
-            printf( "t=%d bufIdx=%d, ", t, bufIdx );
+            if( VERBOSE ) printf( "t=%d bufIdx=%d, ", t, bufIdx );
             
             curve[t] = _buffer[ bufIdx ];
             for( int f=0; f<ClapMeasurement.numFreqs; f++ ){
                 curves[ f*_stepsInClap + t ] = _specBuffer[ f ][ bufIdx ];
             }
         }
-        printf( "\n" );
+        if( VERBOSE ){
+            printf( "\n" );
         
-        // print spectrogram for debugging
-        printf( "\nSPECTROGRAM\n" );
-        for( int f=0; f<ClapMeasurement.numFreqs; f++ ){
-            printf( "%.2e Hz\t", ClapMeasurement.specFrequencies[f] );
-            for( int t=0; t<_stepsInClap; t++ ){
-                printf( "%.0f\t", curves[ f*_stepsInClap + t ] );
+            // print spectrogram for debugging
+            printf( "\nSPECTROGRAM\n" );
+            for( int f=0; f<ClapMeasurement.numFreqs; f++ ){
+                printf( "%.2e Hz\t", ClapMeasurement.specFrequencies[f] );
+                for( int t=0; t<_stepsInClap; t++ ){
+                    printf( "%.0f\t", curves[ f*_stepsInClap + t ] );
+                }
+                printf( "\n" );
             }
             printf( "\n" );
         }
-        printf( "\n" );
         
         // calculate reverb times
         ClapMeasurement* measurement = [[ClapMeasurement alloc] init];

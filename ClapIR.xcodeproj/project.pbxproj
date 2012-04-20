@@ -22,6 +22,10 @@
 		AA1C65F7153D13D3000D6500 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1C65F6153D13D3000D6500 /* MessageUI.framework */; };
 		AA44B1341539D5C8007DB9E9 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA44B1321539D5C8007DB9E9 /* MainViewController.m */; };
 		AA44B1351539D5C8007DB9E9 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA44B1331539D5C8007DB9E9 /* MainViewController.xib */; };
+		AA47B58F1541016C008251F3 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = AA47B58E1541016C008251F3 /* Icon.png */; };
+		AA47B5921541068B008251F3 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA47B5911541068B008251F3 /* Icon@2x.png */; };
+		AA47B594154106A2008251F3 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = AA47B593154106A2008251F3 /* Icon-72.png */; };
+		AA47B596154106A7008251F3 /* Icon-144.png in Resources */ = {isa = PBXBuildFile; fileRef = AA47B595154106A7008251F3 /* Icon-144.png */; };
 		AACA1EE3153945B400240557 /* grid.png in Resources */ = {isa = PBXBuildFile; fileRef = AACA1EE2153945B400240557 /* grid.png */; };
 		AACC27911514F06F00A09B15 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACC27901514F06F00A09B15 /* Accelerate.framework */; };
 		AACC27951516980500A09B15 /* ClapRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = AACC27941516980500A09B15 /* ClapRecorder.m */; };
@@ -52,6 +56,10 @@
 		AA44B1311539D5C8007DB9E9 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		AA44B1321539D5C8007DB9E9 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		AA44B1331539D5C8007DB9E9 /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
+		AA47B58E1541016C008251F3 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		AA47B5911541068B008251F3 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		AA47B593154106A2008251F3 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
+		AA47B595154106A7008251F3 /* Icon-144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-144.png"; sourceTree = "<group>"; };
 		AACA1EE2153945B400240557 /* grid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = grid.png; path = gnuplot/grid.png; sourceTree = SOURCE_ROOT; };
 		AACC27901514F06F00A09B15 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		AACC27921516354400A09B15 /* SpectrogramRecorderDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpectrogramRecorderDelegate.h; sourceTree = "<group>"; };
@@ -81,6 +89,10 @@
 		AA049A5115043AA100E74262 = {
 			isa = PBXGroup;
 			children = (
+				AA47B595154106A7008251F3 /* Icon-144.png */,
+				AA47B593154106A2008251F3 /* Icon-72.png */,
+				AA47B5911541068B008251F3 /* Icon@2x.png */,
+				AA47B58E1541016C008251F3 /* Icon.png */,
 				AA1C65F6153D13D3000D6500 /* MessageUI.framework */,
 				AACC27901514F06F00A09B15 /* Accelerate.framework */,
 				AA049A8B150464D700E74262 /* CoreMedia.framework */,
@@ -209,6 +221,10 @@
 				AA049A6B15043AA100E74262 /* InfoPlist.strings in Resources */,
 				AACA1EE3153945B400240557 /* grid.png in Resources */,
 				AA44B1351539D5C8007DB9E9 /* MainViewController.xib in Resources */,
+				AA47B58F1541016C008251F3 /* Icon.png in Resources */,
+				AA47B5921541068B008251F3 /* Icon@2x.png in Resources */,
+				AA47B594154106A2008251F3 /* Icon-72.png in Resources */,
+				AA47B596154106A7008251F3 /* Icon-144.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

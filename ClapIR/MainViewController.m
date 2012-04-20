@@ -143,13 +143,19 @@
 	[_waitAlert addSubview:indicator];  
 }
 
--(IBAction)pause{
+-(IBAction)togglePause{
     // toggle
-    _paused = !_paused;
+    [self setPaused:!_paused];    
+}
+
+-(void)setPaused:(BOOL)paused{
+    _paused = paused;
+    
+    // update toolbar
     UIBarButtonSystemItem style = _paused? UIBarButtonSystemItemPlay : UIBarButtonSystemItemPause;
     UIBarButtonItem* newPauseButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:style
                                                                                     target:self
-                                                                                    action:@selector(pause)];
+                                                                                    action:@selector(togglePause)];
     newPauseButton.style = UIBarButtonItemStyleBordered;
     pauseButton = newPauseButton;
     NSMutableArray* toolbarItems = [NSMutableArray arrayWithArray:toolbar.items];
@@ -261,7 +267,7 @@ typedef enum{
     [optionsSheet showFromBarButtonItem:self.optionsButton animated:YES];
 
     // pause recorder while on the actionsheet or composing email
-    if( !_paused ) [self pause];
+    [self setPaused:YES];
 }
 
 
@@ -352,7 +358,6 @@ typedef enum{
         [self reset];
     }else if( buttonIndex == 4 ){
         // dismiss view
-        [self dismissModalViewControllerAnimated:YES];
     }
 }
 
