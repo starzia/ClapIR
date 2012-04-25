@@ -1,5 +1,4 @@
 = ClapIR = 
-[[File:Icon@2x.png|thumb|iOS app icon]]
 ClapIR is a tool for measuring the acoustic properties of a
 room. Simply start the app and clap your hands. ClapIR then analyzes
 the clap's recording to calculate the room's reverberation times and
