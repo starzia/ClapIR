@@ -1,0 +1,11 @@
+= ClapIR = 
+[[File:Icon@2x.png|thumb|iOS app icon]]
+ClapIR is a tool for measuring the acoustic properties of a
+room. Simply start the app and clap your hands. ClapIR then analyzes
+the clap's recording to calculate the room's reverberation times and
+frequency response. It's acoustics engineering made easy!
+
+ClapIR is based on research done at Northwestern University by
+[http://prem.seeth.org Prem Seetharaman] and [http://stevetarzia.com
+Stephen Tarzia].  For details on the research, please read the
+[http://stevetarzia.com/papers/AES_ClapIR.pdf AES convention paper].
