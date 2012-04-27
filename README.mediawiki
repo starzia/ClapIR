@@ -7,3 +7,6 @@ frequency response. It's acoustics engineering made easy!
 ClapIR is based on research done at Northwestern University by
 [http://prem.seeth.org Prem Seetharaman] and [http://stevetarzia.com Stephen Tarzia], with additional support from [http://pdinda.org Prof. Peter Dinda].  For details on the research, please read the
 [http://stevetarzia.com/papers/AES_ClapIR.pdf AES convention paper].
+
+= Availability =
+Download the latest release of the app at the [itunes.apple.com/us/app/clapir-acoustics-measurement/id521153051 iTunes store].
