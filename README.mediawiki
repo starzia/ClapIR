@@ -9,4 +9,4 @@ ClapIR is based on research done at Northwestern University by
 [http://stevetarzia.com/papers/AES_ClapIR.pdf AES convention paper].
 
 = Availability =
-Download the latest release of the app at the [itunes.apple.com/us/app/clapir-acoustics-measurement/id521153051 iTunes store].
+Download the latest release of the app at the [http://itunes.apple.com/us/app/clapir-acoustics-measurement/id521153051 iTunes store].
