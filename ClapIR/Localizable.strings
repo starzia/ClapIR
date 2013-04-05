@@ -1,0 +1,18 @@
+/* 
+  Localizable.strings
+  ClapIR
+
+  Created by Stephen Tarzia on 4/5/13.
+  Copyright (c) 2013 Stephen Tarzia. All rights reserved.
+*/
+"Please wait" = "Please wait";
+"WAIT INSTRUCTIONS" = "Five seconds of audio are needed to compute the background level.  Be quiet!";
+
+"Email unavailable" = "Email unavailable";
+"EMAIL ERROR" = "Please configure your email settings before trying to use this option.";
+
+"Cancel" = "Cancel";
+"Visit the website" = "Visit the website";
+"Email us feedback" = "Email us feedback";
+"Email your results" = "Email your results";
+"Reset" = "Reset";

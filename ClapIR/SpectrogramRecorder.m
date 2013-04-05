@@ -6,6 +6,7 @@
 //
 
 #import "SpectrogramRecorder.h"
+#include <pthread.h>
 
 @implementation SpectrogramRecorder{
     AVCaptureSession* _captureSession;

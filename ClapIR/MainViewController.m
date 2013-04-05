@@ -130,8 +130,8 @@
     [recorder start];
     
     // alert user that fingerprint is not yet ready
-	_waitAlert = [[UIAlertView alloc] initWithTitle:@"Please wait" 
-                                            message:@"Five seconds of audio are needed to compute the background level.  Be quiet!" 
+	_waitAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Please wait", nil)
+                                            message:NSLocalizedString(@"WAIT INSTRUCTIONS", nil)
                                            delegate:nil 
                                   cancelButtonTitle:nil 
                                   otherButtonTitles:nil];
@@ -203,8 +203,8 @@ typedef enum{
         }
         [self presentModalViewController:mailer animated:YES];
     }else{
-        UIAlertView *myAlert = [[UIAlertView alloc] initWithTitle:@"Email unavailable" 
-                                                          message:@"Please configure your email settings before trying to use this option." 
+        UIAlertView *myAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString( @"Email unavailable", nil )
+                                                          message:NSLocalizedString( @"EMAIL ERROR", nil )
                                                          delegate:self 
                                                 cancelButtonTitle:@"OK" 
                                                 otherButtonTitles:nil];
@@ -262,9 +262,13 @@ typedef enum{
 -(void)options{
     UIActionSheet* optionsSheet = [[UIActionSheet alloc] initWithTitle:nil
                                                               delegate:self 
-                                                     cancelButtonTitle:@"Cancel" 
+                                                     cancelButtonTitle:NSLocalizedString( @"Cancel", nil )
                                                 destructiveButtonTitle:nil 
-                                                     otherButtonTitles:@"Visit the website",@"Email us feedback",@"Email your results",@"Reset",nil];
+                                                     otherButtonTitles:NSLocalizedString( @"Visit the website", nil ),
+                                                                       NSLocalizedString( @"Email us feedback", nil ),
+                                                                       NSLocalizedString( @"Email your results", nil ),
+                                                                       NSLocalizedString( @"Reset", nil ),
+                                                                       nil];
     [optionsSheet showFromBarButtonItem:self.optionsButton animated:YES];
 
     // pause recorder while on the actionsheet or composing email
