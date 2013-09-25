@@ -104,9 +104,14 @@
             // don't let plot go up or down to infinity
             if( isinf(dataPoint) ) dataPoint = NAN;
             
-			CGContextAddLineToPoint(context, i * xStep, Y - (dataPoint-self.minY) * yStep);	
-			CGContextMoveToPoint(context, i * xStep, Y - (dataPoint-self.minY) * yStep);	
-			//printf("line %f %f %f\n", data[i], i * xStep, Y - (self.data[i]-self.minY) * yStep);
+            // don't try to draw with invalid coordinates
+            CGFloat drawY = Y - (dataPoint-self.minY) * yStep;
+            if( !isfinite(drawY) ) drawY = Y;
+            
+            // draw
+            CGContextAddLineToPoint(context, i * xStep, drawY );
+			CGContextMoveToPoint(context, i * xStep, drawY );
+			//printf("line %f %f %f\n", data[i], i * xStep, drawY);
 		}
 		CGContextSetLineWidth(context, lineWidth);
 		CGContextStrokePath(context);
