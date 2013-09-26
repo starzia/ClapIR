@@ -71,8 +71,6 @@
 		AA47B59D1541B0F5008251F3 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		AA7EABA1170F291C00225078 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		AA7EABA2170F292900225078 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		AA7EABA4170F295A00225078 /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/MainViewController.xib; sourceTree = "<group>"; };
-		AA7EABA6170F296200225078 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/MainViewController.xib; sourceTree = "<group>"; };
 		AA7EABA7170F296B00225078 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainViewController.xib; sourceTree = "<group>"; };
 		AA7EABA9170F2ACA00225078 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AA7EABAB170F2ACF00225078 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -87,6 +85,8 @@
 		AACA4CE217F39F0300AEE8FC /* de */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = de; path = "de.lproj/freqresp_label@2x.png"; sourceTree = "<group>"; };
 		AACA4CE317F39F0400AEE8FC /* es */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = es; path = "es.lproj/freqresp_label@2x.png"; sourceTree = "<group>"; };
 		AACA4CE417F3D44B00AEE8FC /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		AACA4CE617F4660800AEE8FC /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/MainViewController.xib; sourceTree = "<group>"; };
+		AACA4CE717F4660D00AEE8FC /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/MainViewController.xib; sourceTree = "<group>"; };
 		AACC27901514F06F00A09B15 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		AACC27921516354400A09B15 /* SpectrogramRecorderDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpectrogramRecorderDelegate.h; sourceTree = "<group>"; };
 		AACC27931516980500A09B15 /* ClapRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClapRecorder.h; sourceTree = "<group>"; };
@@ -313,9 +313,9 @@
 		AA7EABA5170F295A00225078 /* MainViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				AA7EABA4170F295A00225078 /* es */,
-				AA7EABA6170F296200225078 /* de */,
 				AA7EABA7170F296B00225078 /* en */,
+				AACA4CE617F4660800AEE8FC /* de */,
+				AACA4CE717F4660D00AEE8FC /* es */,
 			);
 			name = MainViewController.xib;
 			sourceTree = "<group>";
