@@ -59,10 +59,6 @@
     _flash.alpha = 0;
     _flash.backgroundColor = [UIColor blackColor];
     [self.view addSubview:_flash];
-    // make instructions appear in a shaded box
-    instructions.backgroundColor = [UIColor yellowColor];
-    instructions.shadowColor = [UIColor blackColor];
-    instructions.shadowOffset = CGSizeMake(5, 5);
     
     _plotViews = [NSArray arrayWithObjects:reverbPlotView, directSoundPlotView, freqResponsePlotView, nil];
     
