@@ -58,6 +58,7 @@
     _flash = [[UIView alloc] initWithFrame:self.reverbView.frame];
     _flash.alpha = 0;
     _flash.backgroundColor = [UIColor blackColor];
+    _flash.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     [self.view addSubview:_flash];
     
     _plotViews = [NSArray arrayWithObjects:reverbPlotView, directSoundPlotView, freqResponsePlotView, nil];
@@ -87,6 +88,13 @@
     recorder = [[ClapRecorder alloc] init];
     recorder.delegate = self;
     [self start];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    // fix frames for average plots
+    _reverbAvgPlot.frame = reverbPlotView.frame;
+    _directSoundAvgPlot.frame = directSoundPlotView.frame;
+    _freqResponseAvgPlot.frame = freqResponsePlotView.frame;
 }
 
 - (void)viewDidUnload
