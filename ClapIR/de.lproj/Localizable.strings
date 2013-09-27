@@ -5,13 +5,13 @@
   Created by Stephen Tarzia on 4/5/13.
   Copyright (c) 2013 Stephen Tarzia. All rights reserved.
 */
-"Please wait" = "Please wait";
-"WAIT INSTRUCTIONS" = "Five seconds of audio are needed to compute the background level.  Be quiet!";
+"Please wait" = "Bitte warten";
+"WAIT INSTRUCTIONS" = "Fünf Sekunden sind erforderlich, um den Hintergrundpegel zu berechnen.  Ruhe!";
 
-"Email unavailable" = "Email unavailable";
-"EMAIL ERROR" = "Please configure your email settings before trying to use this option.";
+"Email unavailable" = "Mail nicht verfügbar";
+"EMAIL ERROR" = "Bitte konfigurieren Sie Ihre E-Mail-Einstellungen, bevor Sie versuchen, diese Option zu nutzen.";
 
-"Cancel" = "Cancel";
+"Cancel" = "Stornieren";
 "Visit the website" = "Visit the website";
 "Email us feedback" = "Email us feedback";
 "Email your results" = "Email your results";
