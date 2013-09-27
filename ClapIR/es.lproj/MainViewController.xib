@@ -49,7 +49,6 @@
 								<string key="NSFrame">{{117, 8}, {135, 30}}</string>
 								<reference key="NSSuperview" ref="36186462"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -58,7 +57,7 @@
 								<int key="IBSelectedSegmentIndex">0</int>
 								<array key="IBSegmentTitles">
 									<string>Reverb</string>
-									<string>Spectra</string>
+									<string>Espectros</string>
 								</array>
 								<array class="NSMutableArray" key="IBSegmentWidths">
 									<real value="0.0"/>
@@ -159,7 +158,7 @@
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<string type="base64-UTF8" key="IBUIText">QXZlcmFnZQpNb3N0IHJlY2VudApIaXN0b3J5A</string>
+								<string type="base64-UTF8" key="IBUIText">TWVkaW8Kw5psdGltbwpBbnRlcmlvcg</string>
 								<object class="NSColor" key="IBUITextColor" id="461985664">
 									<int key="NSColorSpace">1</int>
 									<bytes key="NSRGB">MCAwIDAAA</bytes>
@@ -209,7 +208,7 @@
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<string key="IBUIText">Frequency (Hz)</string>
+								<string key="IBUIText">Frecuencia (Hz)</string>
 								<reference key="IBUITextColor" ref="461985664"/>
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">0</int>
@@ -387,7 +386,7 @@
 							<object class="IBUIImageView" id="770958515">
 								<reference key="NSNextResponder" ref="570791500"/>
 								<int key="NSvFlags">301</int>
-								<string key="NSFrame">{{1, 213}, {36, 179}}</string>
+								<string key="NSFrame">{{1, 201}, {36, 179}}</string>
 								<reference key="NSSuperview" ref="570791500"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="843790478"/>

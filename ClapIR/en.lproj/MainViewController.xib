@@ -48,6 +48,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{117, 8}, {135, 30}}</string>
 								<reference key="NSSuperview" ref="36186462"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -372,7 +373,7 @@
 							<object class="IBUIImageView" id="770958515">
 								<reference key="NSNextResponder" ref="570791500"/>
 								<int key="NSvFlags">301</int>
-								<string key="NSFrame">{{1, 213}, {36, 179}}</string>
+								<string key="NSFrame">{{1, 201}, {36, 179}}</string>
 								<reference key="NSSuperview" ref="570791500"/>
 								<reference key="NSNextKeyView" ref="843790478"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -787,7 +788,7 @@
 			<string key="freqresp_label@2x.png">{30, 278}</string>
 			<string key="grid.png">{640, 832}</string>
 			<string key="grid2.png">{640, 832}</string>
-			<string key="rt60_label@2x.png">{29, 296}</string>
+			<string key="rt60_label@2x.png">{29, 317}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">2083</string>
 	</data>
