@@ -208,7 +208,7 @@
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<string key="IBUIText">Frequency (Hz)</string>
+								<string key="IBUIText">Frequenz (Hz)</string>
 								<reference key="IBUITextColor" ref="461985664"/>
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">0</int>
@@ -338,7 +338,7 @@
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<string key="IBUIText">Clap your hands once or pop a balloon to measure the room's acoustics.</string>
+								<string key="IBUIText">Clap Ihre Hände einmal oder Pop einen Ballon an die Raumakustik zu messen.</string>
 								<reference key="IBUITextColor" ref="461985664"/>
 								<nil key="IBUIHighlightedColor"/>
 								<object class="NSColor" key="IBUIShadowColor">
@@ -374,7 +374,7 @@
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<string key="IBUIText">Frequency (Hz)</string>
+								<string key="IBUIText">Frequenz (Hz)</string>
 								<reference key="IBUITextColor" ref="461985664"/>
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">0</int>

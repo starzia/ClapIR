@@ -338,7 +338,7 @@
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<string key="IBUIText">Clap your hands once or pop a balloon to measure the room's acoustics.</string>
+								<string key="IBUIText">Aplaude una vez o estallar un globo para medir la acústica de la sala.</string>
 								<reference key="IBUITextColor" ref="461985664"/>
 								<nil key="IBUIHighlightedColor"/>
 								<object class="NSColor" key="IBUIShadowColor">
