@@ -12,9 +12,9 @@
 "EMAIL ERROR" = "Por favor, configure los ajustes de email antes de tratar de usar esta opción.";
 
 "Cancel" = "Cancelar";
-"Visit the website" = "Visit the website";
-"Email us feedback" = "Email us feedback";
-"Email your results" = "Email your results";
-"Reset" = "Reset";
+"Visit the website" = "Visite el sitio web";
+"Email us feedback" = "Envíenos un correo electrónico retroalimentación";
+"Email your results" = "Enviar los resultados";
+"Reset" = "Reajustar";
 
-"CLAP INSTRUCTIONS" = "Clap your hands or pop a balloon to measure the room's acoustics.";
+"CLAP INSTRUCTIONS" = "Aplauda sus manos o reventar un globo para medir la acústica de la sala.";
