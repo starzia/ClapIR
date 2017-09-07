@@ -165,7 +165,7 @@
     UIBarButtonItem* newPauseButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:style
                                                                                     target:self
                                                                                     action:@selector(togglePause)];
-    newPauseButton.style = UIBarButtonItemStyleBordered;
+    newPauseButton.style = UIBarButtonItemStylePlain;
     pauseButton = newPauseButton;
     NSMutableArray* toolbarItems = [NSMutableArray arrayWithArray:toolbar.items];
     [toolbarItems replaceObjectAtIndex:0 withObject:newPauseButton];
@@ -209,7 +209,7 @@ typedef enum{
             }
             [mailer setMessageBody:body isHTML:NO];
         }
-        [self presentModalViewController:mailer animated:YES];
+        [self presentViewController:mailer animated:YES completion:nil];
     }else{
         UIAlertView *myAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString( @"Email unavailable", nil )
                                                           message:NSLocalizedString( @"EMAIL ERROR", nil )
@@ -388,7 +388,7 @@ typedef enum{
 		  didFinishWithResult:(MFMailComposeResult)result 
 						error:(NSError*)error{
 	// make email window disappear
-	[controller dismissModalViewControllerAnimated:YES];
+	[controller dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end
