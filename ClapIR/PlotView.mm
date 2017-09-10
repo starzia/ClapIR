@@ -60,13 +60,21 @@
 }
 
 -(void) setVector: (float*)dataPtr length:(unsigned int)len{
-	_length = len;
-	_data = dataPtr;
+    @synchronized (self) {
+        _length = len;
+        _data = dataPtr;
+    }
 }
 
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect {
+    @synchronized (self) {
+        [self drawPlot:rect];
+    }
+}
+
+-(void)drawPlot:(CGRect)rect {
 	// do nothing is fingerprinter is not ready
 	if( !self.data || self.length == 0 ) return;
     
@@ -97,16 +105,12 @@
 	float yStep = Y/plot_range;
 	
 	if( self.length > 0 ){
-		// start off the line at the left side
-		CGContextMoveToPoint(context, 0, Y - (self.data[0]-self.minY) * yStep);
+		// start the line at the left side.
+        //   Note that self.data[0] is sometimes NaN, and in these cases we plot it as zero
+		CGContextMoveToPoint(context, 0, Y - ([self nonfiniteToZero:self.data[0]]-self.minY) * yStep);
 		for( int i=1; i<self.length; ++i ){ // starting w/2nd data point
-            CGFloat dataPoint = self.data[i];
-            // don't let plot go up or down to infinity
-            if( isinf(dataPoint) ) dataPoint = NAN;
-            
-            // don't try to draw with invalid coordinates
-            CGFloat drawY = Y - (dataPoint-self.minY) * yStep;
-            if( !isfinite(drawY) ) drawY = Y;
+            // if the data value is inf or NaN, then make it appear at zero on the plot
+            CGFloat drawY = Y - ([self nonfiniteToZero:self.data[i]]-self.minY) * yStep;
             
             // draw
             CGContextAddLineToPoint(context, i * xStep, drawY );
@@ -118,6 +122,11 @@
 	}
 	[self setNeedsDisplay]; // make it redraw
 }
+
+-(CGFloat)nonfiniteToZero:(CGFloat)x{
+    return isfinite(x)? x : 0;
+}
+
 
 -(void) setYRange_min:(float)newMinY  max:(float)newMaxY {
 	self.minY = newMinY;
