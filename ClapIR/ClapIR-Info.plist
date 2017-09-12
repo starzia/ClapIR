@@ -53,6 +53,8 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Uses the microphone to measure room acoustics</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Uses the microphone to measure room acoustics</string>
 	<key>UIPrerenderedIcon</key>
 	<true/>
 	<key>UIRequiredDeviceCapabilities</key>
