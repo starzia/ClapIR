@@ -202,7 +202,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
             vDSP_vadd(_A, 1, _acc, 1, _acc, 1, self.spectrumResolution);
         
             if ( ++_accCount >= ACC_NUM ){
-                if( pthread_mutex_lock( &_lock ) ) printf( "lock failed!\n" );
+                if( pthread_mutex_lock( &_lock ) ) NSLog( @"lock acquisition failed!" );
                 
                 // sum spectrum to get total energy
                 float energy;

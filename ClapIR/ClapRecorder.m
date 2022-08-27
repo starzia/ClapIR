@@ -17,7 +17,7 @@ typedef struct{
     float yIntercept;
 }Fit;
 
-/** calculate slope of line fitting data using simple linear regression.
+/** Calculate slope of line fitting data using simple linear regression.
  Data points are assumed to sampled at a uniform rate.
  ie, the (x,y) data points are (0,curve[0]), (1,curve[1]), ... (size-1,curve[size-1])
  http://en.wikipedia.org/wiki/Simple_linear_regression */
@@ -71,7 +71,7 @@ void printVec( const char* description, float* vec, int size ){
     printf("\n");
 }
 
-/** calculate the RMS error of a fit (such as the MMSE fit returned by regression() */
+/** Calculate the RMS error of a fit (such as the MMSE fit returned by regression()). */
 float rootMeanSqrdError( float* curve, int size, Fit fit );
 float rootMeanSqrdError( float* curve, int size, Fit fit ){
     // evalute fit line at x points
@@ -95,17 +95,18 @@ float rootMeanSqrdError( float* curve, int size, Fit fit ){
 }
 
 typedef struct{
+    BOOL success;
     Fit fit;
     float normalizedRmsError; // rms error divided by the sample length
     int prefixLength;
 }PrefixFitResult;
 
 /**
- Finds the best fit slope line among all prefix sequences of length at least
+ Finds the best fit negative-slope line among all prefix sequences of length at least
  $minPrefixLength, using the MMSE/length criterion.
  */
-PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength );
-PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength ){
+PrefixFitResult regressionWithNegativeSlopeAndKnee( float* curve, int size, int minPrefixLength );
+PrefixFitResult regressionWithNegativeSlopeAndKnee( float* curve, int size, int minPrefixLength ){
     
     PrefixFitResult bestResult;
     bestResult.normalizedRmsError = INFINITY;
@@ -118,12 +119,13 @@ PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength )
     for( int i=minPrefixLength-1; i<size; i++ ){
         Fit fit_i = regression( curve, i );
         float normalizedRmsError_i = rootMeanSqrdError( curve, i, fit_i ) / i;
-        if( normalizedRmsError_i < bestResult.normalizedRmsError ){
+        if( normalizedRmsError_i < bestResult.normalizedRmsError && fit_i.slope < 0){
             bestResult.normalizedRmsError = normalizedRmsError_i;
             bestResult.prefixLength = i;
             bestResult.fit = fit_i;
         }
     }
+    bestResult.success = (bestResult.fit.slope < 0);
     return bestResult;
 }
 
@@ -198,7 +200,7 @@ PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength )
     _bufferPtr = 0;
 }
 
-/** calculate rt60 from a decay curve */
+/** Calculate rt60 from a decay curve.  Returns NAN if no decay curve was found. */
 -(float)calcReverb:(float*)curve{
     
     // convert decay curve to decibels for linear fitting
@@ -219,13 +221,19 @@ PrefixFitResult regressionAndKnee( float* curve, int size, int minPrefixLength )
     float decayEstimate = (directSoundSum - tailSoundSum) / self.directSoundSamples;
     if( VERBOSE ) printf( "Decay estimate: %.1f dB\n", decayEstimate );
     if( decayEstimate < 10 ){
+        if( VERBOSE ) printf( "Decay estimate too small, returning NaN.\n" );
         return NAN;
     }
     
     // calculate best-fit regression line
-    PrefixFitResult regressionResult = regressionAndKnee( dbCurve + self.directSoundSamples - 1, 
+    PrefixFitResult regressionResult = regressionWithNegativeSlopeAndKnee(
+                                                          dbCurve + self.directSoundSamples - 1,
                                                           _stepsInClap - self.directSoundSamples, 
                                                           minPrefixSamples );
+    if( !regressionResult.success ) {
+        if( VERBOSE ) printf( "Regression failed, returning NaN.\n" );
+        return NAN;
+    }
     float slope = regressionResult.fit.slope;
     slope /= _spectrogramRecorder.spectrumTime;
     float rt60 = -60 / slope;
