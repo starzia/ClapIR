@@ -268,16 +268,43 @@ typedef enum{
 }
 
 -(void)options{
-    UIActionSheet* optionsSheet = [[UIActionSheet alloc] initWithTitle:nil
-                                                              delegate:self 
-                                                     cancelButtonTitle:NSLocalizedString( @"Cancel", nil )
-                                                destructiveButtonTitle:nil 
-                                                     otherButtonTitles:NSLocalizedString( @"Visit the website", nil ),
-                                                                       NSLocalizedString( @"Email us feedback", nil ),
-                                                                       NSLocalizedString( @"Email your results", nil ),
-                                                                       NSLocalizedString( @"Reset", nil ),
-                                                                       nil];
-    [optionsSheet showFromBarButtonItem:self.optionsButton animated:YES];
+    UIAlertController* optionsSheet = [UIAlertController alertControllerWithTitle:nil
+                                                                          message:nil
+                                                                   preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
+                                                               style:UIAlertActionStyleCancel
+                                                         handler:^(UIAlertAction* action) {
+        [optionsSheet dismissViewControllerAnimated:YES completion:nil];
+    }];
+    UIAlertAction *webVisitAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Visit the website", nil)
+                                                             style:UIAlertActionStyleDefault
+                                                           handler:^(UIAlertAction* action) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/starzia/ClapIR"]];
+    }];
+    UIAlertAction *feedbackAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Email us feedback", nil)
+                                                             style:UIAlertActionStyleDefault
+                                                           handler:^(UIAlertAction* action) {
+        [self emailWithType:EMAIL_FEEDBACK];
+    }];
+    UIAlertAction *resultsAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Email your results", nil)
+                                                             style:UIAlertActionStyleDefault
+                                                           handler:^(UIAlertAction* action) {
+        [self emailWithType:EMAIL_RESULTS];
+    }];
+    UIAlertAction *resetAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Reset", nil)
+                                                          style:UIAlertActionStyleDefault
+                                                        handler:^(UIAlertAction* action) {
+        [self reset];
+    }];
+
+    [optionsSheet addAction:cancelAction];
+    [optionsSheet addAction:webVisitAction];
+    [optionsSheet addAction:feedbackAction];
+    [optionsSheet addAction:resultsAction];
+    [optionsSheet addAction:resetAction];
+    optionsSheet.popoverPresentationController.barButtonItem = self.optionsButton;
+
+    [self presentViewController:optionsSheet animated:YES completion:^{[self setPaused:NO];}];
 
     // pause recorder while on the actionsheet or composing email
     [self setPaused:YES];
@@ -360,25 +387,6 @@ typedef enum{
     // show instructions
     instructions.hidden = NO;
     [self.view addSubview:instructions];
-}
-
-#pragma mark - UIActionSheetDelegate
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if( buttonIndex == 0 ){ // zero is the bottom red buttom for cancel confirmation
-        // website
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/starzia/ClapIR"]];
-    }else if( buttonIndex == 1 ) {
-        // feedback
-        [self emailWithType:EMAIL_FEEDBACK];
-    }else if( buttonIndex == 2 ){
-        // email results
-        [self emailWithType:EMAIL_RESULTS];
-    }else if( buttonIndex == 3 ){
-        // reset
-        [self reset];
-    }else if( buttonIndex == 4 ){
-        // dismiss view
-    }
 }
 
 #pragma mark - MKMailComposeViewControllerDelegate
