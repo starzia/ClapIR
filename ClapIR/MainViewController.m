@@ -13,7 +13,7 @@
     // by storing ClapMeasurement objects in an NSObject, we manage their C-array memory
     NSMutableArray* _measurements;
     NSArray* _plotViews; // contains reverbPlotView, directSoundPlotView, freqResponsePlotView;
-    UIAlertView* _waitAlert;
+    UIAlertController* _waitAlert;
     BOOL _paused;
     PlotView *_reverbAvgPlot, *_directSoundAvgPlot, *_freqResponseAvgPlot;
     UIView* _flash;
@@ -83,11 +83,16 @@
     // initialize view toggle selection
     toggleControl.selectedSegmentIndex = 0;
     [self indexDidChangeForSegmentedControl:toggleControl];
-    
-    // start audio
-    recorder = [[ClapRecorder alloc] init];
-    recorder.delegate = self;
-    [self start];
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    if (!recorder) {
+        // start audio
+        recorder = [[ClapRecorder alloc] init];
+        recorder.delegate = self;
+
+        [self start];
+    }
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -133,18 +138,17 @@
     [recorder start];
     
     // alert user that fingerprint is not yet ready
-	_waitAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Please wait", nil)
-                                            message:NSLocalizedString(@"WAIT INSTRUCTIONS", nil)
-                                           delegate:nil 
-                                  cancelButtonTitle:nil 
-                                  otherButtonTitles:nil];
-	[_waitAlert show];
+	_waitAlert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Please wait", nil)
+                                                     message:NSLocalizedString(@"WAIT INSTRUCTIONS", nil)
+                                              preferredStyle:UIAlertControllerStyleAlert];
 	// add spinning activity indicator
 	UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc]  
 										  initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];  
 	indicator.center = CGPointMake(140, 130);  
-	[indicator startAnimating];  
-	[_waitAlert addSubview:indicator];  
+	[indicator startAnimating];
+	[_waitAlert.view addSubview:indicator];
+
+    [self presentViewController:_waitAlert animated:YES completion:nil];
 }
 
 -(IBAction)togglePause{
@@ -206,12 +210,13 @@ typedef enum{
         }
         [self presentViewController:mailer animated:YES completion:nil];
     }else{
-        UIAlertView *myAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString( @"Email unavailable", nil )
-                                                          message:NSLocalizedString( @"EMAIL ERROR", nil )
-                                                         delegate:self 
-                                                cancelButtonTitle:@"OK" 
-                                                otherButtonTitles:nil];
-        [myAlert show];	
+        UIAlertController *myAlert = [UIAlertController alertControllerWithTitle:NSLocalizedString( @"Email unavailable", nil )
+                                                                   message:NSLocalizedString( @"EMAIL ERROR", nil ) preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil)
+                                                           style:UIAlertActionStyleCancel
+                                                         handler:nil];
+        [myAlert addAction:okAction];
+        [self presentViewController:myAlert animated:YES completion:nil];
     }
 
 }
@@ -349,7 +354,7 @@ typedef enum{
     NSLog( @"background level is %.0f dB",decibels );
     
     // dismiss waiting indicator
-    [_waitAlert dismissWithClickedButtonIndex:0 animated:YES];
+    [_waitAlert dismissViewControllerAnimated:YES completion:nil];
     _waitAlert = nil;
     
     // show instructions
