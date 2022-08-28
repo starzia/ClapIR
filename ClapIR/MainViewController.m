@@ -97,17 +97,12 @@
     _freqResponseAvgPlot.frame = freqResponsePlotView.frame;
 }
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return (UIInterfaceOrientationPortrait | UIInterfaceOrientationPortraitUpsideDown);
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait)
-        || (interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown);
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+    return UIInterfaceOrientationPortrait;
 }
 
 #pragma mark - UIControls
@@ -176,11 +171,11 @@
 -(void)flash{
     [UIView animateWithDuration:0.1
                      animations:^(void){
-                         _flash.alpha = 1.0;
+                        self->_flash.alpha = 1.0;
                      } completion:^(BOOL finished){
                         [UIView animateWithDuration:0.1
                                          animations:^(void){
-                         _flash.alpha = 0;
+                            self->_flash.alpha = 0;
                                          }];
                      }];
 }

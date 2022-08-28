@@ -40,6 +40,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		421DFB0D28BBF7DB00120BF9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainViewController.xib; sourceTree = "<group>"; };
 		AA002A5E153BBBC300689FFB /* grid2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = grid2.png; path = ../gnuplot/grid2.png; sourceTree = "<group>"; };
 		AA049A5C15043AA100E74262 /* ClapIR.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClapIR.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA049A6015043AA100E74262 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -72,7 +73,6 @@
 		AA47B59D1541B0F5008251F3 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		AA7EABA1170F291C00225078 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		AA7EABA2170F292900225078 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		AA7EABA7170F296B00225078 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainViewController.xib; sourceTree = "<group>"; };
 		AA7EABA9170F2ACA00225078 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AA7EABAB170F2ACF00225078 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AA7EABAC170F2AD000225078 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -238,13 +238,13 @@
 			};
 			buildConfigurationList = AA049A5615043AA100E74262 /* Build configuration list for PBXProject "ClapIR" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 				de,
 				es,
+				Base,
 			);
 			mainGroup = AA049A5115043AA100E74262;
 			productRefGroup = AA049A5D15043AA100E74262 /* Products */;
@@ -323,9 +323,9 @@
 		AA7EABA5170F295A00225078 /* MainViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				AA7EABA7170F296B00225078 /* en */,
 				AACA4CE617F4660800AEE8FC /* de */,
 				AACA4CE717F4660D00AEE8FC /* es */,
+				421DFB0D28BBF7DB00120BF9 /* Base */,
 			);
 			name = MainViewController.xib;
 			sourceTree = "<group>";
