@@ -134,6 +134,7 @@ PrefixFitResult regressionWithNegativeSlopeAndKnee( float* curve, int size, int 
     
     // background energy level, set to the minimum observed
     float _backgroundEnergy;
+    float* _backgroundSpectrum;
     
     // are we currently observing a clap
     bool _isClap;
@@ -164,6 +165,7 @@ PrefixFitResult regressionWithNegativeSlopeAndKnee( float* curve, int size, int 
         
         // set background level after we have observed a full buffer (of presumed silence)
         _backgroundEnergy = NAN;
+        _backgroundSpectrum = malloc( sizeof(float) * ClapMeasurement.numFreqs );
         
         // are we currently observing a clap?
         _isClap = NO;
@@ -244,6 +246,8 @@ PrefixFitResult regressionWithNegativeSlopeAndKnee( float* curve, int size, int 
         printf( "\n" );
         printf( "Calculated rt60 = %.3f seconds, with knee at sample %d of %d\n", rt60, 
                regressionResult.prefixLength + self.directSoundSamples, _stepsInClap );
+        printf( "Normalized RMS error: %f\n\n", regressionResult.normalizedRmsError );
+
     }    
     free( dbCurve );
     return rt60;
@@ -350,7 +354,13 @@ PrefixFitResult regressionWithNegativeSlopeAndKnee( float* curve, int size, int 
         ClapMeasurement* measurement = [[ClapMeasurement alloc] init];
         measurement.reverbTime = [self calcReverb:curve];
         for( int i=0; i<ClapMeasurement.numFreqs; i++ ){
-            measurement.reverbTimeSpectrum[i] = [self calcReverb:(curves+i*_stepsInClap)];
+            // Initial energy in this frequency must be at least 3dB (2x) above the background level
+            if ((curves+i*_stepsInClap)[0] < 2 * _backgroundSpectrum[i]) {
+                if (VERBOSE) printf( "Skipping freq %.2e Hz due to low level\n", ClapMeasurement.specFrequencies[i]);
+                measurement.reverbTimeSpectrum[i] = NAN;
+            } else {
+                measurement.reverbTimeSpectrum[i] = [self calcReverb:(curves+i*_stepsInClap)];
+            }
         }
         // calculate direct sound spectrum
         [self calcDirectSoundSpectrumFromSpectrogram:curves 
@@ -372,6 +382,16 @@ PrefixFitResult regressionWithNegativeSlopeAndKnee( float* curve, int size, int 
         _backgroundEnergy /= _bufferSize;
         NSLog( @"Background energy level set to %.0f", _backgroundEnergy );
         [delegate gotBackgroundLevel:_backgroundEnergy];
+
+        // also save background spectrum by calculating the average of the buffer data
+        printf( "Background spectrum:\n" );
+        for( int i=0; i<ClapMeasurement.numFreqs; i++ ){
+            vDSP_sve( _specBuffer[i], 1, &_backgroundSpectrum[i], _bufferSize );
+            _backgroundSpectrum[i] /= _bufferSize;
+            printf( "%.2e Hz: ", ClapMeasurement.specFrequencies[i] );
+            printf( "%.0f\t", _backgroundSpectrum[i] );
+        }
+        printf( "\n" );
     }
     
     _timeStep++;
