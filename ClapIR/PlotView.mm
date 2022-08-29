@@ -109,8 +109,9 @@
         //   Note that self.data[0] is sometimes NaN, and in these cases we plot it as zero
 		CGContextMoveToPoint(context, 0, Y - ([self nonfiniteToZero:self.data[0]]-self.minY) * yStep);
 		for( int i=1; i<self.length; ++i ){ // starting w/2nd data point
-            // if the data value is inf or NaN, then make it appear at zero on the plot
-            CGFloat drawY = Y - ([self nonfiniteToZero:self.data[i]]-self.minY) * yStep;
+            // if the data value is inf or NaN, then skip the line
+            if (!isfinite(self.data[i])) continue;
+            CGFloat drawY = Y - (self.data[i]-self.minY) * yStep;
             
             // draw
             CGContextAddLineToPoint(context, i * xStep, drawY );
