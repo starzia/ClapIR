@@ -21,7 +21,7 @@
 /** number of frequencies in spectra */
 +(int)numFreqs;
 /** @return array of length [ClapMeasurement numFreqs] specifying the frequencies in spectra, reported in Hertz */
-+(float*)specFrequencies;
++(const float*)specFrequencies;
 
 +(ClapMeasurement*)averageOfMeasurementsInArray:(NSArray*)measurements;
 

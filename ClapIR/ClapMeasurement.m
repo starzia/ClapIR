@@ -34,24 +34,18 @@ float* specFreqArray = nil;
     free( directSoundSpectrum );
 }
 
+// standard 1/3 octave bands
+// see: https://www.engineeringtoolbox.com/octave-bands-frequency-limits-d_1602.html
+static const float freqs[33] = {12.5, 16, 20, 25, 31.5, 40, 50, 63, 80, 100, 125, 160, 200, 250,
+    315, 400, 500, 630, 800, 1000, 1250, 1600, 2000, 2500, 3150, 4000, 5000, 6300, 8000, 10000,
+    12500, 16000, 20000};
+
 +(int)numFreqs{
-    return 40;
+    return 33;
 }
 
-+(float*)specFrequencies{
-    if( specFreqArray == nil ){
-        // init array of spectrum frequencies the first time they are required
-        specFreqArray = malloc( sizeof(float) * ClapMeasurement.numFreqs );
-                         
-        double sqrt2 = sqrt(2);
-        double sqrtsqrt2 = sqrt(sqrt2);
-        double x = 22.09708691207964; // 1000/(sqrt(2)^11)
-        for( int i=0; i<ClapMeasurement.numFreqs; i++ ){
-            specFreqArray[i] = x;
-            x *= sqrtsqrt2;
-        }
-    }
-    return specFreqArray;
++(const float*)specFrequencies{
+    return freqs;
 }
 
 -(NSString*)description{
