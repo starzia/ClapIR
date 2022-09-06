@@ -139,6 +139,7 @@ PrefixFitResult regressionWithNegativeSlopeAndKnee( float* curve, int size, int 
     // are we currently observing a clap
     bool _isClap;
     int _stepsInClap; // number of buffers observed for this clap
+    bool _ignoringClaps;
     
     // history of energy measurements
     float* _buffer;
@@ -169,6 +170,7 @@ PrefixFitResult regressionWithNegativeSlopeAndKnee( float* curve, int size, int 
         
         // are we currently observing a clap?
         _isClap = NO;
+        _ignoringClaps = NO;
         
         _timeStep = 0;
         
@@ -308,7 +310,8 @@ PrefixFitResult regressionWithNegativeSlopeAndKnee( float* curve, int size, int 
     if( _isClap ) _stepsInClap++;
     
     // detect clap
-    if( !_isClap && energy > 100 * _backgroundEnergy ){ // 100x or 40dB above bg level
+    if( !_ignoringClaps && !_isClap
+       && energy > 100 * _backgroundEnergy ){ // 100x or 40dB above bg level
         if( VERBOSE ) NSLog( @"Clap begin" );
         _isClap = YES;
         _stepsInClap = 1;
@@ -322,6 +325,13 @@ PrefixFitResult regressionWithNegativeSlopeAndKnee( float* curve, int size, int 
         if( VERBOSE ) NSLog( @"Clap end" );
         _isClap = NO;
         
+        // don't allow another clap to be detected immediately
+        _ignoringClaps = YES;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_SEC),
+                       dispatch_get_main_queue(), ^(){
+            self->_ignoringClaps = NO;
+        });
+
         // copy decay curves in preparation for calculation
         // buffer will store all frequencies decay curves plus the energy decay curve
         float* curve = malloc( sizeof(float) * _stepsInClap );
@@ -354,8 +364,8 @@ PrefixFitResult regressionWithNegativeSlopeAndKnee( float* curve, int size, int 
         ClapMeasurement* measurement = [[ClapMeasurement alloc] init];
         measurement.reverbTime = [self calcReverb:curve];
         for( int i=0; i<ClapMeasurement.numFreqs; i++ ){
-            // Initial energy in this frequency must be at least 3dB (2x) above the background level
-            if ((curves+i*_stepsInClap)[0] < 2 * _backgroundSpectrum[i]) {
+            // Initial energy in this frequency must be at least 20dB (10x) above the background level
+            if ((curves+i*_stepsInClap)[0] < 10 * _backgroundSpectrum[i]) {
                 if (VERBOSE) printf( "Skipping freq %.2e Hz due to low level\n", ClapMeasurement.specFrequencies[i]);
                 measurement.reverbTimeSpectrum[i] = NAN;
             } else {
