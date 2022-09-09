@@ -8,33 +8,6 @@
 	<string>${PRODUCT_NAME}</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
-	<key>CFBundleIconFiles</key>
-	<array>
-		<string>Icon.png</string>
-		<string>Icon@2x.png</string>
-		<string>Icon-72.png</string>
-		<string>Icon-144.png</string>
-		<string>Icon-App-40x40@3x.png</string>
-		<string>Default.png</string>
-		<string>Default@2x.png</string>
-	</array>
-	<key>CFBundleIcons</key>
-	<dict>
-		<key>CFBundlePrimaryIcon</key>
-		<dict>
-			<key>CFBundleIconFiles</key>
-			<array>
-				<string>Icon.png</string>
-				<string>Icon@2x.png</string>
-				<string>Icon-72.png</string>
-				<string>Icon-144.png</string>
-				<string>Default.png</string>
-				<string>Default@2x.png</string>
-			</array>
-			<key>UIPrerenderedIcon</key>
-			<true/>
-		</dict>
-	</dict>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -55,6 +28,8 @@
 	<string>Uses the microphone to measure room acoustics</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Uses the microphone to measure room acoustics</string>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
 	<key>UIPrerenderedIcon</key>
 	<true/>
 	<key>UIRequiredDeviceCapabilities</key>
