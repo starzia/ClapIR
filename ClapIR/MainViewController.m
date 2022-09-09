@@ -86,6 +86,11 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated {
+    // fix frames for average plots
+    _reverbAvgPlot.frame = reverbPlotView.frame;
+    _directSoundAvgPlot.frame = directSoundPlotView.frame;
+    _freqResponseAvgPlot.frame = freqResponsePlotView.frame;
+
     if (!recorder) {
         // start audio
         recorder = [[ClapRecorder alloc] init];
@@ -95,12 +100,7 @@
     }
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    // fix frames for average plots
-    _reverbAvgPlot.frame = reverbPlotView.frame;
-    _directSoundAvgPlot.frame = directSoundPlotView.frame;
-    _freqResponseAvgPlot.frame = freqResponsePlotView.frame;
-}
+-(void)viewWillAppear:(BOOL)animated{}
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return (UIInterfaceOrientationPortrait | UIInterfaceOrientationPortraitUpsideDown);
