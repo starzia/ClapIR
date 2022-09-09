@@ -55,7 +55,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    _flash = [[UIView alloc] initWithFrame:self.reverbView.frame];
+    _flash = [[UIView alloc] initWithFrame:self.view.frame];
     _flash.alpha = 0;
     _flash.backgroundColor = [UIColor blackColor];
     _flash.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
