@@ -10,3 +10,6 @@ ClapIR is based on research done at Northwestern University by
 
 = Availability =
 Download the latest release of the app at the [http://itunes.apple.com/us/app/clapir-acoustics-measurement/id521153051 iTunes store].
+
+= Privacy Policy =
+This app collects no data from your usage.  You may simply quit or delete the app to remove any temporary local data.
