@@ -88,7 +88,7 @@
                                 <constraint firstAttribute="width" constant="26" id="sbD-qw-Udi"/>
                             </constraints>
                         </imageView>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="50">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="50">
                             <rect key="frame" x="151" y="10" width="115" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <string key="text">Average
@@ -98,13 +98,13 @@ History</string>
                             <color key="textColor" systemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view contentMode="scaleToFill" id="28">
-                            <rect key="frame" x="46" y="10" width="262" height="166"/>
+                        <view contentMode="scaleToFill" id="28" userLabel="Plot View 1 - Direct Sound">
+                            <rect key="frame" x="45" y="10" width="263" height="166"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         </view>
-                        <view contentMode="scaleToFill" id="27">
-                            <rect key="frame" x="46" y="227" width="262" height="156"/>
+                        <view contentMode="scaleToFill" id="27" userLabel="Plot View 2 - Spectra">
+                            <rect key="frame" x="45" y="227" width="263" height="156"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         </view>
@@ -113,7 +113,7 @@ History</string>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.96435421705245972" green="0.90830028057098389" blue="0.65673619508743286" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="211" id="Yvh-XH-bmB"/>
+                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="211" id="Yvh-XH-bmB"/>
                                 <constraint firstAttribute="height" constant="83" id="c86-Bk-3nw"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -122,7 +122,7 @@ History</string>
                             <color key="shadowColor" systemColor="lightTextColor"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Frequency (Hz)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="48">
-                            <rect key="frame" x="91" y="409" width="166" height="21"/>
+                            <rect key="frame" x="90" y="409" width="166" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="11"/>
                             <color key="textColor" systemColor="darkTextColor"/>
@@ -138,9 +138,11 @@ History</string>
                         <constraint firstItem="35" firstAttribute="leading" secondItem="13" secondAttribute="leading" id="UCh-2y-uC7"/>
                         <constraint firstAttribute="trailing" secondItem="35" secondAttribute="trailing" id="X7B-mG-4mj"/>
                         <constraint firstItem="57" firstAttribute="top" secondItem="13" secondAttribute="top" id="XKO-Ij-Wjo"/>
+                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="46" secondAttribute="trailing" constant="20" symbolic="YES" id="gwD-gC-YS2"/>
                         <constraint firstItem="48" firstAttribute="top" secondItem="56" secondAttribute="bottom" id="hSu-g3-Dj7"/>
                         <constraint firstItem="56" firstAttribute="leading" secondItem="13" secondAttribute="leading" id="jmU-uI-Ga5"/>
                         <constraint firstItem="57" firstAttribute="leading" secondItem="13" secondAttribute="leading" id="uls-kg-9nr"/>
+                        <constraint firstItem="46" firstAttribute="leading" secondItem="57" secondAttribute="trailing" constant="28" id="y9N-cW-3IJ"/>
                     </constraints>
                     <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="0.0"/>
                 </view>
@@ -160,20 +162,20 @@ History</string>
                             <color key="textColor" systemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="17">
+                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="17" userLabel="Plot View">
                             <rect key="frame" x="45" y="9" width="266" height="386"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         </view>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Frequency (Hz)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="54">
-                            <rect key="frame" x="94" y="416" width="166" height="21"/>
+                            <rect key="frame" x="93" y="416" width="166" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="11"/>
                             <color key="textColor" systemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="rt60_label.png" translatesAutoresizingMaskIntoConstraints="NO" id="55">
-                            <rect key="frame" x="0.0" y="113" width="26" height="211"/>
+                            <rect key="frame" x="0.0" y="112.5" width="26" height="211"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="26" id="Z11-xx-cwz"/>
                                 <constraint firstAttribute="height" constant="211" id="tiu-dG-Xxq"/>
