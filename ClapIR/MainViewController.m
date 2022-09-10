@@ -279,7 +279,8 @@ typedef enum{
     UIAlertAction *webVisitAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Visit the website", nil)
                                                              style:UIAlertActionStyleDefault
                                                            handler:^(UIAlertAction* action) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/starzia/ClapIR"]];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/starzia/ClapIR"]
+                                           options:@{} completionHandler:nil];
     }];
     UIAlertAction *feedbackAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Email us feedback", nil)
                                                              style:UIAlertActionStyleDefault
