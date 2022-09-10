@@ -61,6 +61,8 @@
 		AA44B1321539D5C8007DB9E9 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		AA72692528C82BB400BDBED0 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		AA72692928C9855700BDBED0 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ClapIR/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		AA72692B28CACC6300BDBED0 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/MainViewController.strings; sourceTree = "<group>"; };
+		AA72692C28CACC6A00BDBED0 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/MainViewController.strings; sourceTree = "<group>"; };
 		AA7EABA1170F291C00225078 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		AA7EABA2170F292900225078 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		AA7EABA9170F2ACA00225078 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -75,8 +77,6 @@
 		AACA4CE117F39F0000AEE8FC /* es */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = es; path = "es.lproj/directsound_label@2x.png"; sourceTree = "<group>"; };
 		AACA4CE217F39F0300AEE8FC /* de */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = de; path = "de.lproj/freqresp_label@2x.png"; sourceTree = "<group>"; };
 		AACA4CE317F39F0400AEE8FC /* es */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = es; path = "es.lproj/freqresp_label@2x.png"; sourceTree = "<group>"; };
-		AACA4CE617F4660800AEE8FC /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/MainViewController.xib; sourceTree = "<group>"; };
-		AACA4CE717F4660D00AEE8FC /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/MainViewController.xib; sourceTree = "<group>"; };
 		AACC27901514F06F00A09B15 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		AACC27921516354400A09B15 /* SpectrogramRecorderDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpectrogramRecorderDelegate.h; sourceTree = "<group>"; };
 		AACC27931516980500A09B15 /* ClapRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClapRecorder.h; sourceTree = "<group>"; };
@@ -299,9 +299,9 @@
 		AA7EABA5170F295A00225078 /* MainViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				AACA4CE617F4660800AEE8FC /* de */,
-				AACA4CE717F4660D00AEE8FC /* es */,
 				421DFB0D28BBF7DB00120BF9 /* Base */,
+				AA72692B28CACC6300BDBED0 /* de */,
+				AA72692C28CACC6A00BDBED0 /* es */,
 			);
 			name = MainViewController.xib;
 			sourceTree = "<group>";

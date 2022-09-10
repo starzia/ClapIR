@@ -1,0 +1,21 @@
+
+/* Class = "UISegmentedControl"; 11.segmentTitles[0] = "Reverb"; ObjectID = "11"; */
+"11.segmentTitles[0]" = "Reverb";
+
+/* Class = "UISegmentedControl"; 11.segmentTitles[1] = "Espectros"; ObjectID = "11"; */
+"11.segmentTitles[1]" = "Espectros";
+
+/* Class = "UILabel"; text = "Aplaude una vez o estallar un globo para medir la acústica de la sala."; ObjectID = "46"; */
+"46.text" = "Aplaude una vez o estallar un globo para medir la acústica de la sala.";
+
+/* Class = "UILabel"; text = "Frecuencia (Hz)"; ObjectID = "48"; */
+"48.text" = "Frecuencia (Hz)";
+
+/* Class = "UILabel"; text = "Medio\nÚltimo\nAnterior"; ObjectID = "50"; */
+"50.text" = "Medio\nÚltimo\nAnterior";
+
+/* Class = "UILabel"; text = "Medio\nÚltimo\nAnterior"; ObjectID = "53"; */
+"53.text" = "Medio\nÚltimo\nAnterior";
+
+/* Class = "UILabel"; text = "Frecuencia (Hz)"; ObjectID = "54"; */
+"54.text" = "Frecuencia (Hz)";

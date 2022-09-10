@@ -68,15 +68,28 @@
                         </barButtonItem>
                     </items>
                 </toolbar>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="13">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="13" userLabel="View (2 - spectra)">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="436"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" image="grid2.png" translatesAutoresizingMaskIntoConstraints="NO" id="35">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="grid2.png" translatesAutoresizingMaskIntoConstraints="NO" id="35">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="436"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         </imageView>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="50">
-                            <rect key="frame" x="156" y="9" width="115" height="36"/>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="directsound_label.png" translatesAutoresizingMaskIntoConstraints="NO" id="57">
+                            <rect key="frame" x="0.0" y="0.0" width="26" height="204.5"/>
+                            <constraints>
+                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="26" id="EqX-xQ-f3U"/>
+                                <constraint firstAttribute="width" constant="26" id="Oyd-ea-Pkr"/>
+                            </constraints>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="freqresp_label.png" translatesAutoresizingMaskIntoConstraints="NO" id="56">
+                            <rect key="frame" x="0.0" y="204.5" width="26" height="204.5"/>
+                            <constraints>
+                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="26" id="8Af-rZ-IBt"/>
+                                <constraint firstAttribute="width" constant="26" id="sbD-qw-Udi"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="50">
+                            <rect key="frame" x="151" y="10" width="115" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <string key="text">Average
 Most recent
@@ -85,12 +98,12 @@ History</string>
                             <color key="textColor" systemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="28">
+                        <view contentMode="scaleToFill" id="28">
                             <rect key="frame" x="46" y="10" width="262" height="166"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         </view>
-                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="27">
+                        <view contentMode="scaleToFill" id="27">
                             <rect key="frame" x="46" y="227" width="262" height="156"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -108,34 +121,37 @@ History</string>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" systemColor="lightTextColor"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Frequency (Hz)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="48">
-                            <rect key="frame" x="93" y="409" width="166" height="21"/>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Frequency (Hz)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="48">
+                            <rect key="frame" x="91" y="409" width="166" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="11"/>
                             <color key="textColor" systemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" fixedFrame="YES" image="freqresp_label.png" translatesAutoresizingMaskIntoConstraints="NO" id="56">
-                            <rect key="frame" x="0.0" y="218" width="36" height="179"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                        </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" fixedFrame="YES" image="directsound_label.png" translatesAutoresizingMaskIntoConstraints="NO" id="57">
-                            <rect key="frame" x="25" y="4" width="15" height="179"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                        </imageView>
                     </subviews>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstItem="56" firstAttribute="top" secondItem="57" secondAttribute="bottom" id="75T-mn-DUs"/>
+                        <constraint firstItem="35" firstAttribute="top" secondItem="13" secondAttribute="top" id="EA4-k6-BIk"/>
+                        <constraint firstItem="57" firstAttribute="height" secondItem="56" secondAttribute="height" id="LNb-AS-15n"/>
+                        <constraint firstAttribute="bottom" secondItem="35" secondAttribute="bottom" id="P01-4d-sQx"/>
+                        <constraint firstItem="35" firstAttribute="leading" secondItem="13" secondAttribute="leading" id="UCh-2y-uC7"/>
+                        <constraint firstAttribute="trailing" secondItem="35" secondAttribute="trailing" id="X7B-mG-4mj"/>
+                        <constraint firstItem="57" firstAttribute="top" secondItem="13" secondAttribute="top" id="XKO-Ij-Wjo"/>
+                        <constraint firstItem="48" firstAttribute="top" secondItem="56" secondAttribute="bottom" id="hSu-g3-Dj7"/>
+                        <constraint firstItem="56" firstAttribute="leading" secondItem="13" secondAttribute="leading" id="jmU-uI-Ga5"/>
+                        <constraint firstItem="57" firstAttribute="leading" secondItem="13" secondAttribute="leading" id="uls-kg-9nr"/>
+                    </constraints>
                     <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="0.0"/>
                 </view>
-                <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="14">
+                <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="14" userLabel="View (1 - reverb)">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="436"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" image="grid.png" translatesAutoresizingMaskIntoConstraints="NO" id="16">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="grid.png" translatesAutoresizingMaskIntoConstraints="NO" id="16">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="436"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         </imageView>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="53">
-                            <rect key="frame" x="158" y="9" width="115" height="36"/>
+                            <rect key="frame" x="156" y="8" width="115" height="36"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <string key="text">Average
 Most recent
@@ -156,12 +172,23 @@ History</string>
                             <color key="textColor" systemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" fixedFrame="YES" image="rt60_label.png" translatesAutoresizingMaskIntoConstraints="NO" id="55">
-                            <rect key="frame" x="0.0" y="112" width="26" height="211"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="rt60_label.png" translatesAutoresizingMaskIntoConstraints="NO" id="55">
+                            <rect key="frame" x="0.0" y="113" width="26" height="211"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="26" id="Z11-xx-cwz"/>
+                                <constraint firstAttribute="height" constant="211" id="tiu-dG-Xxq"/>
+                            </constraints>
                         </imageView>
                     </subviews>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstItem="16" firstAttribute="top" secondItem="14" secondAttribute="top" id="7ZX-1v-Q1D"/>
+                        <constraint firstItem="16" firstAttribute="leading" secondItem="14" secondAttribute="leading" id="CMI-un-lP9"/>
+                        <constraint firstItem="55" firstAttribute="centerY" secondItem="16" secondAttribute="centerY" id="Dzj-8e-PaU"/>
+                        <constraint firstItem="55" firstAttribute="leading" secondItem="14" secondAttribute="leading" id="FBo-iQ-HJ8"/>
+                        <constraint firstAttribute="bottom" secondItem="16" secondAttribute="bottom" id="POq-Ch-QcV"/>
+                        <constraint firstAttribute="trailing" secondItem="16" secondAttribute="trailing" id="cTn-kE-8pD"/>
+                    </constraints>
                     <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="0.0"/>
                 </view>
             </subviews>

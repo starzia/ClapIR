@@ -1,0 +1,21 @@
+
+/* Class = "UISegmentedControl"; 11.segmentTitles[0] = "Nachhall"; ObjectID = "11"; */
+"11.segmentTitles[0]" = "Nachhall";
+
+/* Class = "UISegmentedControl"; 11.segmentTitles[1] = "Spektren"; ObjectID = "11"; */
+"11.segmentTitles[1]" = "Spektren";
+
+/* Class = "UILabel"; text = "Clap Ihre Hände einmal oder Pop einen Ballon an die Raumakustik zu messen."; ObjectID = "46"; */
+"46.text" = "Clap Ihre Hände einmal oder Pop einen Ballon an die Raumakustik zu messen.";
+
+/* Class = "UILabel"; text = "Frequenz (Hz)"; ObjectID = "48"; */
+"48.text" = "Frequenz (Hz)";
+
+/* Class = "UILabel"; text = "Durchschnitt\nNeueste\nGeschichte"; ObjectID = "50"; */
+"50.text" = "Durchschnitt\nNeueste\nGeschichte";
+
+/* Class = "UILabel"; text = "Durchschnitt\nNeueste\nGeschichte"; ObjectID = "53"; */
+"53.text" = "Durchschnitt\nNeueste\nGeschichte";
+
+/* Class = "UILabel"; text = "Frequenz (Hz)"; ObjectID = "54"; */
+"54.text" = "Frequenz (Hz)";
