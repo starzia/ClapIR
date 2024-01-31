@@ -193,13 +193,10 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
             // see vDSP documentation for details.
             vDSP_ctoz((COMPLEX*) _A, 2, &(_compl_buf), 1, self.spectrumResolution);
             vDSP_fft_zip( _fftsetup, &(_compl_buf), 1, log2FFTLength, kFFTDirection_Forward );
-            ///vDSP_ztoc(&compl_buf, 1, (COMPLEX*) A, 2, inNumberFrames/2); // convert back
             
-            // use vDSP_zaspec to get power spectrum
-            vDSP_zaspec( &(_compl_buf), _A, self.spectrumResolution );
-            
-            // accumulate this FFT vector for welch's algorithm
-            vDSP_vadd(_A, 1, _acc, 1, _acc, 1, self.spectrumResolution);
+            // Use vDSP_zaspec to get power spectrum.
+            // Sum the results into the accumulator for this window, _acc
+            vDSP_zaspec( &(_compl_buf), _acc, self.spectrumResolution );
         
             if ( ++_accCount >= ACC_NUM ){
                 if( pthread_mutex_lock( &_lock ) ) NSLog( @"lock acquisition failed!" );
