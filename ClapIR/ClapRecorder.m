@@ -210,7 +210,7 @@ PrefixFitResult regressionWithNegativeSlopeAndKnee( float* curve, int size, int 
     // convert decay curve to decibels for linear fitting
     float* dbCurve = malloc( sizeof(float) * _stepsInClap );
     float reference=1.0f;
-    vDSP_vdbcon( curve, 1, &reference, dbCurve, 1, _stepsInClap, 1 ); // 1 for power, not amplitude	
+    vDSP_vdbcon( curve, 1, &reference, dbCurve, 1, _stepsInClap, 0 ); // 0 for power, not amplitude
             
     // calculate slope of region past direct sound
     float minPrefixLength = 0.05; // seconds
@@ -266,7 +266,7 @@ PrefixFitResult regressionWithNegativeSlopeAndKnee( float* curve, int size, int 
     // convert to dB, with minimum at 60 dB below the background energy level
     float reference = _backgroundEnergy / 1000;
     // vDSP_minv( outputVector, 1, &reference, ClapMeasurement.numFreqs );
-    vDSP_vdbcon( outputVector, 1, &reference, outputVector, 1, ClapMeasurement.numFreqs, 1 ); // 1 for power, not amplitude	
+    vDSP_vdbcon( outputVector, 1, &reference, outputVector, 1, ClapMeasurement.numFreqs, 0 ); // 0 for power, not amplitude
 }
 
 -(void)calcFreqResponseSpectrumFromSpectrogram:(float*)curves
@@ -285,7 +285,7 @@ PrefixFitResult regressionWithNegativeSlopeAndKnee( float* curve, int size, int 
     // convert to dB, with minimum at 100 dB below the background energy level
     float reference = _backgroundEnergy / 100000;
     // vDSP_minv( outputVector, 1, &reference, ClapMeasurement.numFreqs );
-    vDSP_vdbcon( outputVector, 1, &reference, outputVector, 1, ClapMeasurement.numFreqs, 1 ); // 1 for power, not amplitude	
+    vDSP_vdbcon( outputVector, 1, &reference, outputVector, 1, ClapMeasurement.numFreqs, 0 ); // 0 for power, not amplitude
 }
 
 #pragma mark - SpectrogramRecorderDelegate
