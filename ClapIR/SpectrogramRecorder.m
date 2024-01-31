@@ -117,8 +117,10 @@ const int ACC_NUM = 10;
 }
 
 -(void)start{
-    // start audio
-    [_captureSession startRunning];
+    // Start audio in a background thread to avoid the possiblity of a hang.
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [self->_captureSession startRunning];
+    });
 }
 
 -(void)stop{
